@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VANA — Vegetation & Avian Native Atlas</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g:#2d5a3d;--gdk:#1e3f2b;--glt:#e8f2ec;
+  --tr:#c4663a;--trlt:#fdf0ea;
+  --am:#c9860d;--amlt:#fef8e6;
+  --bl:#2e6fa3;--bllt:#e8f2fb;
+  --pu:#6b4fa0;--pult:#f0ebfa;
+  --bk:#4a3728;--bklt:#f0ebe6;
+  --bg:#f7f5f2;--sur:#fff;
+  --bd:rgba(0,0,0,0.09);--bdm:rgba(0,0,0,0.15);
+  --tx:#1a1a1a;--txm:#6b6b6b;--txh:#9a9a9a;
+  --r:10px;--rs:6px;--rl:14px;
+}
+html{font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5}
+.shell{max-width:960px;margin:0 auto;padding:0 16px 60px}
+/* Header */
+.hdr{background:var(--g);margin:0 -16px;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-leaf{width:30px;height:30px;background:rgba(255,255,255,0.16);border-radius:50% 50% 50% 8px;display:flex;align-items:center;justify-content:center}
+.logo-leaf svg{width:16px;height:16px}
+.logo-name{font-size:17px;font-weight:700;color:#fff;letter-spacing:.06em;display:block}
+.logo-sub{font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:.12em;text-transform:uppercase}
+.loc-chip{background:rgba(255,255,255,0.13);border:1px solid rgba(255,255,255,0.22);border-radius:20px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.88);display:flex;align-items:center;gap:6px;cursor:pointer;transition:background .2s}
+.loc-chip:hover{background:rgba(255,255,255,0.22)}
+.lpulse{width:7px;height:7px;background:#7fda9a;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.4)}}
+/* Nav */
+.nav{display:flex;background:var(--sur);border-bottom:1px solid var(--bd);margin:0 -16px;padding:0 6px;overflow-x:auto;gap:2px;position:sticky;top:56px;z-index:199;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.ntab{display:flex;flex-direction:column;align-items:center;padding:9px 14px 7px;font-size:10px;font-weight:500;color:var(--txm);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .18s;white-space:nowrap;min-width:66px;user-select:none}
+.ntab .ico{font-size:14px;margin-bottom:2px}
+.ntab:hover{color:var(--g);background:var(--glt)}
+.ntab.on{color:var(--g);border-bottom-color:var(--g);font-weight:700}
+/* Panels */
+.panel{display:none;padding:18px 0 10px;animation:fi .2s ease}
+.panel.on{display:block}
+@keyframes fi{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+/* Common */
+.card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:15px 17px;margin-bottom:11px}
+.cttl{font-size:14px;font-weight:700;margin-bottom:3px}
+.csub{font-size:12px;color:var(--txm)}
+.slbl{font-size:10px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:13px}
+.met{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:11px;text-align:center;cursor:pointer;transition:border-color .18s}
+.met:hover{border-color:var(--g)}
+.mv{font-size:21px;font-weight:700;color:var(--g)}
+.ml{font-size:10px;color:var(--txm);margin-top:2px}
+/* Pills */
+.pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.pg{background:var(--glt);color:#1a4a2a} .pt{background:var(--trlt);color:#7a3010}
+.pa{background:var(--amlt);color:#6b4400} .pb{background:var(--bllt);color:#1a4a72}
+.pp{background:var(--pult);color:#4a2880} .pk{background:#fff8e1;color:#6b4c00}
+.pbk{background:var(--bklt);color:#3a2010}
+/* Scan */
+.lbox{background:var(--glt);border:1px solid var(--g);border-radius:var(--r);padding:11px 14px;display:flex;align-items:center;gap:10px;margin-bottom:11px;cursor:pointer;transition:background .2s}
+.lbox:hover{background:#d4eadb}
+.ldot{width:9px;height:9px;background:var(--g);border-radius:50%;flex-shrink:0}
+.lname{font-size:13px;font-weight:700;color:var(--g)}
+.lcoord{font-size:11px;color:var(--txm);margin-top:1px}
+.ctxg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px}
+.cbtn{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:11px 7px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;color:var(--txm);transition:all .18s}
+.cbtn .ci{font-size:17px;display:block;margin-bottom:3px}
+.cbtn:hover,.cbtn.sel{background:var(--glt);border-color:var(--g);color:var(--g)}
+.srow{display:flex;align-items:center;gap:10px;padding:9px 0}
+.srow label{font-size:12px;color:var(--txm);white-space:nowrap}
+.srow input{flex:1;accent-color:var(--g)}
+.sval{font-size:13px;font-weight:700;color:var(--g);min-width:76px;text-align:right}
+.sbtn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--r);padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;transition:background .2s;position:relative;overflow:hidden}
+.sbtn:hover{background:var(--gdk)} .sbtn:active{transform:scale(.99)}
+.sbtn.loading{pointer-events:none;opacity:.85}
+.sbtn.loading::after{content:'';position:absolute;left:0;top:0;height:100%;width:60%;background:rgba(255,255,255,.15);animation:shim 1s infinite}
+@keyframes shim{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+.apig{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.apit{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--txm)}
+.apid{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+/* Guild rows */
+.grow{display:flex;align-items:center;gap:9px;padding:10px 0;cursor:pointer;transition:all .15s;border-bottom:1px solid var(--bd)}
+.grow:last-child{border-bottom:none}
+.grow:hover{background:var(--glt);margin:0 -17px;padding:10px 17px;border-radius:6px;border-bottom-color:transparent}
+.gdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.gnm{font-size:13px;font-weight:600;flex:1}
+.gbw{flex:2;height:5px;background:#eee;border-radius:3px}
+.gb{height:5px;border-radius:3px}
+.gct{font-size:11px;color:var(--txm);min-width:34px;text-align:right}
+.garr{font-size:12px;color:var(--txh);margin-left:4px;transition:transform .2s}
+/* Species grid */
+.spg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.spc{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:12px 10px;cursor:pointer;transition:all .18s;text-align:center}
+.spc:hover{border-color:var(--pu);background:var(--pult)}
+.spc.on{border-color:var(--pu);background:var(--pult);border-width:2px}
+.sico{font-size:22px;margin-bottom:7px;display:block}
+.snm{font-size:11px;font-weight:700;margin-bottom:2px}
+.ssci{font-size:9px;color:var(--txm);font-style:italic;margin-bottom:5px}
+/* Detail drawers */
+.dtl{background:var(--sur);border:1px solid var(--bdm);border-radius:var(--rl);padding:17px;margin-bottom:12px;display:none;animation:fi .2s ease}
+.dtl.on{display:block}
+.dth{display:flex;gap:12px;margin-bottom:13px;align-items:flex-start}
+.dtico{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.dtnm{font-size:15px;font-weight:700}
+.dtsci{font-size:11px;color:var(--txm);font-style:italic;margin-bottom:5px}
+.dtdesc{font-size:12px;color:var(--txm);line-height:1.65}
+.ag{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}
+.at{background:var(--bg);border-radius:var(--rs);padding:8px 10px}
+.al{font-size:10px;color:var(--txm);margin-bottom:2px}
+.av{font-size:12px;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.slb{font-size:11px;font-weight:700;color:var(--txm);margin:11px 0 5px}
+.trow{display:flex;gap:7px;padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--txm);line-height:1.55}
+.trow:last-child{border-bottom:none}
+.tdot{width:6px;height:6px;border-radius:50%;background:var(--pu);margin-top:4px;flex-shrink:0}
+.cbx{float:right;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--txm);cursor:pointer;transition:background .15s}
+.cbx:hover{background:var(--bd);color:var(--tx)}
+/* Plant table */
+.plh{display:grid;grid-template-columns:2.4fr 1.2fr 1.2fr 1fr;gap:7px;padding-bottom:6px;border-bottom:1px solid var(--bdm)}
+.plhc{font-size:9px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.07em}
+.plr{display:grid;grid-template-columns:2.4fr 1.2fr 1.2fr 1fr;gap:7px;padding:9px 0;border-bottom:1px solid var(--bd);align-items:center;cursor:pointer;transition:all .15s}
+.plr:last-child{border-bottom:none}
+.plr:hover{background:var(--glt);margin:0 -17px;padding:9px 17px;border-radius:6px;border-bottom-color:transparent}
+.plr.on{background:var(--glt)}
+.pln{font-size:13px;font-weight:700}
+.plsc{font-size:10px;color:var(--txm);font-style:italic;margin-top:1px}
+.pld{display:none;background:var(--sur);border:1px solid var(--bdm);border-radius:var(--rl);padding:16px;margin:-2px 0 10px;animation:fi .2s ease}
+.pld.on{display:block}
+.pdg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.pda{background:var(--bg);border-radius:var(--rs);padding:9px 11px}
+.pdal{font-size:10px;color:var(--txm);margin-bottom:2px}
+.pdav{font-size:12px;font-weight:700}
+.pdn{font-size:12px;color:var(--txm);line-height:1.65;padding:10px;background:var(--bg);border-radius:var(--rs);border-left:3px solid var(--g)}
+/* Zone cards */
+.zc{background:var(--bg);border-radius:var(--r);padding:12px 14px;margin-bottom:7px;cursor:pointer;transition:all .18s;border:1px solid transparent}
+.zc:hover,.zc.on{border-color:var(--g);background:var(--glt)}
+.zttl{font-size:13px;font-weight:700;margin-bottom:3px}
+.zbod{font-size:12px;color:var(--txm);line-height:1.6;margin-bottom:7px}
+.zexp{display:none;font-size:12px;color:#1e3f2b;line-height:1.65;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)}
+.zc.on .zexp{display:block}
+/* Calendar */
+.calg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.calm{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:10px;cursor:pointer;transition:all .18s}
+.calm:hover{border-color:var(--g);background:var(--glt)}
+.calm.on{border-color:var(--g);border-width:2px;background:var(--glt)}
+.cmn{font-size:11px;font-weight:700;margin-bottom:6px}
+.ctsk{font-size:10px;color:var(--txm);padding:2px 0 2px 6px;border-left:2px solid;margin-bottom:3px;line-height:1.35}
+.cmbar{height:4px;border-radius:2px;background:var(--pu);margin-bottom:4px}
+.cmb{font-size:9px;color:var(--txm);line-height:1.4}
+/* Soil */
+.soilg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
+.soilc{background:var(--bg);border-radius:var(--r);padding:12px 13px;cursor:pointer;border:1px solid transparent;transition:all .18s}
+.soilc:hover{border-color:var(--am);background:var(--amlt)}
+.soilp{font-size:11px;color:var(--txm);margin-bottom:2px}
+.soilv{font-size:15px;font-weight:700}
+.soiln{font-size:10px;color:var(--tr);margin-top:2px}
+.brow{display:flex;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer;border-radius:var(--rs);padding:3px 6px;transition:background .15s}
+.brow:hover{background:var(--glt)}
+.blbl{font-size:11px;color:var(--txm);width:98px;flex-shrink:0}
+.btrk{flex:1;height:6px;background:#e8e6e0;border-radius:3px;overflow:hidden}
+.bfil{height:6px;border-radius:3px}
+.bval{font-size:11px;font-weight:700;min-width:62px;text-align:right}
+/* Impact */
+.impr{display:flex;align-items:center;padding:9px 0;border-bottom:1px solid var(--bd);cursor:pointer;transition:all .15s}
+.impr:last-child{border-bottom:none}
+.impr:hover{background:var(--glt);margin:0 -17px;padding:9px 17px;border-radius:6px;border-bottom-color:transparent}
+.impr.on{background:var(--glt)}
+.impl{font-size:13px;flex:1}
+.impb{font-size:11px;color:var(--txm)}
+.impa2{font-size:11px;color:var(--txh);padding:0 8px}
+.impa{font-size:13px;font-weight:700;color:var(--g);min-width:100px;text-align:right}
+.impd{display:none;font-size:12px;color:var(--txm);line-height:1.65;padding:9px 12px;background:var(--bg);border-radius:var(--rs);margin:5px 0 9px;border-left:3px solid var(--g);animation:fi .2s ease}
+.impd.on{display:block}
+/* Sub tabs */
+.stabs{display:flex;gap:4px;margin-bottom:13px;flex-wrap:wrap}
+.stab{padding:5px 13px;font-size:11px;font-weight:600;border-radius:20px;cursor:pointer;border:1px solid var(--bd);color:var(--txm);background:transparent;transition:all .18s}
+.stab.on{background:var(--pu);color:#fff;border-color:var(--pu)}
+.stab:hover:not(.on){background:var(--pult);border-color:var(--pu);color:var(--pu)}
+.subp{display:none;animation:fi .2s ease}
+.subp.on{display:block}
+/* Notes */
+.inote{border-left:3px solid var(--g);background:var(--glt);border-radius:0 var(--rs) var(--rs) 0;padding:9px 13px;font-size:12px;color:#1e3f2b;line-height:1.6;margin-top:9px}
+.wnote{border-left:3px solid var(--am);background:var(--amlt);border-radius:0 var(--rs) var(--rs) 0;padding:9px 13px;font-size:12px;color:#5a3a00;line-height:1.6;margin-top:9px}
+/* Client quote */
+.cq{background:var(--glt);border:1px solid var(--g);border-radius:var(--rl);padding:15px 17px;margin-top:11px}
+.cqt{font-size:12px;font-weight:700;color:var(--g);margin-bottom:5px}
+.cqb{font-size:13px;color:var(--g);line-height:1.65;font-style:italic}
+/* Toasts */
+.twrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{background:var(--gdk);color:#fff;border-radius:20px;padding:9px 18px;font-size:12px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:none}
+/* Footer */
+.foot{text-align:center;font-size:11px;color:var(--txh);padding:20px 0 6px;border-top:1px solid var(--bd);margin-top:16px}
+/* Responsive */
+@media(max-width:600px){
+  .mets{grid-template-columns:repeat(2,1fr)}
+  .spg{grid-template-columns:repeat(2,1fr)}
+  .ctxg{grid-template-columns:repeat(2,1fr)}
+  .soilg{grid-template-columns:1fr}
+  .calg{grid-template-columns:repeat(3,1fr)}
+  .plh,.plr{grid-template-columns:2fr 1fr 1fr}
+  .plhc:last-child,.plr>*:last-child{display:none}
+  .ag{grid-template-columns:repeat(2,1fr)}
+  .pdg{grid-template-columns:1fr}
+}
+@media(max-width:400px){
+  .spg{grid-template-columns:repeat(2,1fr)}
+  .calg{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- Header -->
+<header class="hdr">
+  <div class="logo" onclick="showPanel('scan')">
+    <div class="logo-leaf"><svg viewBox="0 0 18 18" fill="none"><path d="M9 16C9 16 2 11.5 2 6C2 3.2 4.8 1 7.5 2.3C9.5 1 15 3 15 8C15 12.5 9 16 9 16Z" fill="rgba(255,255,255,0.92)"/><path d="M9 16L9 6.5" stroke="rgba(30,63,43,0.7)" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+    <div><span class="logo-name">VANA</span><span class="logo-sub">Vegetation &amp; Avian Native Atlas</span></div>
+  </div>
+  <div class="loc-chip" onclick="showPanel('scan')"><div class="lpulse"></div><span>Bengaluru, KA</span></div>
+</header>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="ntab on"  data-p="scan"   onclick="showPanel('scan')">  <span class="ico">⊕</span>Scan</div>
+  <div class="ntab"     data-p="birds"  onclick="showPanel('birds')"> <span class="ico">◉</span>Birds</div>
+  <div class="ntab"     data-p="nectar" onclick="showPanel('nectar')"><span class="ico">◈</span>Nectarivores</div>
+  <div class="ntab"     data-p="plants" onclick="showPanel('plants')"><span class="ico">◧</span>Plants</div>
+  <div class="ntab"     data-p="soil"   onclick="showPanel('soil')">  <span class="ico">◫</span>Soil &amp; Water</div>
+  <div class="ntab"     data-p="maint"  onclick="showPanel('maint')"> <span class="ico">◷</span>Maintenance</div>
+  <div class="ntab"     data-p="impact" onclick="showPanel('impact')"><span class="ico">◎</span>Impact</div>
+</nav>
+
+<!-- SCAN -->
+<section class="panel on" id="p-scan">
+  <div class="slbl">Project location</div>
+  <div class="lbox" onclick="toast('GPS active — Bengaluru detected ✓')">
+    <div class="ldot"></div>
+    <div><div class="lname">Bengaluru, Karnataka — 12.97°N, 77.59°E</div><div class="lcoord">Auto-detected · 10 km scan radius active</div></div>
+  </div>
+  <div class="slbl">Project context</div>
+  <div class="ctxg">
+    <div class="cbtn sel" onclick="selCtx(this)"><span class="ci">🌿</span>Farmhouse</div>
+    <div class="cbtn"     onclick="selCtx(this)"><span class="ci">🏨</span>Resort</div>
+    <div class="cbtn"     onclick="selCtx(this)"><span class="ci">🏛</span>Institutional</div>
+    <div class="cbtn"     onclick="selCtx(this)"><span class="ci">🏘</span>Residential</div>
+    <div class="cbtn"     onclick="selCtx(this)"><span class="ci">🌳</span>Urban park</div>
+    <div class="cbtn"     onclick="selCtx(this)"><span class="ci">🌾</span>Eco-tourism</div>
+  </div>
+  <div class="slbl">Site size</div>
+  <div class="srow">
+    <label for="sz">Area</label>
+    <input type="range" id="sz" min="0.25" max="50" value="2" step="0.25" oninput="document.getElementById('szd').textContent=parseFloat(this.value).toFixed(2)+' acres'">
+    <span class="sval" id="szd">2.00 acres</span>
+  </div>
+  <button class="sbtn" id="scanbtn" onclick="runScan()">Run biodiversity scan →</button>
+  <div class="card" style="margin-top:13px">
+    <div class="cttl">Live data sources connected</div>
+    <div class="apig" style="margin-top:10px">
+      <div class="apit"><div class="apid" style="background:var(--g)"></div>eBird API 2.0</div>
+      <div class="apit"><div class="apid" style="background:var(--g)"></div>iNaturalist</div>
+      <div class="apit"><div class="apid" style="background:var(--g)"></div>GBIF occurrence</div>
+      <div class="apit"><div class="apid" style="background:var(--am)"></div>India Biodiversity Portal</div>
+    </div>
+    <div class="inote">All sources queried by GPS coordinates. Results validated against Karnataka ornithological records.</div>
+  </div>
+</section>
+
+<!-- BIRDS -->
+<section class="panel" id="p-birds">
+  <div class="mets">
+    <div class="met" onclick="toast('68 species recorded within 10 km — eBird hotspot data')"><div class="mv">68</div><div class="ml">Species nearby</div></div>
+    <div class="met" onclick="toast('14 migratory species — present Oct–Feb from Central Asia')"><div class="mv">14</div><div class="ml">Migratory</div></div>
+    <div class="met" onclick="toast('7 ecological guilds — full trophic hierarchy present')"><div class="mv">7</div><div class="ml">Guilds</div></div>
+    <div class="met" onclick="showPanel('impact')"><div class="mv">38</div><div class="ml">Design potential ↗</div></div>
+  </div>
+  <div class="card">
+    <div class="cttl">Ecological guilds</div>
+    <div class="csub" style="margin-bottom:12px">Tap any guild to see species list and design guidance</div>
+    <div class="grow" onclick="showPanel('nectar')">
+      <div class="gdot" style="background:#6b4fa0"></div><div class="gnm">Nectarivores</div>
+      <div class="gbw"><div class="gb" style="width:52%;background:#6b4fa0"></div></div>
+      <div class="gct">9 spp</div><span class="pill pp">Shrub layer</span><span class="garr">›</span>
+    </div>
+    <div class="grow" onclick="showPanel('plants')">
+      <div class="gdot" style="background:var(--g)"></div><div class="gnm">Frugivores</div>
+      <div class="gbw"><div class="gb" style="width:78%;background:var(--g)"></div></div>
+      <div class="gct">14 spp</div><span class="pill pg">Upper canopy</span><span class="garr">›</span>
+    </div>
+    <div class="grow" onclick="togGuild('insect')">
+      <div class="gdot" style="background:var(--bl)"></div><div class="gnm">Insectivores</div>
+      <div class="gbw"><div class="gb" style="width:90%;background:var(--bl)"></div></div>
+      <div class="gct">18 spp</div><span class="pill pb">Mid canopy</span><span class="garr" id="ga-insect">›</span>
+    </div>
+    <div class="dtl" id="gd-insect">
+      <button class="cbx" onclick="togGuild('insect')">Close ✕</button>
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">Insectivores — key species</div>
+      <div class="ag" style="grid-template-columns:repeat(2,1fr)">
+        <div class="at"><div class="al">Oriental Magpie-Robin</div><div class="av" style="font-size:10px;color:var(--txm)">Mid canopy · year-round</div></div>
+        <div class="at"><div class="al">Common Tailorbird</div><div class="av" style="font-size:10px;color:var(--txm)">Shrub layer · leaf nester</div></div>
+        <div class="at"><div class="al">Asian Tit</div><div class="av" style="font-size:10px;color:var(--txm)">Canopy · cavity nester</div></div>
+        <div class="at"><div class="al">Indian Paradise Flycatcher</div><div class="av" style="font-size:10px;color:var(--txm)">Mid canopy · monsoon</div></div>
+        <div class="at"><div class="al">Black Drongo</div><div class="av" style="font-size:10px;color:var(--txm)">Open perch · aerial hunter</div></div>
+        <div class="at"><div class="al">Pied Bushchat</div><div class="av" style="font-size:10px;color:var(--txm)">Ground edge · winter visitor</div></div>
+      </div>
+      <div class="inote">Dense native shrubs (Carissa, Clerodendrum) + native grasses are essential. Avoid pesticides — entire guild collapses without healthy insect populations.</div>
+    </div>
+    <div class="grow" onclick="togGuild('water')">
+      <div class="gdot" style="background:var(--bk)"></div><div class="gnm">Water birds</div>
+      <div class="gbw"><div class="gb" style="width:36%;background:var(--bk)"></div></div>
+      <div class="gct">7 spp</div><span class="pill pbk">Aquatic edge</span><span class="garr" id="ga-water">›</span>
+    </div>
+    <div class="dtl" id="gd-water">
+      <button class="cbx" onclick="togGuild('water')">Close ✕</button>
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">Water birds — key species</div>
+      <div class="ag" style="grid-template-columns:repeat(2,1fr)">
+        <div class="at"><div class="al">White-throated Kingfisher</div><div class="av" style="font-size:10px;color:var(--txm)">Water edge · perch diver</div></div>
+        <div class="at"><div class="al">Common Moorhen</div><div class="av" style="font-size:10px;color:var(--txm)">Pond edge · year-round</div></div>
+        <div class="at"><div class="al">Little Cormorant</div><div class="av" style="font-size:10px;color:var(--txm)">Open water · fish diver</div></div>
+        <div class="at"><div class="al">Purple Heron</div><div class="av" style="font-size:10px;color:var(--txm)">Wetland edge · stalker</div></div>
+      </div>
+      <div class="inote">A 20–40 sqm pond (30–60 cm deep) with aquatic vegetation and a 5 cm shallow entry edge attracts all 7 water bird species within one monsoon season.</div>
+    </div>
+    <div class="grow" onclick="togGuild('raptor')">
+      <div class="gdot" style="background:var(--am)"></div><div class="gnm">Raptors</div>
+      <div class="gbw"><div class="gb" style="width:28%;background:var(--am)"></div></div>
+      <div class="gct">5 spp</div><span class="pill pa">Aerial layer</span><span class="garr" id="ga-raptor">›</span>
+    </div>
+    <div class="dtl" id="gd-raptor">
+      <button class="cbx" onclick="togGuild('raptor')">Close ✕</button>
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">Raptors — design needs</div>
+      <div class="ag" style="grid-template-columns:repeat(2,1fr)">
+        <div class="at"><div class="al">Black Kite</div><div class="av" style="font-size:10px;color:var(--txm)">Aerial scavenger · year-round</div></div>
+        <div class="at"><div class="al">Shikra</div><div class="av" style="font-size:10px;color:var(--txm)">Woodland edge · predator</div></div>
+        <div class="at"><div class="al">Spotted Owlet</div><div class="av" style="font-size:10px;color:var(--txm)">Cavity nester · nocturnal</div></div>
+        <div class="at"><div class="al">Booted Eagle</div><div class="av" style="font-size:10px;color:var(--txm)">Winter visitor · hunter</div></div>
+      </div>
+      <div class="inote">Leave 20–30% open sky area — raptors need unobstructed hunting corridors. Retain tallest trees (15m+) as hunting perches.</div>
+    </div>
+    <div class="grow" onclick="togGuild('ground')">
+      <div class="gdot" style="background:#888"></div><div class="gnm">Ground birds</div>
+      <div class="gbw"><div class="gb" style="width:42%;background:#888"></div></div>
+      <div class="gct">8 spp</div><span class="pill pg">Meadow layer</span><span class="garr" id="ga-ground">›</span>
+    </div>
+    <div class="dtl" id="gd-ground">
+      <button class="cbx" onclick="togGuild('ground')">Close ✕</button>
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">Ground birds — design needs</div>
+      <div class="ag" style="grid-template-columns:repeat(2,1fr)">
+        <div class="at"><div class="al">Red-wattled Lapwing</div><div class="av" style="font-size:10px;color:var(--txm)">Open ground nester</div></div>
+        <div class="at"><div class="al">Indian Francolin</div><div class="av" style="font-size:10px;color:var(--txm)">Grass + scrub edge</div></div>
+        <div class="at"><div class="al">Yellow Wagtail</div><div class="av" style="font-size:10px;color:var(--txm)">Short grass · winter</div></div>
+        <div class="at"><div class="al">Paddyfield Pipit</div><div class="av" style="font-size:10px;color:var(--txm)">Open meadow · year-round</div></div>
+      </div>
+      <div class="inote">Require open native meadow (100–200 sqm min) with unmown native grasses. Bare soil patches essential for foraging — avoid complete ground cover.</div>
+    </div>
+    <div class="grow" onclick="togGuild('cavity')">
+      <div class="gdot" style="background:var(--bk)"></div><div class="gnm">Cavity nesters</div>
+      <div class="gbw"><div class="gb" style="width:35%;background:var(--bk)"></div></div>
+      <div class="gct">7 spp</div><span class="pill pa">Mature trees</span><span class="garr" id="ga-cavity">›</span>
+    </div>
+    <div class="dtl" id="gd-cavity">
+      <button class="cbx" onclick="togGuild('cavity')">Close ✕</button>
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">Cavity nesters — critical rule</div>
+      <div class="ag" style="grid-template-columns:repeat(2,1fr)">
+        <div class="at"><div class="al">White-cheeked Barbet</div><div class="av" style="font-size:10px;color:var(--txm)">Excavates own cavity</div></div>
+        <div class="at"><div class="al">Rose-ringed Parakeet</div><div class="av" style="font-size:10px;color:var(--txm)">Uses old woodpecker holes</div></div>
+        <div class="at"><div class="al">Spotted Owlet</div><div class="av" style="font-size:10px;color:var(--txm)">Tree cavity · wall crevice</div></div>
+        <div class="at"><div class="al">Common Myna</div><div class="av" style="font-size:10px;color:var(--txm)">Roof gaps + tree holes</div></div>
+      </div>
+      <div class="wnote">NEVER remove old or partially dead trees. A single old Ficus trunk is worth more ecologically than 20 young trees combined.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="cttl">Seasonal activity</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px">
+      <div style="text-align:center;cursor:pointer" onclick="toast('Winter: 41 spp — migratory flycatchers + warblers arrive Oct–Feb')">
+        <div style="font-size:10px;color:var(--txm)">Winter</div><div style="font-size:19px;font-weight:700;color:var(--bl);margin:3px 0">41</div><div style="font-size:10px;color:var(--txm)">species</div>
+      </div>
+      <div style="text-align:center;cursor:pointer" onclick="toast('Spring: 58 spp — peak nesting Feb–May, sunbird breeding begins')">
+        <div style="font-size:10px;color:var(--txm)">Spring</div><div style="font-size:19px;font-weight:700;color:var(--tr);margin:3px 0">58</div><div style="font-size:10px;color:var(--txm)">species</div>
+      </div>
+      <div style="text-align:center;cursor:pointer" onclick="toast('Monsoon: 68 spp — peak diversity, insects abundant, all guilds active')">
+        <div style="font-size:10px;color:var(--txm)">Monsoon</div><div style="font-size:19px;font-weight:700;color:var(--g);margin:3px 0">68</div><div style="font-size:10px;color:var(--txm)">species</div>
+      </div>
+      <div style="text-align:center;cursor:pointer" onclick="toast('Post-monsoon: 52 spp — resident species active, fruiting season peaks')">
+        <div style="font-size:10px;color:var(--txm)">Post-mon.</div><div style="font-size:19px;font-weight:700;color:var(--am);margin:3px 0">52</div><div style="font-size:10px;color:var(--txm)">species</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NECTARIVORES -->
+<section class="panel" id="p-nectar">
+  <div class="stabs">
+    <div class="stab on"  onclick="showSub('nectar','ns-sp',   this)">Species guide</div>
+    <div class="stab"     onclick="showSub('nectar','ns-pl',   this)">Nectar plants</div>
+    <div class="stab"     onclick="showSub('nectar','ns-dsgn', this)">Garden design</div>
+    <div class="stab"     onclick="showSub('nectar','ns-cal',  this)">Seasonal calendar</div>
+  </div>
+  <div class="subp on" id="ns-sp">
+    <div class="slbl">9 nectarivore species — Bengaluru region</div>
+    <div class="spg" id="spgrid"></div>
+    <div id="spwrap"></div>
+  </div>
+  <div class="subp" id="ns-pl">
+    <div class="slbl">Validated nectar plants — South India</div>
+    <div class="card">
+      <div class="plh"><div class="plhc">Plant</div><div class="plhc">Layer</div><div class="plhc">Blooming</div><div class="plhc">Priority</div></div>
+      <div id="npl"></div>
+    </div>
+  </div>
+  <div class="subp" id="ns-dsgn">
+    <div class="slbl">Nectar corridor design — farmhouse landscape</div>
+    <div class="zc" onclick="togZone(this)">
+      <div class="zttl">Zone 1 — Sunbird corner (30–50 sqm)</div>
+      <div class="zbod">Concentrated planting near the main veranda. Year-round flower availability. A resident pair will hold this territory and perform daily at 6:30–9:00 am and 4:30–6:00 pm.</div>
+      <div class="chips"><span class="pill pp">Hibiscus hedge</span><span class="pill pt">Russelia cascade</span><span class="pill pg">Callistemon accent</span><span class="pill pp">Ixora base</span></div>
+      <div class="zexp">Callistemon backdrop at 2 m → Hibiscus hedge at 1.2 m → Russelia cascading over a low wall → Ixora at ground level. Space plants 1–1.5 m apart. Face east or south-east for morning sun. Install a 3–5 cm deep granite water dish at 1.2 m height — sunbirds bathe after feeding. Expect first nesting in Year 2.</div>
+    </div>
+    <div class="zc" onclick="togZone(this)">
+      <div class="zttl">Zone 2 — 4-tier nectar corridor (boundary / path edge)</div>
+      <div class="zbod">Layered linear planting. Different sunbird species feed at different heights, reducing territorial conflict and maximising species count on one linear run.</div>
+      <div class="chips"><span class="pill pg">Erythrina canopy</span><span class="pill pg">Bauhinia mid</span><span class="pill pt">Callistemon shrub</span><span class="pill pp">Hamelia base</span></div>
+      <div class="zexp">Erythrina at 8–10 m spacing → Bauhinia at 5–6 m → Callistemon at 2–3 m → Hamelia at 1 m. This allows Loten's (tall flowers), Purple sunbird (mid), and Purple-rumped (low shrubs) to feed simultaneously without conflict. Plant in a north–south line for maximum sun exposure across all tiers.</div>
+    </div>
+    <div class="zc" onclick="togZone(this)">
+      <div class="zttl">Zone 3 — Perch and nesting infrastructure</div>
+      <div class="zbod">Sunbirds need a perching branch within 0.5–1.5 m of every nectar flower. Without perches, they will not feed — regardless of plant density.</div>
+      <div class="chips"><span class="pill pa">Dead stubs retained</span><span class="pill pa">Bamboo canes 1.2 m</span><span class="pill pa">Trellis near shrubs</span></div>
+      <div class="zexp">Retain all dead branch stubs — they become singing perches and future cavity sites. Push 1.2 m bamboo canes into the soil near every nectar shrub cluster. The male will use a prominent elevated perch to sing and defend territory — this perch is as important as the flowers themselves. Never remove "dead-looking" branches during Feb–May breeding season.</div>
+    </div>
+    <div class="zc" onclick="togZone(this)">
+      <div class="zttl">Zone 4 — Dedicated sunbird water feature</div>
+      <div class="zbod">A 3–5 cm deep granite saucer at 1–1.5 m height near flowering shrubs. Sunbirds bathe immediately after feeding. Change water every 2 days.</div>
+      <div class="chips"><span class="pill pb">3–5 cm deep only</span><span class="pill pb">Height 1–1.5 m</span><span class="pill pg">Near shrub cover</span></div>
+      <div class="zexp">Use a 25–35 cm diameter granite or terracotta dish. Place a flat stone inside for grip. Position within 1.5 m of the Hibiscus cluster. A solar dripper creating gentle water movement dramatically increases visits — birds are attracted to the sound of moving water. Change water every 2 days in summer to prevent mosquito breeding.</div>
+    </div>
+    <div class="inote">Critical rule: orient your sunbird corner east or south-east. Flowering shrubs in shade produce significantly less nectar and attract fewer birds.</div>
+  </div>
+  <div class="subp" id="ns-cal">
+    <div class="slbl">Monthly nectarivore activity — Bengaluru</div>
+    <div class="calg" id="ncal"></div>
+    <div id="ncal-dtl"></div>
+    <div class="inote" style="margin-top:10px">Tap any month for detailed activity and recommended actions. Design for continuous bloom across at least 3 plant species to avoid gaps in nectar supply.</div>
+  </div>
+</section>
+
+<!-- PLANTS -->
+<section class="panel" id="p-plants">
+  <div class="mets">
+    <div class="met" onclick="toast('42 plants recommended for Bengaluru region ecology')"><div class="mv">42</div><div class="ml">Recommended</div></div>
+    <div class="met" onclick="toast('31 native to South India / Deccan Plateau')"><div class="mv">31</div><div class="ml">Native species</div></div>
+    <div class="met" onclick="toast('5 habitat layers — canopy, mid, shrub, flower, ground')"><div class="mv">5</div><div class="ml">Habitat layers</div></div>
+    <div class="met" onclick="toast('12 keystone plants support 80%+ of total bird species')"><div class="mv">12</div><div class="ml">Keystone plants</div></div>
+  </div>
+  <div class="card">
+    <div class="cttl">Native planting list — South India / Deccan Plateau</div>
+    <div class="csub" style="margin-bottom:11px">Tap any plant to expand full care specifications</div>
+    <div class="plh"><div class="plhc">Plant</div><div class="plhc">Layer</div><div class="plhc">Blooming</div><div class="plhc">Priority</div></div>
+    <div id="mpl"></div>
+  </div>
+</section>
+
+<!-- SOIL & WATER -->
+<section class="panel" id="p-soil">
+  <div class="slbl">Soil profile — Bengaluru region (red laterite)</div>
+  <div class="soilg">
+    <div class="soilc" onclick="toast('pH 5.8–6.5 → add 8 kg dolomite lime per 100 sqm to reach target 6.5–7.0')">
+      <div class="soilp">pH</div><div class="soilv">5.8 – 6.5</div><div class="soiln">↑ Add dolomite lime to 6.5–7.0</div>
+    </div>
+    <div class="soilc" onclick="toast('Organic matter only 0.4–0.8% → target 2.5–3.0% with compost over 3 years')">
+      <div class="soilp">Organic matter</div><div class="soilv">0.4 – 0.8%</div><div class="soiln">↑ Target 2.5–3.0% with compost</div>
+    </div>
+    <div class="soilc" onclick="toast('Sandy laterite drains rapidly → coco peat improves water retention significantly')">
+      <div class="soilp">Texture</div><div class="soilv">Sandy laterite</div><div class="soiln">Add coco peat for retention</div>
+    </div>
+    <div class="soilc" onclick="toast('Rapid drainage → mandatory 8–10 cm mulch layer reduces moisture loss 40%')">
+      <div class="soilp">Drainage</div><div class="soilv">Rapid</div><div class="soiln">8–10 cm mulch mandatory</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="cttl">Soil amendments — per 100 sqm</div>
+    <div style="margin-top:11px">
+      <div class="brow" onclick="toast('Farmyard manure: fully composted only. Apply 4 weeks before planting. Never fresh.')">
+        <span class="blbl">Farmyard manure</span><div class="btrk"><div class="bfil" style="width:80%;background:var(--bk)"></div></div><span class="bval">200 kg</span>
+      </div>
+      <div class="brow" onclick="toast('Vermicompost: best as top-dressing around root zones after planting')">
+        <span class="blbl">Vermicompost</span><div class="btrk"><div class="bfil" style="width:50%;background:var(--bk)"></div></div><span class="bval">50 kg</span>
+      </div>
+      <div class="brow" onclick="toast('Dolomite lime: broadcast evenly, water in. Wait 2 weeks before planting.')">
+        <span class="blbl">Dolomite lime</span><div class="btrk"><div class="bfil" style="width:20%;background:var(--bk)"></div></div><span class="bval">8 kg</span>
+      </div>
+      <div class="brow" onclick="toast('Neem cake: natural pest deterrent + nitrogen source. Mix into top 15 cm of soil.')">
+        <span class="blbl">Neem cake</span><div class="btrk"><div class="bfil" style="width:15%;background:var(--bk)"></div></div><span class="bval">5 kg</span>
+      </div>
+      <div class="brow" onclick="toast('Coco peat: mix 30% into top 30 cm for all planting pits of shrubs and trees')">
+        <span class="blbl">Coco peat</span><div class="btrk"><div class="bfil" style="width:25%;background:var(--bk)"></div></div><span class="bval">20 kg</span>
+      </div>
+    </div>
+    <div class="wnote">Apply amendments 4–6 weeks before planting. Do not apply fresh manure directly to root zones.</div>
+  </div>
+  <div class="card">
+    <div class="cttl">Irrigation demand — seasonal (2-acre farmhouse)</div>
+    <div style="margin-top:11px">
+      <div class="brow" onclick="toast('Summer peak: drip at 6 am + 6 pm. Prioritise canopy trees and nectar shrubs over lawn.')">
+        <span class="blbl">Summer (peak)</span><div class="btrk"><div class="bfil" style="width:90%;background:var(--bl)"></div></div><span class="bval">3,200 L/day</span>
+      </div>
+      <div class="brow" onclick="toast('Post-monsoon: reduce to once daily at 6 am. Monitor soil moisture before irrigating.')">
+        <span class="blbl">Post-monsoon</span><div class="btrk"><div class="bfil" style="width:55%;background:var(--bl)"></div></div><span class="bval">1,800 L/day</span>
+      </div>
+      <div class="brow" onclick="toast('Winter: once every 2–3 days for established plants. New trees still need daily water.')">
+        <span class="blbl">Winter</span><div class="btrk"><div class="bfil" style="width:38%;background:var(--bl)"></div></div><span class="bval">1,200 L/day</span>
+      </div>
+      <div class="brow" onclick="toast('Monsoon: irrigation usually suspended. Monitor for waterlogging in laterite.')">
+        <span class="blbl">Monsoon</span><div class="btrk"><div class="bfil" style="width:12%;background:var(--bl)"></div></div><span class="bval">400 L/day</span>
+      </div>
+    </div>
+    <div class="inote">Drip irrigation saves 40% vs spray. Native plants reduce demand 35–40% from Year 3 as root systems establish.</div>
+  </div>
+</section>
+
+<!-- MAINTENANCE -->
+<section class="panel" id="p-maint">
+  <div class="card">
+    <div class="cttl">Annual maintenance calendar</div>
+    <div class="csub" style="margin-bottom:13px">Tap any month for full task checklist</div>
+    <div class="calg" id="mcal"></div>
+  </div>
+  <div id="mdtl"></div>
+  <div class="inote">Avoid all pruning and soil disturbance Feb–May (primary breeding season). Restrict to watering and monitoring only during this window.</div>
+</section>
+
+<!-- IMPACT -->
+<section class="panel" id="p-impact">
+  <div class="mets">
+    <div class="met" onclick="toast('Biodiversity Score 82/100 — based on habitat layering, water, native plant diversity')"><div class="mv" style="color:var(--g)">82</div><div class="ml">Biodiversity score</div></div>
+    <div class="met" onclick="toast('4.2 tonnes CO₂/year — 2-acre canopy planting after 5 years establishment')"><div class="mv" style="color:var(--bl)">4.2T</div><div class="ml">CO₂/year</div></div>
+    <div class="met" onclick="toast('38 predicted bird species at Year 5 — based on habitat structure scoring')"><div class="mv" style="color:var(--tr)">38</div><div class="ml">Predicted (yr 5)</div></div>
+    <div class="met" onclick="toast('High pollinator index — nectar corridor supports 22+ butterfly and bee species')"><div class="mv" style="color:var(--am)">High</div><div class="ml">Pollinator index</div></div>
+  </div>
+  <div class="card">
+    <div class="cttl">Measurable ecological outcomes</div>
+    <div class="csub" style="margin-bottom:11px">Tap any metric to see mechanism and timeline</div>
+    <div id="improws"></div>
+  </div>
+  <div class="cq">
+    <div class="cqt">Client-ready statement</div>
+    <div class="cqb">"This landscape is designed to support 38 bird species across 7 ecological guilds, sequester 4.2 tonnes of CO₂ annually, and reduce irrigation demand by 38% within 3 years of establishment."</div>
+  </div>
+</section>
+
+<footer class="foot">VANA v1.0 · Vegetation &amp; Avian Native Atlas · Greenscape Designz · Data: eBird · iNaturalist · GBIF · India Biodiversity Portal</footer>
+</div>
+
+<div class="twrap" id="twrap"></div>
+
+<script>
+/* DATA */
+const SP=[
+  {id:'s1',i:'💜',bg:'#f0ebfa',n:'Purple sunbird',sc:'Cinnyris asiaticus',st:'Year-round',sc2:'pp',
+   len:'10 cm',ly:'Shrub – mid canopy',ne:'Hanging pouch',br:'Feb – May',fe:'Perch + hover',fr:'Very high',
+   de:'Most commonly seen sunbird in Bengaluru. Males display spectacular iridescent purple-black plumage in breeding season. Strongly territorial — one pair will defend a flowering garden aggressively.',
+   pl:['Hibiscus','Callistemon','Jacaranda','Erythrina','Russelia'],
+   ti:['Plant tubular Hibiscus as a hedge — one pair will nest within it by Year 2','Include a Jacaranda — Purple sunbirds show a documented preference for Jacaranda blossoms in Bengaluru','Avoid pesticides on flowering shrubs — sunbirds also glean small insects from flowers for protein']},
+  {id:'s2',i:'🟠',bg:'#fdf0ea',n:'Purple-rumped sunbird',sc:'Leptocoma zeylonica',st:'Year-round',sc2:'pt',
+   len:'9 cm',ly:'Shrub layer',ne:'Hanging pouch, shrubs',br:'Feb – Apr',fe:'Perch-feed',fr:'Extremely high',
+   de:'Most urban-tolerant sunbird in South India. Males have iridescent blue-green crown, maroon back, and a distinctive violet rump patch. Completely comfortable around human habitation.',
+   pl:['Ixora','Russelia','Hibiscus','Singapore Cherry','Hamelia'],
+   ti:['Will nest in garden shrubs within 0.5 m of regular human activity','Singapore Cherry (Muntingia calabura) is the single most reliable attractant in Bengaluru gardens','Place Ixora at 1–2 m height — prefer perch-feeding and need a nearby landing branch']},
+  {id:'s3',i:'🟢',bg:'#e8f2ec',n:"Loten's sunbird",sc:'Cinnyris lotenius',st:'Resident',sc2:'pg',
+   len:'13 cm',ly:'Shrub – canopy',ne:'Hanging pouch',br:'Mar – May',fe:'Deep hover-feed',fr:'Moderate–high',
+   de:"Distinguished by its notably longer, more decurved bill — adapated for deep tubular flowers. Reduces inter-species competition by accessing nectar sources other sunbirds cannot reach.",
+   pl:['Bauhinia','Callistemon','Erythrina','Spathodea','Coral tree'],
+   ti:['Specifically plant deep-tubular flowers — long bill is a competitive advantage here','Indian Coral Tree (Erythrina indica) is documented as the primary magnet for this species']},
+  {id:'s4',i:'🔴',bg:'#fff0ee',n:'Crimson-backed sunbird',sc:'Leptocoma minima',st:'Monsoon visitor',sc2:'pa',
+   len:'8 cm',ly:'Shrub layer',ne:'Pouch nest',br:'Monsoon',fe:'Perch-feed',fr:'Rare – seasonal',
+   de:"Endemic to the Western Ghats — smallest sunbird in India. Appears near the Ghats edge during monsoon. A sighting confirms your site has Western Ghats ecological connectivity.",
+   pl:['Hibiscus','Ixora','Russelia'],
+   ti:['Presence is a premium biodiversity indicator — confirms Western Ghats habitat connectivity','Document any sighting immediately — a headline indicator for your Biodiversity Impact Report']},
+  {id:'s5',i:'🌿',bg:'#e8f2ec',n:'Golden-fronted leafbird',sc:'Chloropsis aurifrons',st:'Resident',sc2:'pg',
+   len:'19 cm',ly:'Mid – upper canopy',ne:'Cup nest, tree fork',br:'Mar – Jun',fe:'Canopy gleaning',fr:'Moderate',
+   de:'Stunning emerald-green bird with golden forehead and blue throat patch. Feeds on nectar, fruits and insects. Requires mature canopy trees — will not colonise young gardens.',
+   pl:['Ficus','Erythrina','Bombax ceiba','Native flowering trees'],
+   ti:['Requires mature canopy trees — indicator that your landscape is ecologically established','Its rich call is a landscape health indicator — if you hear it, your habitat layering is working']},
+  {id:'s6',i:'🍃',bg:'#e8f2ec',n:"Jerdon's leafbird",sc:'Chloropsis jerdoni',st:'Resident',sc2:'pg',
+   len:'17 cm',ly:'Mid canopy',ne:'Cup nest',br:'Apr – Jul',fe:'Canopy gleaning',fr:'Moderate',
+   de:'Similar to Golden-fronted leafbird but slightly smaller. Found in wooded gardens and forest-edge habitats. Both leafbird species together confirm a structurally mature landscape.',
+   pl:['Ficus','Erythrina','Bombax ceiba'],
+   ti:['Both leafbirds together confirm multi-layer habitat complexity','Dense canopy cover 35%+ is the primary requirement — plan from Year 1']},
+  {id:'s7',i:'🔵',bg:'#fdf0ea',n:'Pale-billed flowerpecker',sc:'Dicaeum erythrorynchos',st:'Year-round',sc2:'pt',
+   len:'8 cm',ly:'Canopy – shrub',ne:'Tiny purse nest',br:'Year-round',fe:'Berries + nectar',fr:'Very high',
+   de:'One of the smallest birds in South India. An important seed disperser for mistletoe. Year-round resident throughout Bengaluru. Detect by sharp chip call rather than sight.',
+   pl:['Singapore Cherry','Ficus spp.','Mistletoe host trees'],
+   ti:['Singapore Cherry is the single most reliable tree for flowerpeckers in Bengaluru','Plant at least 2–3 Singapore Cherry trees — fast growing, fruits year-round']},
+  {id:'s8',i:'⚫',bg:'#f5f0e8',n:'Thick-billed flowerpecker',sc:'Dicaeum agile',st:'Rare / seasonal',sc2:'pa',
+   len:'9 cm',ly:'Canopy',ne:'Purse nest',br:'Variable',fe:'Berries + mistletoe',fr:'Rare',
+   de:'Rare in Bengaluru — recorded at sites with dense fruiting canopy. If recorded, confirms exceptional ecological maturation. Typical appearance: Year 5–7 after planting.',
+   pl:['Ficus spp.','Mistletoe host trees'],
+   ti:['Plant Ficus at Year 1 — this species arrives when figs mature in Year 5–7','Presence confirms exceptional landscape maturation — document immediately']},
+  {id:'s9',i:'🌸',bg:'#e8f2ec',n:"Tickell's flowerpecker",sc:'Dicaeum erythrorhynchos',st:'Resident',sc2:'pg',
+   len:'8 cm',ly:'Canopy – shrub',ne:'Purse nest, branch tips',br:'Year-round',fe:'Berries + nectar',fr:'High',
+   de:'Resident breeder across Bengaluru. Extremely active and fast-moving. Nests in tiny purse-shaped structures hanging from branch tips — one of the most intricate nests in South Indian birds.',
+   pl:['Singapore Cherry','Ficus spp.','Ixora'],
+   ti:['Almost identical behaviour to Pale-billed flowerpecker — both colonise the same garden','Detect by call (sharp rapid chip-chip) rather than sight']}
+];
+
+const PL=[
+  {id:'p1',n:'Hibiscus',s:'Hibiscus rosa-sinensis',ly:'Shrub 1–3m',lc:'pt',bl:'Year-round',bc:'pg',pr:'keystone',
+   w:'Moderate',ph:'6.0–7.0',sp:'1.5–2 m',su:'Full sun',bi:['Purple sunbird','Purple-rumped sunbird',"Loten's sunbird"],
+   no:'Single most important nectar shrub for Bengaluru sunbirds. Red and orange varieties produce most nectar. Prune after each flowering flush. Avoid heavy pruning Feb–May (breeding season).'},
+  {id:'p2',n:'Bottlebrush',s:'Callistemon citrinus',ly:'Shrub–tree 2–5m',lc:'pt',bl:'Mar – Aug',bc:'pa',pr:'keystone',
+   w:'Low–moderate',ph:'5.5–7.0',sp:'2–3 m',su:'Full sun',bi:['Purple sunbird',"Loten's sunbird",'Purple-rumped sunbird'],
+   no:'Extremely drought-tolerant once established. Red brushes are magnets for sunbirds. Can be trained as a small tree or kept as a dense hedge. Flowers best with full sun and well-drained laterite soil.'},
+  {id:'p3',n:'Firecracker plant',s:'Russelia equisetiformis',ly:'Shrub 1–2m',lc:'pt',bl:'Year-round',bc:'pg',pr:'keystone',
+   w:'Low',ph:'6.0–7.5',sp:'1–1.5 m',su:'Full sun / partial shade',bi:['Purple-rumped sunbird','Purple sunbird'],
+   no:'Long tubular red flowers perfectly adapted to sunbird bills. Cascading habit — excellent on retaining walls and slopes. Near drought-proof once established. No serious pest problems.'},
+  {id:'p4',n:'Ixora',s:'Ixora coccinea',ly:'Shrub 1–2m',lc:'pt',bl:'Year-round',bc:'pg',pr:'high',
+   w:'Moderate',ph:'4.5–6.0',sp:'1–1.5 m',su:'Full sun',bi:['Purple-rumped sunbird','Purple sunbird'],
+   no:'Prefers slightly acidic soil — common in Bengaluru red laterite. Dense clusters of tubular flowers. Best as a hedge or mass planting. Red varieties strongly preferred over pink or white.'},
+  {id:'p5',n:'Orchid tree',s:'Bauhinia purpurea',ly:'Tree 5–10m',lc:'pg',bl:'Oct – Jan',bc:'pa',pr:'high',
+   w:'Low–moderate',ph:'6.0–7.5',sp:'5–7 m',su:'Full sun',bi:["Loten's sunbird",'Purple sunbird'],
+   no:'Provides critical nectar Oct–Jan when few other species flower. Deciduous in dry years. Fast growing — 8 m in 5 years. Remove seed pods to prevent aggressive self-seeding.'},
+  {id:'p6',n:'Indian coral tree',s:'Erythrina indica',ly:'Tree 6–12m',lc:'pg',bl:'Feb – Apr',bc:'pa',pr:'keystone',
+   w:'Low',ph:'6.0–7.5',sp:'8–10 m',su:'Full sun',bi:["Loten's sunbird",'Purple sunbird','Golden-fronted leafbird'],
+   no:'Flowers before leaves emerge — creating a dramatic red canopy visible to birds. Most important canopy nectar source Feb–Apr. Nitrogen-fixing — improves soil. Native to South India.'},
+  {id:'p7',n:'Jacaranda',s:'Jacaranda mimosifolia',ly:'Tree 8–15m',lc:'pg',bl:'Mar – May',bc:'pa',pr:'high',
+   w:'Low–moderate',ph:'6.0–7.0',sp:'8–12 m',su:'Full sun',bi:['Purple sunbird',"Loten's sunbird"],
+   no:'Purple sunbirds show a specific documented preference for Jacaranda blossoms in Bengaluru. Blooms Mar–May (peak breeding). Use sparingly — 1–2 per site maximum.'},
+  {id:'p8',n:'Singapore cherry',s:'Muntingia calabura',ly:'Tree 4–8m',lc:'pg',bl:'Year-round',bc:'pg',pr:'keystone',
+   w:'Low',ph:'5.5–7.5',sp:'5–7 m',su:'Full sun / partial shade',bi:['Pale-billed flowerpecker','Tickell\'s flowerpecker','Purple-rumped sunbird','Barbets','Bulbuls'],
+   no:'Most reliably documented bird-attracting tree in Bengaluru gardens. Produces tiny sweet fruits year-round. Fast growing — reaches 5 m in 3 years. Low maintenance. Plant at least 2–3 per site.'},
+  {id:'p9',n:'Red silk cotton',s:'Bombax ceiba',ly:'Tree 15–25m',lc:'pg',bl:'Dec – Mar',bc:'pa',pr:'high',
+   w:'Low',ph:'6.0–7.5',sp:'15–20 m',su:'Full sun',bi:['Purple sunbird',"Loten's sunbird",'Golden-fronted leafbird','Parakeets'],
+   no:'Large crimson flowers with abundant nectar during the dry season when few others bloom. Cup-shaped flowers hold large nectar volumes. A single specimen can support 10+ bird species. Native to South India.'},
+  {id:'p10',n:'Firebush',s:'Hamelia patens',ly:'Shrub 1–3m',lc:'pt',bl:'Year-round',bc:'pg',pr:'high',
+   w:'Low–moderate',ph:'6.0–7.5',sp:'1.5–2 m',su:'Full sun / partial shade',bi:['Purple-rumped sunbird','Purple sunbird'],
+   no:'Tubular orange-red flowers bloom continuously. Tolerates partial shade — useful under canopy where Hibiscus will not flower. Attracts both sunbirds and butterflies. Easy to establish on laterite soils.'},
+  {id:'p11',n:'Peepal',s:'Ficus religiosa',ly:'Canopy 15–25m',lc:'pg',bl:'Year-round fruiting',bc:'pg',pr:'keystone',
+   w:'Low',ph:'6.0–7.5',sp:'15–20 m',su:'Full sun',bi:['Barbets','Koels','Parakeets','Mynas','Flowerpeckers','40+ spp'],
+   no:'Single most important biodiversity tree for South Indian landscapes. Year-round fruiting supports 40+ bird species. Do not plant within 3 m of structures — roots are aggressive.'},
+  {id:'p12',n:'Jamun',s:'Syzygium cumini',ly:'Canopy 10–20m',lc:'pg',bl:'Apr–Jun fruiting',bc:'pa',pr:'keystone',
+   w:'Low–moderate',ph:'5.5–7.0',sp:'10–15 m',su:'Full sun',bi:['Koels','Parakeets','Bulbuls','Barbets'],
+   no:'Abundant fruit June–August. Dense evergreen canopy supports cavity-nesting species. Native to South India. Edible fruit is a client amenity.'}
+];
+
+const MAINT=[
+  {m:'January',  t:[{t:'Annual bird species count — baseline documentation',c:'var(--bl)'},{t:'Soil pH testing across planting beds',c:'var(--g)'},{t:'Water body inspection and cleaning',c:'var(--bl)'},{t:'Check mulch depth — top up if below 6 cm',c:'var(--am)'}]},
+  {m:'February', t:[{t:'Sunbird breeding begins — reduce all disturbance',c:'var(--tr)'},{t:'Light tip pruning only — no hard pruning',c:'var(--am)'},{t:'Check and clean bird water dishes',c:'var(--bl)'},{t:'Compost bin turning and preparation',c:'var(--g)'}]},
+  {m:'March',    t:[{t:'NESTING SEASON — no pruning, no soil work near shrubs',c:'var(--tr)'},{t:'Check nectar plant flowering performance',c:'var(--g)'},{t:'Monitor irrigation — increasing heat demand',c:'var(--bl)'},{t:'Document breeding pairs observed',c:'var(--tr)'}]},
+  {m:'April',    t:[{t:'Peak breeding — monitor only, no interventions',c:'var(--tr)'},{t:'Set up drip irrigation for summer',c:'var(--bl)'},{t:'Apply mulch 8–10 cm depth',c:'var(--am)'},{t:'Summer fertilisation of canopy trees',c:'var(--g)'}]},
+  {m:'May',      t:[{t:'Mulching priority — highest water stress month',c:'var(--am)'},{t:'Fledgling watch — reduce activity near nests',c:'var(--tr)'},{t:'Irrigation twice daily during heat peaks',c:'var(--bl)'},{t:'Monitor for aphid / scale on nectar shrubs',c:'var(--g)'}]},
+  {m:'June',     t:[{t:'Monsoon planting window opens — best establishment',c:'var(--g)'},{t:'Apply compost top-dressing to all beds',c:'var(--g)'},{t:'Install drainage channels if waterlogging occurs',c:'var(--bl)'},{t:'Crimson-backed sunbird arrives — monitor',c:'var(--tr)'}]},
+  {m:'July',     t:[{t:'Shrub layer gap planting — best monsoon window',c:'var(--g)'},{t:'Mid-year bird species survey',c:'var(--tr)'},{t:'Weed management — monsoon flush',c:'var(--am)'},{t:'Check water body for invasive plants',c:'var(--bl)'}]},
+  {m:'August',   t:[{t:'Weed management — second monsoon flush',c:'var(--am)'},{t:'Drainage system inspection',c:'var(--bl)'},{t:'Document monsoon bird diversity peak',c:'var(--tr)'},{t:'Fertilise flowering shrubs post-monsoon',c:'var(--g)'}]},
+  {m:'September',t:[{t:'Post-monsoon pruning begins — light shaping only',c:'var(--tr)'},{t:'Gap planting to fill bare zones',c:'var(--g)'},{t:'Soil amendment — Year 2 cycle',c:'var(--g)'},{t:'Check sunbird territory marking',c:'var(--tr)'}]},
+  {m:'October',  t:[{t:'Winter migratory birds begin arriving',c:'var(--bl)'},{t:'Annual soil amendment — FYM + compost',c:'var(--g)'},{t:'Reduce irrigation frequency',c:'var(--bl)'},{t:'Bauhinia flowering — monitor sunbird response',c:'var(--am)'}]},
+  {m:'November', t:[{t:'Fruiting tree care and inspection',c:'var(--tr)'},{t:'Mulch refresh — pre-summer preparation',c:'var(--am)'},{t:'Silk cotton (Bombax) bud formation',c:'var(--g)'},{t:'Verify irrigation system before summer',c:'var(--bl)'}]},
+  {m:'December', t:[{t:'Annual bird count — compare against Year 1 baseline',c:'var(--bl)'},{t:'Annual Biodiversity Impact Report compilation',c:'var(--am)'},{t:'Winter pruning of overgrown canopy',c:'var(--g)'},{t:'Review and update maintenance plan',c:'var(--bk)'}]}
+];
+
+const NCAL=[
+  {m:'Jan',p:60,b:'Purple sunbird · Flowerpeckers',no:'Bombax ceiba begins flowering — primary winter nectar source. Check water dishes daily.'},
+  {m:'Feb',p:75,b:'Breeding begins · Erythrina flowers',no:'Sunbird breeding starts Feb 15–20. Erythrina flowers — peak Loten\'s sunbird activity. Reduce all garden disturbance.'},
+  {m:'Mar',p:100,b:'Peak — all 3 sunbirds · Jacaranda',no:'Highest nectar activity of the year. Purple sunbirds prefer Jacaranda. All 3 sunbird species active simultaneously. Nesting pouch construction begins.'},
+  {m:'Apr',p:100,b:'Nesting · Callistemon blooms',no:'Callistemon reaches peak blooming. First clutch of sunbird eggs. Do not prune any shrubs. Top up water dishes twice daily in heat.'},
+  {m:'May',p:90,b:'Chicks fledging · Hibiscus peak',no:'First fledglings emerging. Parent birds at peak foraging. Hibiscus primary food source. High maintenance on drip irrigation.'},
+  {m:'Jun',p:80,b:'Crimson-backed sunbird arrives',no:'Western Ghats endemic arrives with monsoon. All Ixora and Russelia active. Begin gap planting for new specimens.'},
+  {m:'Jul',p:85,b:'All species active · Russelia peak',no:'All 9 nectarivore species potentially present. Russelia at peak bloom. Second breeding cycle begins for some species.'},
+  {m:'Aug',p:80,b:'High insect food · Season 2',no:'Insect abundance peaks — sunbirds supplementing nectar with protein insects. Hamelia producing maximum flowers.'},
+  {m:'Sep',p:75,b:'Post-monsoon · Ixora blooms',no:'Ixora second flush post-monsoon. Breeding season ending. Post-monsoon light pruning permitted.'},
+  {m:'Oct',p:65,b:'Bauhinia starts flowering',no:'Bauhinia purpurea critical Oct–Jan nectar gap filler. Winter migrant flycatchers arriving.'},
+  {m:'Nov',p:70,b:'Silk cotton buds form',no:'Bombax ceiba bud formation. Bottlebrush second flush. Prepare water dishes for dry season.'},
+  {m:'Dec',p:60,b:'Bombax · Singapore Cherry peak',no:'Bombax opens first flowers — critical dry season nectar. Singapore Cherry supports flowerpeckers year-round.'}
+];
+
+const IMPD=[
+  {l:'Bird species richness',b:'8 spp',a:'34–40 spp',d:'Species richness increases in 3 phases: Years 1–2 resident generalists colonise (mynas, pigeons, bulbuls). Years 3–5 habitat specialists arrive as canopy establishes (barbets, koels, parakeets). Years 5–7 rare species appear. The 5-fold increase is documented in South Indian farmhouse landscape studies.'},
+  {l:'Pollinator visits / day',b:'~40',a:'~380',d:'The 9× increase is driven by the nectar corridor — continuous bloom across 4 plant species creates a permanent food source. Pollinators include honeybees, stingless bees (Trigona spp.), 22+ butterfly species, and sunbirds. This directly improves fruit set on any edible plants or orchards.'},
+  {l:'Canopy cover',b:'8%',a:'42%',d:'42% canopy cover is achievable by Year 5 with 3 Ficus or large canopy trees, 5–7 mid-canopy trees (Jamun, Pongam), and 15+ small flowering trees planted at Year 1. This creates the microhabitat required for insectivorous and cavity-nesting species.'},
+  {l:'Surface temp. reduction',b:'baseline',a:'−3.2 °C',d:'The −3.2°C surface temperature reduction at 42% canopy cover is consistent with BBMP urban heat island studies in Bengaluru. Translates to measurable cooling for the farmhouse — estimated AC load reduction of 8–15% and improved outdoor comfort from March through October.'},
+  {l:'Irrigation water demand',b:'100%',a:'−38% (yr 3)',d:'Native plants reduce irrigation demand 35–40% from Year 3 as deep root systems access subsoil moisture. Drip irrigation (40% saving) + mulch (25% saving) + native establishment (38% saving) = up to 70% total water demand reduction by Year 5 vs conventional lawn-dominated farmhouse.'},
+  {l:'Soil organic matter',b:'0.6%',a:'2.8%',d:'Bengaluru red laterite typically has 0.4–0.8% organic matter. Annual vermicompost + farmyard manure, native plant leaf litter, root turnover, and bird droppings raise organic matter to 2.5–3.0% within 3–4 years. Fundamentally improves soil structure, water retention, and microbial activity.'},
+  {l:'Maintenance cost trend',b:'100%',a:'−52% (yr 5)',d:'Year 1 is highest cost (soil prep, planting, irrigation setup). Year 2–3 reduces as plants establish and need less irrigation. Year 4–5 native plants become self-sustaining — leaf litter provides mulch, rain-fed growth reduces irrigation, ecological system self-regulates pest pressure.'}
+];
+
+/* RENDER */
+function renderSp(){
+  const g=document.getElementById('spgrid');
+  if(!g)return;
+  g.innerHTML=SP.map(s=>`<div class="spc" id="sc-${s.id}" onclick="togSp('${s.id}')"><span class="sico">${s.i}</span><div class="snm">${s.n}</div><div class="ssci">${s.sc}</div><span class="pill ${s.sc2}">${s.st}</span></div>`).join('');
+  document.getElementById('spwrap').innerHTML=SP.map(s=>`
+    <div class="dtl" id="sd-${s.id}">
+      <button class="cbx" onclick="togSp('${s.id}')">Close ✕</button>
+      <div class="dth">
+        <div class="dtico" style="background:${s.bg}">${s.i}</div>
+        <div><div class="dtnm">${s.n}</div><div class="dtsci">${s.sc}</div><div class="dtdesc">${s.de}</div></div>
+      </div>
+      <div class="ag">
+        <div class="at"><div class="al">Length</div><div class="av">${s.len}</div></div>
+        <div class="at"><div class="al">Habitat layer</div><div class="av">${s.ly}</div></div>
+        <div class="at"><div class="al">Nesting</div><div class="av">${s.ne}</div></div>
+        <div class="at"><div class="al">Breeding season</div><div class="av">${s.br}</div></div>
+        <div class="at"><div class="al">Feeding style</div><div class="av">${s.fe}</div></div>
+        <div class="at"><div class="al">Frequency</div><div class="av">${s.fr}</div></div>
+      </div>
+      <div class="slb">Key nectar plants</div>
+      <div class="chips">${s.pl.map(p=>`<span class="pill pp" style="cursor:pointer" onclick="xToPlant('${p}')">${p}</span>`).join('')}</div>
+      <div class="slb">Design tips for your farmhouse</div>
+      ${s.ti.map(t=>`<div class="trow"><div class="tdot"></div>${t}</div>`).join('')}
+    </div>`).join('');
+}
+
+function renderPl(cid){
+  const el=document.getElementById(cid);
+  if(!el)return;
+  const pk=p=>p==='keystone'?'<span class="pill pk">Keystone</span>':'<span class="pill pg">High</span>';
+  el.innerHTML=PL.map(p=>`
+    <div class="plr" id="pr-${p.id}" onclick="togPl('${p.id}')">
+      <div><div class="pln">${p.n}</div><div class="plsc">${p.s}</div></div>
+      <div><span class="pill ${p.lc}">${p.ly}</span></div>
+      <div><span class="pill ${p.bc}">${p.bl}</span></div>
+      <div>${pk(p.pr)}</div>
+    </div>
+    <div class="pld" id="pd-${p.id}">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:14px;font-weight:700">${p.n} <span style="font-size:11px;font-style:italic;font-weight:400;color:var(--txm)">${p.s}</span></div>
+        <button class="cbx" onclick="togPl('${p.id}')">Close ✕</button>
+      </div>
+      <div class="pdg">
+        <div class="pda"><div class="pdal">Water demand</div><div class="pdav">${p.w}</div></div>
+        <div class="pda"><div class="pdal">Soil pH</div><div class="pdav">${p.ph}</div></div>
+        <div class="pda"><div class="pdal">Spacing</div><div class="pdav">${p.sp}</div></div>
+        <div class="pda"><div class="pdal">Sunlight</div><div class="pdav">${p.su}</div></div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--txm);margin:8px 0 5px">Birds attracted</div>
+      <div class="chips" style="margin-bottom:10px">${p.bi.map(b=>`<span class="pill pb">${b}</span>`).join('')}</div>
+      <div class="pdn">${p.no}</div>
+    </div>`).join('');
+}
+
+function renderMCal(){
+  const el=document.getElementById('mcal');
+  if(!el)return;
+  el.innerHTML=MAINT.map((m,i)=>`
+    <div class="calm" id="cm-${i}" onclick="togMonth(${i})">
+      <div class="cmn">${m.m}</div>
+      ${m.t.slice(0,2).map(t=>`<div class="ctsk" style="border-color:${t.c}">${t.t}</div>`).join('')}
+    </div>`).join('');
+}
+
+function renderNCal(){
+  const el=document.getElementById('ncal');
+  if(!el)return;
+  el.innerHTML=NCAL.map((m,i)=>`
+    <div class="calm" id="nc-${i}" onclick="togNM(${i})">
+      <div class="cmn">${m.m}</div>
+      <div class="cmbar" style="width:${m.p}%"></div>
+      <div class="cmb">${m.b}</div>
+    </div>`).join('');
+}
+
+function renderImp(){
+  const el=document.getElementById('improws');
+  if(!el)return;
+  el.innerHTML=IMPD.map((r,i)=>`
+    <div class="impr" onclick="togImp(${i})">
+      <div class="impl">${r.l}</div>
+      <div class="impb">${r.b}</div>
+      <div class="impa2">→</div>
+      <div class="impa">${r.a}</div>
+      <span style="font-size:11px;color:var(--txh);margin-left:6px" id="ia-${i}">›</span>
+    </div>
+    <div class="impd" id="id-${i}">${r.d}</div>`).join('');
+}
+
+/* TOGGLES */
+function togSp(id){
+  const d=document.getElementById('sd-'+id),c=document.getElementById('sc-'+id),was=d.classList.contains('on');
+  document.querySelectorAll('.dtl[id^="sd-"]').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.spc').forEach(x=>x.classList.remove('on'));
+  if(!was){d.classList.add('on');c.classList.add('on');setTimeout(()=>d.scrollIntoView({behavior:'smooth',block:'nearest'}),50);}
+}
+
+function togPl(id){
+  const d=document.getElementById('pd-'+id),r=document.getElementById('pr-'+id),was=d.classList.contains('on');
+  document.querySelectorAll('.pld').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.plr').forEach(x=>x.classList.remove('on'));
+  if(!was){d.classList.add('on');r.classList.add('on');setTimeout(()=>d.scrollIntoView({behavior:'smooth',block:'nearest'}),50);}
+}
+
+function togGuild(id){
+  const d=document.getElementById('gd-'+id),a=document.getElementById('ga-'+id),was=d.classList.contains('on');
+  document.querySelectorAll('[id^="gd-"]').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('[id^="ga-"]').forEach(x=>x.textContent='›');
+  if(!was){d.classList.add('on');if(a)a.textContent='⌄';setTimeout(()=>d.scrollIntoView({behavior:'smooth',block:'nearest'}),50);}
+}
+
+function togMonth(i){
+  const w=document.getElementById('mdtl'),b=document.getElementById('cm-'+i),was=b.classList.contains('on');
+  document.querySelectorAll('#mcal .calm').forEach(x=>x.classList.remove('on'));
+  w.innerHTML='';
+  if(!was){
+    b.classList.add('on');
+    const m=MAINT[i];
+    w.innerHTML=`<div class="dtl on"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-size:14px;font-weight:700">${m.m} — full task checklist</div><button class="cbx" onclick="document.getElementById('mdtl').innerHTML='';document.getElementById('cm-${i}').classList.remove('on')">Close ✕</button></div>${m.t.map(t=>`<div class="trow"><div class="tdot" style="background:${t.c}"></div><div>${t.t}</div></div>`).join('')}</div>`;
+    setTimeout(()=>w.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  }
+}
+
+function togNM(i){
+  const w=document.getElementById('ncal-dtl'),b=document.getElementById('nc-'+i),was=b.classList.contains('on');
+  document.querySelectorAll('#ncal .calm').forEach(x=>x.classList.remove('on'));
+  w.innerHTML='';
+  if(!was){
+    b.classList.add('on');
+    const mnames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const m=NCAL[i];
+    w.innerHTML=`<div class="dtl on"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:13px;font-weight:700">${mnames[i]} — nectarivore guide</div><button class="cbx" onclick="document.getElementById('ncal-dtl').innerHTML='';document.getElementById('nc-${i}').classList.remove('on')">Close ✕</button></div><div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="flex:1;height:8px;background:#eee;border-radius:4px;overflow:hidden"><div style="height:8px;border-radius:4px;background:var(--pu);width:${m.p}%"></div></div><span style="font-size:11px;font-weight:700;color:var(--pu)">${m.p}% activity</span></div><div style="font-size:12px;font-weight:700;margin-bottom:5px">${m.b}</div><div style="font-size:12px;color:var(--txm);line-height:1.65">${m.no}</div></div>`;
+    setTimeout(()=>w.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  }
+}
+
+function togImp(i){
+  const d=document.getElementById('id-'+i),a=document.getElementById('ia-'+i),was=d.classList.contains('on');
+  document.querySelectorAll('.impd').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('[id^="ia-"]').forEach(x=>x.textContent='›');
+  if(!was){d.classList.add('on');if(a)a.textContent='⌄';setTimeout(()=>d.scrollIntoView({behavior:'smooth',block:'nearest'}),50);}
+}
+
+function togZone(el){
+  const was=el.classList.contains('on');
+  document.querySelectorAll('.zc').forEach(z=>z.classList.remove('on'));
+  if(!was)el.classList.add('on');
+}
+
+function xToPlant(name){
+  const p=PL.find(x=>x.n.toLowerCase().includes(name.toLowerCase()));
+  if(p){showPanel('plants');setTimeout(()=>togPl(p.id),250);}
+  else toast('See full plant list in the Plants tab →');
+}
+
+/* NAV */
+function showPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
+  const p=document.getElementById('p-'+id);
+  if(p)p.classList.add('on');
+  const t=document.querySelector('[data-p="'+id+'"]');
+  if(t)t.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showSub(sec,subId,el){
+  const section=document.getElementById('p-'+sec);
+  section.querySelectorAll('.subp').forEach(p=>p.classList.remove('on'));
+  section.querySelectorAll('.stab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(subId).classList.add('on');
+  el.classList.add('on');
+}
+
+function selCtx(el){
+  document.querySelectorAll('.cbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  toast(el.textContent.trim()+' context selected');
+}
+
+function runScan(){
+  const btn=document.getElementById('scanbtn');
+  btn.classList.add('loading');
+  btn.textContent='Scanning biodiversity data…';
+  setTimeout(()=>{
+    btn.classList.remove('loading');
+    btn.textContent='Run biodiversity scan →';
+    toast('Scan complete — 68 species found near Bengaluru ✓');
+    showPanel('birds');
+  },1800);
+}
+
+/* TOAST */
+function toast(msg){
+  const w=document.getElementById('twrap');
+  const t=document.createElement('div');
+  t.className='toast';t.textContent=msg;
+  w.appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add('on')));
+  setTimeout(()=>{t.classList.remove('on');setTimeout(()=>t.remove(),300);},3200);
+}
+
+/* INIT */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderSp();
+  renderPl('npl');
+  renderPl('mpl');
+  renderMCal();
+  renderNCal();
+  renderImp();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+{
+  "nectarivores": [
+    {
+      "id": "sb1",
+      "name": "Purple sunbird",
+      "sci": "Cinnyris asiaticus",
+      "family": "Nectariniidae",
+      "length": "10 cm",
+      "layer": "Shrub – mid canopy",
+      "nesting": "Hanging pouch",
+      "breeding": "Feb – May",
+      "feeding": "Perch + hover",
+      "frequency": "Very high",
+      "status": "Year-round",
+      "statusType": "resident",
+      "desc": "Most commonly seen sunbird in Bengaluru parks and gardens. Males display spectacular iridescent purple-black plumage in breeding season. Strongly territorial — one pair will defend a flowering garden aggressively.",
+      "plants": ["Hibiscus", "Callistemon", "Jacaranda", "Erythrina", "Russelia"],
+      "tips": [
+        "Plant tubular Hibiscus as a hedge along a fence — one pair will nest within it by Year 2",
+        "Include a Jacaranda — Purple sunbirds show a documented preference for Jacaranda blossoms in Bengaluru specifically",
+        "Avoid pesticides on flowering shrubs — sunbirds also glean small insects from flower structures for protein"
+      ]
+    },
+    {
+      "id": "sb2",
+      "name": "Purple-rumped sunbird",
+      "sci": "Leptocoma zeylonica",
+      "family": "Nectariniidae",
+      "length": "9 cm",
+      "layer": "Shrub layer",
+      "nesting": "Hanging pouch, shrubs",
+      "breeding": "Feb – Apr",
+      "feeding": "Perch-feed",
+      "frequency": "Extremely high",
+      "status": "Year-round",
+      "statusType": "resident",
+      "desc": "Most urban-tolerant sunbird — completely comfortable around human habitation. Males have iridescent blue-green crown, maroon back and distinctive violet rump patch. One of the smallest birds in South India.",
+      "plants": ["Ixora", "Russelia", "Hibiscus", "Singapore Cherry", "Hamelia patens"],
+      "tips": [
+        "This species will nest in garden shrubs within 0.5 m of human activity",
+        "Muntingia calabura (Singapore Cherry) is the single most reliable attractant documented in Bengaluru gardens",
+        "Place Ixora clusters at 1–2 m height — they prefer perch-feeding over hovering"
+      ]
+    },
+    {
+      "id": "sb3",
+      "name": "Loten's sunbird",
+      "sci": "Cinnyris lotenius",
+      "family": "Nectariniidae",
+      "length": "13 cm (incl. bill)",
+      "layer": "Shrub – canopy",
+      "nesting": "Hanging pouch, trees",
+      "breeding": "Mar – May",
+      "feeding": "Deep hover-feed",
+      "frequency": "Moderate–high",
+      "status": "Resident",
+      "statusType": "resident",
+      "desc": "Distinguished by its noticeably longer, more decurved bill — an adaptation for deep tubular flowers. The long bill gives it access to nectar sources other sunbirds cannot reach.",
+      "plants": ["Bauhinia", "Callistemon", "Erythrina", "Spathodea", "Coral tree"],
+      "tips": [
+        "Specifically plant deep-tubular flowers — its long bill is an advantage here and reduces competition with other sunbirds",
+        "Indian Coral Tree (Erythrina indica) is particularly documented as a magnet for Loten's sunbird in South India"
+      ]
+    },
+    {
+      "id": "sb4",
+      "name": "Crimson-backed sunbird",
+      "sci": "Leptocoma minima",
+      "family": "Nectariniidae",
+      "length": "8 cm",
+      "layer": "Shrub layer",
+      "nesting": "Pouch nest in shrubs",
+      "breeding": "Monsoon",
+      "feeding": "Perch-feed",
+      "frequency": "Rare – seasonal",
+      "status": "Monsoon visitor",
+      "statusType": "seasonal",
+      "desc": "Endemic to the Western Ghats — the smallest sunbird in India. Appears at Nandi Hills and farm landscapes near the Ghats edge during monsoon. A strong ecological indicator of Western Ghats habitat connectivity.",
+      "plants": ["Hibiscus", "Ixora", "Russelia"],
+      "tips": [
+        "Presence of this species indicates Western Ghats ecological connectivity — a premium biodiversity indicator",
+        "Document any sighting immediately — this goes into your Biodiversity Impact Report as a headline indicator"
+      ]
+    },
+    {
+      "id": "sb5",
+      "name": "Golden-fronted leafbird",
+      "sci": "Chloropsis aurifrons",
+      "family": "Chloropseidae",
+      "length": "19 cm",
+      "layer": "Mid – upper canopy",
+      "nesting": "Cup nest, tree fork",
+      "breeding": "Mar – Jun",
+      "feeding": "Canopy gleaning",
+      "frequency": "Moderate",
+      "status": "Resident",
+      "statusType": "resident",
+      "desc": "Stunning emerald-green bird with a golden forehead and blue throat patch. Often misidentified as a parrot. Feeds on nectar, fruits and insects — a true ecological generalist. Found in wooded gardens with mature canopy trees.",
+      "plants": ["Ficus", "Erythrina", "Bombax ceiba", "Native flowering trees"],
+      "tips": [
+        "Requires mature canopy trees — will not colonise young gardens",
+        "Its rich call is a strong landscape health indicator — if you hear it, your habitat layering is working"
+      ]
+    },
+    {
+      "id": "sb6",
+      "name": "Jerdon's leafbird",
+      "sci": "Chloropsis jerdoni",
+      "family": "Chloropseidae",
+      "length": "17 cm",
+      "layer": "Mid canopy",
+      "nesting": "Cup nest",
+      "breeding": "Apr – Jul",
+      "feeding": "Canopy gleaning",
+      "frequency": "Moderate",
+      "status": "Resident",
+      "statusType": "resident",
+      "desc": "Similar to the Golden-fronted leafbird but slightly smaller. Found in wooded gardens and forest-edge habitats. Both leafbird species together indicate a structurally complex, mature landscape.",
+      "plants": ["Ficus", "Erythrina", "Bombax ceiba"],
+      "tips": [
+        "Both leafbirds together confirm multi-layer habitat complexity",
+        "Dense canopy cover is the primary habitat requirement — plan for at minimum 35% canopy cover"
+      ]
+    },
+    {
+      "id": "sb7",
+      "name": "Pale-billed flowerpecker",
+      "sci": "Dicaeum erythrorynchos",
+      "family": "Nectariniidae",
+      "length": "8 cm",
+      "layer": "Canopy – shrub",
+      "nesting": "Tiny purse nest",
+      "breeding": "Year-round",
+      "feeding": "Berries + nectar",
+      "frequency": "Very high",
+      "status": "Year-round",
+      "statusType": "resident",
+      "desc": "One of the smallest birds in South India. An important seed disperser for mistletoe plants which then grow on canopy trees. Year-round resident throughout Bengaluru.",
+      "plants": ["Muntingia calabura", "Ficus spp.", "Mistletoe host trees"],
+      "tips": [
+        "Singapore Cherry (Muntingia calabura) is the single most reliable tree for attracting flowerpeckers in Bengaluru",
+        "Plant at least 2–3 Singapore Cherry trees — fast growing, flowers and fruits year-round"
+      ]
+    },
+    {
+      "id": "sb8",
+      "name": "Thick-billed flowerpecker",
+      "sci": "Dicaeum agile",
+      "family": "Nectariniidae",
+      "length": "9 cm",
+      "layer": "Canopy",
+      "nesting": "Purse nest",
+      "breeding": "Variable",
+      "feeding": "Berries + mistletoe",
+      "frequency": "Rare",
+      "status": "Rare / seasonal",
+      "statusType": "rare",
+      "desc": "Rare in Bengaluru — recorded occasionally at sites with dense fruiting canopy. A bonus species — if recorded, confirms exceptional fruit tree diversity. Appearance timeline is typically Year 5–7 after planting.",
+      "plants": ["Ficus spp.", "Mistletoe host trees"],
+      "tips": [
+        "Plant Ficus species at Year 1 — this species will arrive when the fig trees mature in Year 5–7",
+        "Its presence confirms exceptional ecological maturation of your landscape"
+      ]
+    },
+    {
+      "id": "sb9",
+      "name": "Tickell's flowerpecker",
+      "sci": "Dicaeum erythrorhynchos",
+      "family": "Nectariniidae",
+      "length": "8 cm",
+      "layer": "Canopy – shrub",
+      "nesting": "Purse nest, branch tips",
+      "breeding": "Year-round",
+      "feeding": "Berries + nectar",
+      "frequency": "High",
+      "status": "Resident",
+      "statusType": "resident",
+      "desc": "Resident breeder across Bengaluru. Extremely active and fast-moving. Commonly observed at Singapore Cherry trees and fruiting garden shrubs. Nests in tiny purse-shaped structures hanging from branch tips.",
+      "plants": ["Muntingia calabura", "Ficus spp.", "Ixora"],
+      "tips": [
+        "Almost identical behaviour to Pale-billed flowerpecker — both will colonise the same garden",
+        "Very fast-moving — easier to detect by call (sharp, rapid chip-chip) than by sight"
+      ]
+    }
+  ],
+  "frugivores": [],
+  "insectivores": [],
+  "raptors": [],
+  "waterbirds": []
+}
