@@ -1204,7 +1204,7 @@ function generatePDF(){
     doc.setFontSize(10);doc.setFont('helvetica','bold');
     doc.text('Greenscape Designz',W-M,14,{align:'right'});
     doc.setFontSize(8);doc.setFont('helvetica','normal');
-    doc.text('greenscapedesignz.com',W-M,21,{align:'right'});
+    doc.text('greenscapedesignz.in',W-M,21,{align:'right'});
     doc.setFontSize(7.5);
     doc.text('Anirban Pal, Landscape Architect',W-M,28,{align:'right'});
     // Page number
@@ -1403,7 +1403,7 @@ function generatePDF(){
   setG();doc.setFontSize(11);doc.setFont('helvetica','bold');
   doc.text('Get in touch',M+6,cy+10);
   doc.setFontSize(9);doc.setFont('helvetica','normal');
-  doc.text('greenscapedesignz.com',M+6,cy+18);
+  doc.text('greenscapedesignz.in',M+6,cy+18);
   const contact=document.getElementById('p-contact').value;
   if(contact)doc.text(contact.replace('|','·'),M+6,cy+25);
   setTxm();doc.setFontSize(8);
