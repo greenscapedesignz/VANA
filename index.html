@@ -1420,8 +1420,8 @@ function generatePDF(){
    GOOGLE SHEETS SUBMISSION
 ═══════════════════════════════════════ */
 function submitToSheets(data){
-  if(SHEETS_URL==='https://script.google.com/macros/s/AKfycbzjyGv9IWGFREJlnlW7tcdMOes10-bIGBU3f5i6ao74o6h4pyPewiwYyljcJFIly6ZN/exec'){
-    console.log('VANA: Google Sheets URL not configured. See SHEETS_SETUP.md');
+  if(!SHEETS_URL||SHEETS_URL.trim()===''){
+    console.log('VANA: Google Sheets URL not configured.');
     return;
   }
   // Use GET + URL params — avoids CORS preflight that breaks Apps Script POST+JSON
