@@ -232,7 +232,7 @@ Commercial use, resale, or derivative products require written permission.
 
 ## 🤝 Collaboration
 
-This is a studio-internal tool in active development. Landscape architects interested in contributing species data for other Indian regions (Mumbai, Chennai, Hyderabad, Delhi) — contact via [greenscapedesignz.com](https://greenscapedesignz.com).
+This is a studio-internal tool in active development. Landscape architects interested in contributing species data for other Indian regions (Mumbai, Chennai, Hyderabad, Delhi) — contact via [greenscapedesignz.in](https://greenscapedesignz.in).
 
 ---
 
