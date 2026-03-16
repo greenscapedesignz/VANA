@@ -266,28 +266,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 /* ── Footer ── */
 .foot{text-align:center;font-size:11px;color:var(--txh);padding:20px 0 6px;border-top:1px solid var(--bd);margin-top:16px}
 
-/* ── Weather card ── */
-.wx-wrap{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:14px 16px;margin-bottom:0}
-.wx-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.wx-city{font-size:13px;font-weight:700}
-.wx-date{font-size:10px;color:var(--txm)}
-.wx-main{display:flex;align-items:center;gap:14px;margin-bottom:10px}
-.wx-icon{font-size:36px;line-height:1}
-.wx-temp{font-size:32px;font-weight:700;color:var(--g)}
-.wx-feel{font-size:11px;color:var(--txm);margin-top:2px}
-.wx-desc{font-size:12px;font-weight:600;color:var(--tx)}
-.wx-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
-.wx-stat{background:var(--bg);border-radius:var(--rs);padding:7px 9px;text-align:center}
-.wx-stat-l{font-size:9px;color:var(--txm);margin-bottom:2px;text-transform:uppercase;letter-spacing:.05em}
-.wx-stat-v{font-size:12px;font-weight:700}
-.wx-forecast{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-.wx-day{background:var(--bg);border-radius:var(--rs);padding:6px 4px;text-align:center}
-.wx-day-n{font-size:9px;color:var(--txm);margin-bottom:3px}
-.wx-day-i{font-size:14px;margin-bottom:2px}
-.wx-day-h{font-size:11px;font-weight:700;color:var(--tx)}
-.wx-day-l{font-size:10px;color:var(--txm)}
-.wx-alert{border-left:3px solid var(--tr);background:var(--trlt);border-radius:0 var(--rs) var(--rs) 0;padding:8px 12px;font-size:12px;color:#7a3010;margin-top:8px;line-height:1.5}
-.wx-advice{border-left:3px solid var(--g);background:var(--glt);border-radius:0 var(--rs) var(--rs) 0;padding:8px 12px;font-size:12px;color:#1e3f2b;margin-top:8px;line-height:1.5}
 /* ── Responsive ── */
 @media(max-width:600px){
   .mets{grid-template-columns:repeat(2,1fr)}
@@ -395,9 +373,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <input type="range" id="sz" min="0.25" max="50" value="2" step="0.25" oninput="document.getElementById('szd').textContent=parseFloat(this.value).toFixed(2)+' acres'">
     <span class="sval" id="szd">2.00 acres</span>
   </div>
-
-  <!-- Live weather widget — populated by fetchWeather() -->
-  <div id="weather-card" style="display:none;margin-bottom:11px"></div>
 
   <button class="sbtn" id="scanbtn" onclick="runScan()">Run biodiversity scan →</button>
 
@@ -602,8 +577,33 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 <!-- ═══════ SOIL & WATER ═══════ -->
 <section class="panel" id="p-soil">
-  <div id="soil-dynamic-content">
-    <div style="text-align:center;padding:30px;color:var(--txm);font-size:13px">Loading soil data…</div>
+  <div class="slbl">Soil profile — Bengaluru region (red laterite)</div>
+  <div class="soilg">
+    <div class="soilc" onclick="toast('pH 5.8–6.5 → add 8 kg dolomite lime per 100 sqm to reach target 6.5–7.0')"><div class="soilp">pH</div><div class="soilv">5.8 – 6.5</div><div class="soiln">↑ Add dolomite lime to 6.5–7.0</div></div>
+    <div class="soilc" onclick="toast('Organic matter only 0.4–0.8% → target 2.5–3.0% with compost over 3 years')"><div class="soilp">Organic matter</div><div class="soilv">0.4 – 0.8%</div><div class="soiln">↑ Target 2.5–3.0% with compost</div></div>
+    <div class="soilc" onclick="toast('Sandy laterite drains rapidly → coco peat improves water retention significantly')"><div class="soilp">Texture</div><div class="soilv">Sandy laterite</div><div class="soiln">Add coco peat for retention</div></div>
+    <div class="soilc" onclick="toast('Rapid drainage → mandatory 8–10 cm mulch layer reduces moisture loss 40%')"><div class="soilp">Drainage</div><div class="soilv">Rapid</div><div class="soiln">8–10 cm mulch mandatory</div></div>
+  </div>
+  <div class="card">
+    <div class="cttl">Soil amendments — per 100 sqm</div>
+    <div style="margin-top:11px">
+      <div class="brow" onclick="toast('Farmyard manure: fully composted only. Apply 4 weeks before planting. Never fresh.')"><span class="blbl">Farmyard manure</span><div class="btrk"><div class="bfil" style="width:80%;background:var(--bk)"></div></div><span class="bval">200 kg</span></div>
+      <div class="brow" onclick="toast('Vermicompost: best as top-dressing around root zones after planting')"><span class="blbl">Vermicompost</span><div class="btrk"><div class="bfil" style="width:50%;background:var(--bk)"></div></div><span class="bval">50 kg</span></div>
+      <div class="brow" onclick="toast('Dolomite lime: broadcast evenly, water in. Wait 2 weeks before planting.')"><span class="blbl">Dolomite lime</span><div class="btrk"><div class="bfil" style="width:20%;background:var(--bk)"></div></div><span class="bval">8 kg</span></div>
+      <div class="brow" onclick="toast('Neem cake: natural pest deterrent + nitrogen source. Mix into top 15 cm.')"><span class="blbl">Neem cake</span><div class="btrk"><div class="bfil" style="width:15%;background:var(--bk)"></div></div><span class="bval">5 kg</span></div>
+      <div class="brow" onclick="toast('Coco peat: mix 30% into top 30 cm for all planting pits')"><span class="blbl">Coco peat</span><div class="btrk"><div class="bfil" style="width:25%;background:var(--bk)"></div></div><span class="bval">20 kg</span></div>
+    </div>
+    <div class="wnote">Apply amendments 4–6 weeks before planting. Do not apply fresh manure directly to root zones.</div>
+  </div>
+  <div class="card">
+    <div class="cttl">Irrigation demand — seasonal (2-acre farmhouse)</div>
+    <div style="margin-top:11px">
+      <div class="brow" onclick="toast('Summer peak: drip at 6 am + 6 pm. Prioritise canopy trees and nectar shrubs over lawn.')"><span class="blbl">Summer (peak)</span><div class="btrk"><div class="bfil" style="width:90%;background:var(--bl)"></div></div><span class="bval">3,200 L/day</span></div>
+      <div class="brow" onclick="toast('Post-monsoon: reduce to once daily at 6 am. Monitor soil moisture before irrigating.')"><span class="blbl">Post-monsoon</span><div class="btrk"><div class="bfil" style="width:55%;background:var(--bl)"></div></div><span class="bval">1,800 L/day</span></div>
+      <div class="brow" onclick="toast('Winter: once every 2–3 days for established plants. New trees still need daily water.')"><span class="blbl">Winter</span><div class="btrk"><div class="bfil" style="width:38%;background:var(--bl)"></div></div><span class="bval">1,200 L/day</span></div>
+      <div class="brow" onclick="toast('Monsoon: irrigation usually suspended. Monitor for waterlogging in laterite.')"><span class="blbl">Monsoon</span><div class="btrk"><div class="bfil" style="width:12%;background:var(--bl)"></div></div><span class="bval">400 L/day</span></div>
+    </div>
+    <div class="inote">Drip irrigation saves 40% vs spray. Native plants reduce demand 35–40% from Year 3.</div>
   </div>
 </section>
 
@@ -1085,9 +1085,6 @@ function updateLocation(){
   document.getElementById('inp-lng').value='';
 
   toast(`Location updated to ${displayCity} ✓`);
-  // Refresh live data for new location
-  fetchWeather(LOC.lat, LOC.lng);
-  renderSoil(LOC.state);
 }
 
 // Close city dropdown on outside click
@@ -1546,360 +1543,6 @@ function toast(msg,type){
   setTimeout(()=>{t.classList.remove('on');setTimeout(()=>t.remove(),300);},3200);
 }
 
-
-/* ═══════════════════════════════════════
-   SOIL DATABASE — keyed by soil type
-   Sources: ICAR, Wikipedia India Soils,
-   PMF IAS, ClearIAS references
-═══════════════════════════════════════ */
-const SOIL_DB = {
-  laterite: {
-    name:'Red laterite', region:'South India — Western & Eastern Ghats',
-    ph:'5.5–6.5', om:'0.4–0.8%', texture:'Sandy laterite', drainage:'Rapid',
-    color:'#c4663a',
-    phNote:'Low pH — add dolomite lime to reach 6.5–7.0',
-    omNote:'Low OM — target 2.5–3% with compost over 3 years',
-    textureNote:'High iron oxide — add coco peat to improve retention',
-    drainageNote:'Rapid — mandatory 8–10 cm mulch layer',
-    amendments:[
-      {n:'Farmyard manure',v:'200 kg',pct:80,tip:'Fully composted only. Apply 4 weeks before planting.'},
-      {n:'Vermicompost',v:'50 kg',pct:50,tip:'Best as top-dressing around root zones after planting.'},
-      {n:'Dolomite lime',v:'8 kg',pct:20,tip:'Broadcast evenly, water in. Wait 2 weeks before planting.'},
-      {n:'Neem cake',v:'5 kg',pct:15,tip:'Natural pest deterrent + nitrogen source. Mix into top 15 cm.'},
-      {n:'Coco peat',v:'20 kg',pct:25,tip:'Mix 30% into top 30 cm for all planting pits.'},
-    ],
-    irrigation:{summer:3200,postmonsoon:1800,winter:1200,monsoon:400},
-    note:'Laterite soils are rich in iron and aluminium but poor in nitrogen, phosphate and calcium. They respond well to organic amendments and are suitable for tree crops like coffee, cashew, coconut, and biodiversity plantings.',
-    birds:['Purple sunbird','White-cheeked Barbet','Rose-ringed Parakeet','Asian Koel','Red-whiskered Bulbul']
-  },
-  black: {
-    name:'Black cotton (Regur)', region:'Deccan Plateau — Maharashtra, MP, Gujarat, Telangana',
-    ph:'7.5–8.5', om:'0.5–1.5%', texture:'Heavy clay', drainage:'Poor — waterlogging risk',
-    color:'#2c2c2a',
-    phNote:'Alkaline — add sulphur or gypsum to lower pH to 6.5–7.5',
-    omNote:'Moderate OM — improve with compost, avoid overwatering',
-    textureNote:'Heavy clay — self-ploughing, cracks when dry, sticky when wet',
-    drainageNote:'Poor — raised beds + drainage channels essential',
-    amendments:[
-      {n:'Farmyard manure',v:'150 kg',pct:65,tip:'Improves drainage and aeration in clay soils. Critical for black cotton.'},
-      {n:'Gypsum (calcium sulphate)',v:'15 kg',pct:35,tip:'Reduces alkalinity and improves clay structure. Apply before monsoon.'},
-      {n:'Vermicompost',v:'40 kg',pct:40,tip:'Adds microbial activity to dense clay. Top-dress around plants.'},
-      {n:'Neem cake',v:'5 kg',pct:15,tip:'Natural pest deterrent. Mix into top 10 cm.'},
-      {n:'Sand (coarse river sand)',v:'30 kg',pct:30,tip:'Add to planting pits to break heavy clay for tree establishment.'},
-    ],
-    irrigation:{summer:2800,postmonsoon:1200,winter:900,monsoon:0},
-    note:'Black cotton soil has very high water-holding capacity and swells when wet, shrinks and cracks when dry. This "self-ploughing" characteristic makes it excellent for drought-resistant trees but challenging for shallow-rooted species. Raised bed planting recommended.',
-    birds:['Indian Grey Hornbill','Common Kingfisher','Black Drongo','Indian Roller','Pied Bushchat']
-  },
-  red: {
-    name:'Red & yellow soil', region:'South Deccan, Tamil Nadu, Odisha, parts of Karnataka',
-    ph:'6.0–7.0', om:'0.3–0.6%', texture:'Sandy loam to clay loam', drainage:'Moderate to good',
-    color:'#b85c30',
-    phNote:'Slightly acidic — minimal lime needed, monitor pH annually',
-    omNote:'Low OM — intensive compost addition required',
-    textureNote:'Sandy loam — moderate retention, responds well to organic matter',
-    drainageNote:'Moderate — mulching retains moisture effectively',
-    amendments:[
-      {n:'Farmyard manure',v:'180 kg',pct:75,tip:'Primary amendment for low-fertility red soils. Fully compost before use.'},
-      {n:'Vermicompost',v:'50 kg',pct:50,tip:'Rapidly improves soil biology. Apply quarterly.'},
-      {n:'Bone meal',v:'4 kg',pct:12,tip:'Addresses phosphorus deficiency — characteristic of red soils.'},
-      {n:'Neem cake',v:'5 kg',pct:15,tip:'Adds nitrogen and suppresses soil-borne pests.'},
-      {n:'Coco peat',v:'15 kg',pct:20,tip:'Improves water retention in sandy-loam areas.'},
-    ],
-    irrigation:{summer:2800,postmonsoon:1600,winter:1000,monsoon:300},
-    note:'Red soils are formed from crystalline igneous rocks and are deficient in nitrogen, phosphorus, and humus. The fine-grained varieties are more fertile. High iron content gives the characteristic red colour. Responds well to fertilisers and irrigation.',
-    birds:['Purple-rumped Sunbird','Common Tailorbird','Indian Robin','Brahminy Kite','White-browed Bulbul']
-  },
-  alluvial: {
-    name:'Alluvial soil', region:'Indo-Gangetic Plains, river deltas, coastal plains',
-    ph:'6.5–8.0', om:'0.8–2.5%', texture:'Sandy loam to silty clay', drainage:'Good to moderate',
-    color:'#8a7a5a',
-    phNote:'Near neutral to slightly alkaline — check annually, minimal amendment',
-    omNote:'Moderate OM — maintain with annual compost applications',
-    textureNote:'Variable — mostly silty loam, high fertility and good water retention',
-    drainageNote:'Good natural drainage in most areas — mulch in summer months',
-    amendments:[
-      {n:'Farmyard manure',v:'120 kg',pct:55,tip:'Maintains organic matter levels in already fertile alluvial soils.'},
-      {n:'Vermicompost',v:'40 kg',pct:40,tip:'Boosts microbial activity. Best applied after monsoon.'},
-      {n:'DAP (diammonium phosphate)',v:'3 kg',pct:10,tip:'Supplements phosphorus where needed in older alluvial profiles.'},
-      {n:'Neem cake',v:'5 kg',pct:15,tip:'Pest management — apply during soil preparation.'},
-    ],
-    irrigation:{summer:2400,postmonsoon:1400,winter:800,monsoon:200},
-    note:'Alluvial soils are the most fertile soils in India, covering 40% of land area. Rich in potash but often low in phosphorus. Water-retention is excellent. Native plantings establish rapidly and with fewer amendments than other soil types.',
-    birds:['Jungle Babbler','Black Kite','Common Myna','Rose-ringed Parakeet','Spotted Owlet']
-  },
-  desert: {
-    name:'Desert / Arid soil', region:'Rajasthan, parts of Gujarat, Punjab, Haryana',
-    ph:'7.5–9.0', om:'0.1–0.4%', texture:'Coarse sandy', drainage:'Very rapid',
-    color:'#c9a86c',
-    phNote:'Alkaline — gypsum + sulphur required to reduce pH for most plantings',
-    omNote:'Very low OM — large quantities of compost + mulch essential',
-    textureNote:'Coarse sandy — very low water retention, extreme mulching required',
-    drainageNote:'Extremely rapid — drip irrigation with daily scheduling mandatory',
-    amendments:[
-      {n:'Farmyard manure',v:'300 kg',pct:90,tip:'Very high quantities needed to build OM in sandy desert soils.'},
-      {n:'Vermicompost',v:'80 kg',pct:70,tip:'Primary OM builder. Apply in large doses — sandy soil has minimal natural OM.'},
-      {n:'Gypsum',v:'20 kg',pct:45,tip:'Reduces alkalinity and adds calcium. Critical for desert soils.'},
-      {n:'Coco peat',v:'50 kg',pct:60,tip:'High quantities needed — the only practical way to improve water retention.'},
-      {n:'Zeolite (optional)',v:'10 kg',pct:15,tip:'Improves water-holding capacity in coarse sandy soils significantly.'},
-    ],
-    irrigation:{summer:5500,postmonsoon:3000,winter:1800,monsoon:800},
-    note:'Arid soils in Rajasthan and Gujarat are characterised by coarse sand, low organic matter, and high alkalinity. Native desert-adapted trees (Khejri, Neem, Babul) require minimal water once established. Drip irrigation is not optional — it is essential.',
-    birds:['Indian Roller','White-throated Kingfisher','Grey Francolin','Tawny Eagle','Cream-coloured Courser']
-  },
-  mountain: {
-    name:'Mountain / Forest soil', region:'Himalayas, Western Ghats hills, Nilgiris, Northeast',
-    ph:'4.5–6.0', om:'2.0–8.0%', texture:'Loamy with gravel', drainage:'Good to excessive',
-    color:'#3a5c3a',
-    phNote:'Acidic — lime addition needed for most landscape species',
-    omNote:'High OM from leaf litter — maintain forest floor coverage',
-    textureNote:'Loamy with rock fragments — good natural drainage and aeration',
-    drainageNote:'Good drainage on slopes — erosion management essential',
-    amendments:[
-      {n:'Dolomite lime',v:'12 kg',pct:30,tip:'Critical for acidic mountain soils — raises pH for most ornamental plants.'},
-      {n:'Vermicompost',v:'60 kg',pct:60,tip:'Supplement the existing OM — targeted around new plantings.'},
-      {n:'Rock phosphate',v:'8 kg',pct:20,tip:'Slow-release phosphorus for leached mountain soils.'},
-      {n:'Farmyard manure',v:'100 kg',pct:50,tip:'Apply as mulch layer — mimics natural forest floor decomposition.'},
-    ],
-    irrigation:{summer:2000,postmonsoon:800,winter:600,monsoon:0},
-    note:'Mountain soils are rich in organic matter from forest cover but are acidic and shallow. They support exceptional biodiversity when native vegetation is maintained. Avoid disturbing the natural leaf litter layer — it is a biodiversity habitat in itself.',
-    birds:['Nilgiri Flycatcher','Black-and-orange Flycatcher','White-cheeked Barbet','Malabar Whistling Thrush','Hill Myna']
-  },
-  coastal: {
-    name:'Coastal / Sandy soil', region:'Coastal Karnataka, Kerala, Goa, Tamil Nadu coast',
-    ph:'6.0–7.5', om:'0.3–1.0%', texture:'Sandy to loamy sand', drainage:'Very rapid',
-    color:'#c8a86a',
-    phNote:'Near neutral — salt spray may elevate pH near shoreline',
-    omNote:'Low OM — intensive composting + mulching required near coast',
-    textureNote:'Sandy — low clay content, salt-tolerant native species preferred',
-    drainageNote:'Very rapid — frequent irrigation needed in summer months',
-    amendments:[
-      {n:'Farmyard manure',v:'250 kg',pct:85,tip:'Large quantities needed to improve OM in sandy coastal soils.'},
-      {n:'Coco peat',v:'40 kg',pct:50,tip:'Excellent coastal amendment — derived from coconut husk, thrives in the environment.'},
-      {n:'Vermicompost',v:'60 kg',pct:60,tip:'Quickly improves biology in low-activity sandy soils.'},
-      {n:'Seaweed extract',v:'5 L (liquid)',pct:15,tip:'Coastal-specific amendment — improves salt tolerance and root development.'},
-    ],
-    irrigation:{summer:4000,postmonsoon:2000,winter:1200,monsoon:400},
-    note:'Coastal soils are sandy, low in nutrients, and exposed to salt spray. Native coastal species (Casuarina, Coconut, Alexandrian Laurel, Sea Holly) are naturally adapted. Windbreaks using native species are essential before planting interior biodiversity layers.',
-    birds:['Greater Flamingo','Black-headed Ibis','Little Egret','Indian Pitta','White-bellied Sea Eagle']
-  }
-};
-
-/* ═══════════════════════════════════════
-   STATE → SOIL TYPE MAPPING
-   Based on ICAR / NCERT / Wikipedia data
-═══════════════════════════════════════ */
-const STATE_SOIL = {
-  'Karnataka':'laterite',
-  'Tamil Nadu':'red',
-  'Kerala':'laterite',
-  'Andhra Pradesh':'red',
-  'Telangana':'black',
-  'Maharashtra':'black',
-  'Goa':'laterite',
-  'Gujarat':'black',
-  'Rajasthan':'desert',
-  'Punjab':'alluvial',
-  'Haryana':'alluvial',
-  'Delhi':'alluvial',
-  'Uttar Pradesh':'alluvial',
-  'Bihar':'alluvial',
-  'West Bengal':'alluvial',
-  'Jharkhand':'red',
-  'Odisha':'red',
-  'Chhattisgarh':'red',
-  'Madhya Pradesh':'black',
-  'Assam':'alluvial',
-  'Manipur':'mountain',
-  'Meghalaya':'mountain',
-  'Arunachal Pradesh':'mountain',
-  'Mizoram':'mountain',
-  'Nagaland':'mountain',
-  'Sikkim':'mountain',
-  'Tripura':'alluvial',
-  'Himachal Pradesh':'mountain',
-  'Uttarakhand':'mountain',
-  'Chandigarh':'alluvial',
-  'Puducherry':'coastal',
-  'Jammu & Kashmir':'mountain',
-};
-
-/* ═══════════════════════════════════════
-   WMO WEATHER CODE → DESCRIPTION + ICON
-═══════════════════════════════════════ */
-function wxDecode(code) {
-  const MAP = {
-    0:['☀️','Clear sky'], 1:['🌤','Mainly clear'], 2:['⛅','Partly cloudy'],
-    3:['☁️','Overcast'], 45:['🌫','Foggy'], 48:['🌫','Icy fog'],
-    51:['🌦','Light drizzle'], 53:['🌦','Drizzle'], 55:['🌧','Heavy drizzle'],
-    61:['🌧','Light rain'], 63:['🌧','Moderate rain'], 65:['⛈','Heavy rain'],
-    71:['🌨','Light snow'], 73:['❄️','Snow'], 75:['❄️','Heavy snow'],
-    80:['🌦','Rain showers'], 81:['🌧','Heavy showers'], 82:['⛈','Violent showers'],
-    85:['🌨','Snow showers'], 86:['❄️','Heavy snow showers'],
-    95:['⛈','Thunderstorm'], 96:['⛈','Thunderstorm + hail'], 99:['⛈','Severe thunderstorm']
-  };
-  return MAP[code] || ['🌡','Unknown'];
-}
-
-/* ═══════════════════════════════════════
-   OPEN-METEO WEATHER FETCH (free, no key)
-═══════════════════════════════════════ */
-async function fetchWeather(lat, lng) {
-  const card = document.getElementById('weather-card');
-  if (!card) return;
-  card.style.display = 'block';
-  card.innerHTML = '<div class="wx-wrap"><div style="font-size:12px;color:var(--txm);padding:8px 0">Fetching live weather…</div></div>';
-  try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,precipitation&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weather_code&timezone=auto&forecast_days=7`;
-    const r = await fetch(url);
-    if (!r.ok) throw new Error('Weather API error');
-    const d = await r.json();
-    renderWeather(d);
-  } catch(e) {
-    card.innerHTML = '<div class="wx-wrap"><div class="wnote" style="margin-top:0">Weather data unavailable — check your internet connection.</div></div>';
-  }
-}
-
-function renderWeather(d) {
-  const card = document.getElementById('weather-card');
-  if (!card) return;
-  const cur = d.current;
-  const daily = d.daily;
-  const [icon, desc] = wxDecode(cur.weather_code);
-  const month = new Date().getMonth(); // 0=Jan
-
-  // Landscape design advice based on current conditions
-  let advice = '';
-  let alert = '';
-  const temp = cur.temperature_2m;
-  const humid = cur.relative_humidity_2m;
-  const rain = cur.precipitation;
-  const wind = cur.wind_speed_10m;
-
-  // Breeding season alert (Feb–May = months 1–4)
-  if (month >= 1 && month <= 4) {
-    alert = '🐦 Breeding season active — avoid pruning, soil disturbance near shrubs, or any loud activity near nesting zones.';
-  }
-  // Monsoon planting window
-  if (month >= 5 && month <= 8 && rain > 0) {
-    advice = '🌱 Monsoon planting window — ideal conditions for new establishment. Plant native shrubs and canopy trees now.';
-  } else if (temp > 35) {
-    advice = '🌡 Heat stress alert — double irrigation frequency. Prioritise canopy trees and nectar shrubs. Apply fresh mulch 8–10 cm.';
-  } else if (temp < 15) {
-    advice = '❄ Cool period — reduce irrigation frequency. Good time for soil amendment application and winter-dormant pruning.';
-  } else if (humid > 85) {
-    advice = '💧 High humidity — watch for fungal issues on Hibiscus and Ixora. Improve air circulation around shrub clusters.';
-  } else if (wind > 30) {
-    advice = '💨 High winds — check all newly planted trees for stake security. Avoid pesticide application today.';
-  } else {
-    advice = '✓ Conditions are favourable for landscape maintenance and planting activities today.';
-  }
-
-  // 7-day forecast
-  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const today = new Date().getDay();
-  const forecastHTML = daily.time.map((t, i) => {
-    const [di] = wxDecode(daily.weather_code[i]);
-    const dayName = i === 0 ? 'Today' : days[(today + i) % 7];
-    return `<div class="wx-day">
-      <div class="wx-day-n">${dayName}</div>
-      <div class="wx-day-i">${di}</div>
-      <div class="wx-day-h">${Math.round(daily.temperature_2m_max[i])}°</div>
-      <div class="wx-day-l">${Math.round(daily.temperature_2m_min[i])}°</div>
-    </div>`;
-  }).join('');
-
-  card.innerHTML = `
-    <div class="wx-wrap">
-      <div class="wx-top">
-        <div>
-          <div class="wx-city">Live weather — ${LOC.city}${LOC.state ? ', '+LOC.state : ''}</div>
-          <div class="wx-date">${new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})} · Open-Meteo</div>
-        </div>
-      </div>
-      <div class="wx-main">
-        <div class="wx-icon">${icon}</div>
-        <div>
-          <div class="wx-temp">${Math.round(temp)}°C</div>
-          <div class="wx-feel">Feels like ${Math.round(cur.apparent_temperature)}°C</div>
-          <div class="wx-desc">${desc}</div>
-        </div>
-      </div>
-      <div class="wx-stats">
-        <div class="wx-stat"><div class="wx-stat-l">Humidity</div><div class="wx-stat-v">${Math.round(humid)}%</div></div>
-        <div class="wx-stat"><div class="wx-stat-l">Wind</div><div class="wx-stat-v">${Math.round(wind)} km/h</div></div>
-        <div class="wx-stat"><div class="wx-stat-l">Rainfall</div><div class="wx-stat-v">${rain.toFixed(1)} mm</div></div>
-      </div>
-      <div class="wx-forecast">${forecastHTML}</div>
-      ${alert ? `<div class="wx-alert">${alert}</div>` : ''}
-      ${advice ? `<div class="wx-advice">${advice}</div>` : ''}
-    </div>`;
-}
-
-/* ═══════════════════════════════════════
-   DYNAMIC SOIL RENDERER
-═══════════════════════════════════════ */
-function renderSoil(state) {
-  const soilKey = STATE_SOIL[state] || 'laterite';
-  const s = SOIL_DB[soilKey];
-  const el = document.getElementById('soil-dynamic-content');
-  if (!el) return;
-
-  const amRows = s.amendments.map(a => `
-    <div class="brow" onclick="toast('${a.tip}')">
-      <span class="blbl">${a.n}</span>
-      <div class="btrk"><div class="bfil" style="width:${a.pct}%;background:var(--bk)"></div></div>
-      <span class="bval">${a.v}</span>
-    </div>`).join('');
-
-  // Irrigation multiplier text based on soil drainage
-  const irr = s.irrigation;
-  const soilSource = state ? `${state}` : 'your region';
-
-  el.innerHTML = `
-    <div class="slbl" style="display:flex;align-items:center;gap:8px">
-      <span style="width:10px;height:10px;background:${s.color};border-radius:50%;display:inline-block"></span>
-      Soil profile — ${soilSource} (${s.name})
-    </div>
-    <div class="soilg">
-      <div class="soilc" onclick="toast('${s.phNote}')"><div class="soilp">pH</div><div class="soilv">${s.ph}</div><div class="soiln">${s.phNote.split('—')[1]?.trim()||s.phNote}</div></div>
-      <div class="soilc" onclick="toast('${s.omNote}')"><div class="soilp">Organic matter</div><div class="soilv">${s.om}</div><div class="soiln">${s.omNote.split('—')[1]?.trim()||s.omNote}</div></div>
-      <div class="soilc" onclick="toast('${s.textureNote}')"><div class="soilp">Texture</div><div class="soilv">${s.texture}</div><div class="soiln">${s.textureNote.split('—')[1]?.trim()||s.textureNote}</div></div>
-      <div class="soilc" onclick="toast('${s.drainageNote}')"><div class="soilp">Drainage</div><div class="soilv">${s.drainage}</div><div class="soiln">${s.drainageNote.split('—')[1]?.trim()||s.drainageNote}</div></div>
-    </div>
-    <div class="card">
-      <div class="cttl">Soil amendments — per 100 sqm</div>
-      <div class="csub" style="margin-bottom:10px">Calibrated for ${s.name} in ${soilSource}. Tap any row for application guidance.</div>
-      <div style="margin-top:11px">${amRows}</div>
-      <div class="wnote">Apply amendments 4–6 weeks before planting. Do not apply fresh manure directly to root zones.</div>
-    </div>
-    <div class="card">
-      <div class="cttl">Irrigation demand — seasonal (2-acre site)</div>
-      <div class="csub" style="margin-bottom:10px">Adjusted for ${s.name} drainage characteristics.</div>
-      <div style="margin-top:11px">
-        <div class="brow" onclick="toast('Summer peak for ${s.name}: drip at 6 am + 6 pm. Prioritise canopy trees and nectar shrubs.')">
-          <span class="blbl">Summer (peak)</span><div class="btrk"><div class="bfil" style="width:90%;background:var(--bl)"></div></div><span class="bval">${irr.summer.toLocaleString()} L/day</span>
-        </div>
-        <div class="brow" onclick="toast('Post-monsoon for ${s.name}: reduce frequency gradually as soil moisture builds.')">
-          <span class="blbl">Post-monsoon</span><div class="btrk"><div class="bfil" style="width:${Math.round(irr.postmonsoon/irr.summer*100)}%;background:var(--bl)"></div></div><span class="bval">${irr.postmonsoon.toLocaleString()} L/day</span>
-        </div>
-        <div class="brow" onclick="toast('Winter for ${s.name}: once every 2–3 days for established plants.')">
-          <span class="blbl">Winter</span><div class="btrk"><div class="bfil" style="width:${Math.round(irr.winter/irr.summer*100)}%;background:var(--bl)"></div></div><span class="bval">${irr.winter.toLocaleString()} L/day</span>
-        </div>
-        <div class="brow" onclick="toast('Monsoon for ${s.name}: ${irr.monsoon===0?\"Irrigation suspended — monitor for waterlogging\":\"Reduced irrigation — monitor soil moisture\"}.'}">
-          <span class="blbl">Monsoon</span><div class="btrk"><div class="bfil" style="width:${Math.round(irr.monsoon/irr.summer*100+2)}%;background:var(--bl)"></div></div><span class="bval">${irr.monsoon === 0 ? 'Suspended' : irr.monsoon.toLocaleString()+' L/day'}</span>
-        </div>
-      </div>
-      <div class="inote">Drip irrigation saves 40% vs spray. Native plants reduce demand 35–40% from Year 3 as root systems establish.</div>
-    </div>
-    <div class="card">
-      <div class="cttl">Regional ecology note — ${s.name}</div>
-      <div style="font-size:12px;color:var(--txm);line-height:1.7;margin-top:6px">${s.note}</div>
-      <div class="slb" style="margin-top:10px">Key bird species for this soil zone</div>
-      <div class="chips">${s.birds.map(b=>`<span class="pill pb">${b}</span>`).join('')}</div>
-    </div>`;
-}
-
 /* ═══════════════════════════════════════
    INIT
 ═══════════════════════════════════════ */
@@ -1907,17 +1550,6 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderSp();
   renderPl('npl');renderPl('mpl');
   renderMCal();renderNCal();renderImp();
-
-  // Boot: render soil for default location + fetch live weather
-  renderSoil(LOC.state);
-  fetchWeather(LOC.lat, LOC.lng);
-
-  // Highlight current month in maintenance calendar
-  const curMonth = new Date().getMonth();
-  setTimeout(()=>{
-    const months = document.querySelectorAll('#mcal .calm');
-    if(months[curMonth]) months[curMonth].style.outline = '2px solid var(--g)';
-  }, 300);
 
   // Show registration modal on first visit
   if(!localStorage.getItem('vana_registered')){
