@@ -78,6 +78,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .img-card-tag { font-size: 10px; background: var(--bd); padding: 4px 8px; border-radius: 12px; color: var(--txm); display: inline-block; margin-bottom: 12px; align-self: flex-start; }
 .ui-btn { margin-top: auto; width: 100%; background: transparent; border: 1px solid var(--g); color: var(--g); border-radius: var(--rs); padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .2s; text-align: center; }
 .ui-btn:hover { background: var(--g); color: #fff; }
+.ui-btn.pri { background: var(--g); color: #fff; border-color: var(--g); }
+.ui-btn.pri:hover { background: var(--gdk); }
 
 /* Alerts & Notes */
 .inote{border-left:4px solid #059669;background:#d1fae5;border-radius:0 var(--rs) var(--rs) 0;padding:14px 16px;font-size:13px;color:#064e3b;line-height:1.6;margin-top:12px; font-weight:500;}
@@ -148,13 +150,16 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
 .mbtn:disabled{opacity:0.7; pointer-events:none;}
 
 /* Interactive Modals */
-.tree-modal-box { max-width: 500px; }
+.tree-modal-box { max-width: 540px; }
 .care-sect { margin-bottom: 16px; background: var(--bg); padding: 14px; border-radius: var(--rs); border-left: 3px solid var(--g);}
+.care-sect.pri { border-left-color: var(--am); background: var(--amlt); }
 .care-sect-ttl { font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--g); margin-bottom: 4px; letter-spacing: 0.05em;}
+.care-sect.pri .care-sect-ttl { color: #9c6500; }
 .care-sect-desc { font-size: 13px; color: var(--txm); line-height: 1.5; }
+.care-sect.pri .care-sect-desc { color: #5a3a00; font-weight: 500;}
 
 /* Credits Footer */
-.credits-footer { text-align: center; margin-top: 40px; padding-top: 24px; border-top: 1px dashed var(--bd); color: var(--txm); }
+.credits-footer { text-align: center; margin-top: 40px; padding-top: 24px; border-bottom: 1px dashed var(--bd); padding-bottom: 40px; color: var(--txm); }
 .credits-title { font-size: 15px; font-weight: 700; color: var(--g); margin-bottom: 6px; }
 .credits-desc { font-size: 12px; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
@@ -220,9 +225,54 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
 
        <div class="loc-field-row" style="margin-bottom: 12px;">
            <div class="fgrp">
-             <label>City <span class="req">*</span></label>
+             <label>State / Union Territory <span class="req">*</span></label>
+             <select name="State" id="formStateUser" class="finp loc-input" required>
+                <option value="" disabled selected>Select State...</option>
+                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Ladakh">Ladakh</option>
+                <option value="Lakshadweep">Lakshadweep</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Puducherry">Puducherry</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+             </select>
+           </div>
+           <div class="fgrp">
+             <label>City / Major District <span class="req">*</span></label>
              <input type="text" name="City" id="formCityUser" class="finp" placeholder="e.g. Bengaluru" required>
            </div>
+       </div>
+
+       <div class="loc-field-row" style="margin-bottom: 12px;">
            <div class="fgrp">
              <label>Role / Profession <span class="req">*</span></label>
              <select name="Role" id="formRole" class="finp loc-input" required>
@@ -234,9 +284,6 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
                 <option value="Other">Other</option>
              </select>
            </div>
-       </div>
-
-       <div class="loc-field-row" style="margin-bottom: 12px;">
            <div class="fgrp">
              <label>Source (Learned About VANA) <span class="req">*</span></label>
              <select name="Source" id="formSource" class="finp loc-input" required>
@@ -248,10 +295,6 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
                 <option value="Instagram">Instagram</option>
                 <option value="Others">Others</option>
              </select>
-           </div>
-           <div class="fgrp">
-             <label>Scan Location (Target)</label>
-             <input type="text" name="Scan Location" id="formScanLoc" class="finp" placeholder="e.g. Western Ghats">
            </div>
        </div>
 
@@ -291,7 +334,7 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
     <div class="ntab" onclick="switchTab('calendar', this)">Calendar</div>
   </div>
 
-  <!-- 0. GENESIS / ABOUT TAB (Landing Page Post-Login) -->
+  <!-- 0. GENESIS / ABOUT TAB -->
   <div id="about" class="panel on">
     <div class="card">
         <div class="cttl" style="font-size: 24px; margin-bottom: 8px;">The Genesis of VANA</div>
@@ -315,24 +358,50 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
     <div class="loc-edit-wrap">
       <div class="loc-field-row">
         <div class="loc-field">
-          <label>City (Predictive Search)</label>
-          <input type="text" id="cityInput" class="loc-input" value="Bengaluru" placeholder="Type a city name..." autocomplete="off" oninput="debounceCitySearch(this.value)">
+          <label>City / District (Predictive Search)</label>
+          <input type="text" id="cityInput" class="loc-input" value="Bengaluru" placeholder="Type district or city..." autocomplete="off" oninput="debounceCitySearch(this.value)">
           <div id="cityDropdown" class="city-drop"></div>
         </div>
         <div class="loc-field">
-          <label>State / Region (For Forest & Soil Data)</label>
+          <label>State / Union Territory</label>
           <select id="stateInput" class="loc-input">
-             <option value="Andhra Pradesh">Andhra Pradesh</option>
-             <option value="Delhi">Delhi</option>
-             <option value="Gujarat">Gujarat</option>
-             <option value="Karnataka" selected>Karnataka</option>
-             <option value="Kerala">Kerala</option>
-             <option value="Maharashtra">Maharashtra</option>
-             <option value="Rajasthan">Rajasthan</option>
-             <option value="Tamil Nadu">Tamil Nadu</option>
-             <option value="Uttar Pradesh">Uttar Pradesh</option>
-             <option value="West Bengal">West Bengal</option>
-             <option value="Other">Other / International</option>
+                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka" selected>Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Ladakh">Ladakh</option>
+                <option value="Lakshadweep">Lakshadweep</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Puducherry">Puducherry</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Other">Other / International</option>
           </select>
         </div>
       </div>
@@ -348,7 +417,7 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
         </div>
       </div>
 
-      <button class="loc-update-btn" onclick="triggerManualScan()">Scan Live Ecology for Coordinates</button>
+      <button class="loc-update-btn" onclick="triggerManualScan()">Run Biodiversity Scan</button>
     </div>
 
     <div class="card" id="weatherBox">
@@ -383,11 +452,11 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
   <div id="plants" class="panel">
     <div class="card">
         <div class="cttl" id="floraStateTtl">Native Botanical Matrix</div>
-        <div class="csub">Extensive native planting list tailored for ecological restoration. Includes Arboriculture guides.</div>
+        <div class="csub">Extensive native planting list tailored for ecological restoration. Includes Soil & Water demands.</div>
         
         <!-- State Forest Species Section -->
         <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--bd);">
-            <div class="cttl" style="font-size: 15px; color: var(--g);">Key State Forest Species</div>
+            <div class="cttl" style="font-size: 15px; color: var(--g);">Key Regional Forest Species</div>
             <div id="forestSpeciesContainer" class="img-grid"></div>
         </div>
 
@@ -471,7 +540,7 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
 
 </div>
 
-<!-- ARBORICULTURE TREE CARE MODAL -->
+<!-- COMPREHENSIVE PLANT CARE MODAL (Soil, Water, Arboriculture) -->
 <div id="treeModal" class="overlay hidden" style="z-index: 99999;">
   <div class="mbox tree-modal-box">
     <div class="mbox-hdr" style="margin-bottom: 16px;">
@@ -479,22 +548,28 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
         <div class="mbox-sub" id="tcSci" style="font-style: italic;">Scientific Name</div>
     </div>
     
-    <div class="care-sect">
-        <div class="care-sect-ttl">Arboriculture Pruning</div>
-        <div class="care-sect-desc" id="tcPrune">Detailed pruning guidelines...</div>
-    </div>
-    
-    <div class="care-sect">
-        <div class="care-sect-ttl">Root System Care</div>
-        <div class="care-sect-desc" id="tcRoot">Root management guidelines...</div>
-    </div>
-    
-    <div class="care-sect">
-        <div class="care-sect-ttl">Watering & Disease</div>
-        <div class="care-sect-desc" id="tcWater">Irrigation and disease guidelines...</div>
+    <!-- New Soil & Water Sections -->
+    <div class="care-sect pri">
+        <div class="care-sect-ttl">Soil Taxonomy Compatibility</div>
+        <div class="care-sect-desc" id="tcSoil">Specific soil requirements...</div>
     </div>
 
-    <button type="button" class="mbtn-sec" onclick="closeTreeModal()">Close Guide</button>
+    <div class="care-sect pri" style="background:#e0f2fe; border-left-color:#0284c7;">
+        <div class="care-sect-ttl" style="color:#0369a1;">Hydrological Demand</div>
+        <div class="care-sect-desc" id="tcWater" style="color:#0c4a6e; font-weight:500;">Watering frequency and volume requirements...</div>
+    </div>
+
+    <div class="care-sect">
+        <div class="care-sect-ttl">Growth & Root Habit</div>
+        <div class="care-sect-desc" id="tcRoot">Root management guidelines...</div>
+    </div>
+
+    <div class="care-sect">
+        <div class="care-sect-ttl">Arboriculture & Pruning</div>
+        <div class="care-sect-desc" id="tcPrune">Detailed pruning guidelines...</div>
+    </div>
+
+    <button type="button" class="mbtn-sec" style="width:100%;background:transparent;border:1px solid var(--bd);padding:12px;border-radius:var(--rs);cursor:pointer;font-weight:700;color:var(--tx);" onclick="closeTreeModal()">Close Care Profile</button>
   </div>
 </div>
 
@@ -506,10 +581,10 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
    DATABASES WITH IMAGES & CARE GUIDES
 ═══════════════════════════════════════ */
 
-// CONSTANT FOR IMAGE FALLBACK (Ensures broken images never appear)
+// CONSTANT FOR IMAGE FALLBACK
 const imgFallback = "this.onerror=null;this.src='https://placehold.co/400x300/2d5a3d/ffffff?text=Image+Unavailable';";
 
-// MASSIVE AVIAN GUILDS
+// AVIAN GUILDS
 const avianGuilds = {
     "nectarivores": {
         name: "Nectarivores", rule: "Design for continuous bloom across at least 3 native plant species year-round. Provide a 3-5cm deep water dish nearby.",
@@ -576,66 +651,62 @@ const avianGuilds = {
     }
 };
 
-// MASSIVE INSECT & POLLINATOR DATABASE
+// INSECT DATABASE
 const insectDatabase = [
     { nm: "Plain Tiger Butterfly", sci: "Danaus chrysippus", type: "Key Pollinator", img: "https://images.unsplash.com/photo-1541418950054-c12804e149d9?auto=format&fit=crop&w=400&q=80", role: "Essential pollinator for milkweeds and native shrubs." },
-    { nm: "Common Mormon", sci: "Papilio polytes", type: "Key Pollinator", img: "https://images.unsplash.com/photo-1520624021798-8ecba416e7dd?auto=format&fit=crop&w=400&q=80", role: "Pollinates citrus family native plants (Rutaceae)." },
     { nm: "Indian Rock Bee", sci: "Apis dorsata", type: "Apex Pollinator", img: "https://images.unsplash.com/photo-1585642674384-566063b51ee2?auto=format&fit=crop&w=400&q=80", role: "Pollinates over 50% of the upper canopy native trees." },
-    { nm: "Asian Honey Bee", sci: "Apis cerana", type: "Mid-Level Pollinator", img: "https://images.unsplash.com/photo-1538356391494-df8576d1e4e2?auto=format&fit=crop&w=400&q=80", role: "Crucial for shrub layer and understory plant reproduction." },
-    { nm: "Ladybird Beetle", sci: "Coccinellidae", type: "Predatory Control", img: "https://images.unsplash.com/photo-1518006180370-1f95a0de7cc0?auto=format&fit=crop&w=400&q=80", role: "Natural pest control. Consumes thousands of aphids." },
-    { nm: "Praying Mantis", sci: "Mantodea", type: "Predatory Control", img: "https://images.unsplash.com/photo-1506509438914-747d92ccceca?auto=format&fit=crop&w=400&q=80", role: "Apex invertebrate predator. Controls pest populations naturally." },
-    { nm: "Crimson Rose Butterfly", sci: "Pachliopta hector", type: "Key Pollinator", img: "https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?auto=format&fit=crop&w=400&q=80", role: "Indicator of healthy Aristolochia (Dutchman's pipe) presence." },
-    { nm: "Carpenter Bee", sci: "Xylocopa", type: "Deep Pollinator", img: "https://images.unsplash.com/photo-1587392658826-6b223023e93b?auto=format&fit=crop&w=400&q=80", role: "Buzz pollination expert for tubular native flowers." }
+    { nm: "Ladybird Beetle", sci: "Coccinellidae", type: "Predatory Control", img: "https://images.unsplash.com/photo-1518006180370-1f95a0de7cc0?auto=format&fit=crop&w=400&q=80", role: "Natural pest control. Consumes thousands of aphids." }
 ];
 
-// MASSIVE PLANT DATABASE
+// UPDATED PLANT DATABASE (Now with explicit SOIL & WATER data)
 const plantDatabase = [
     { nm: "Hibiscus rosa-sinensis", common: "Native Hibiscus", layer: "Shrub Layer (1-2m)", img: "https://images.unsplash.com/photo-1557053964-9276cb6fb91c?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Prune heavily in late winter to encourage bushy spring growth.", root: "Shallow rooted; requires heavy mulch layer to protect from heat.", water: "Susceptible to aphids if overwatered. Maintain moderate moisture."} },
-    { nm: "Callistemon viminalis", common: "Weeping Bottlebrush", layer: "Mid Canopy (3-5m)", img: "https://images.unsplash.com/photo-1616641680516-7241cdbb383e?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Only prune dead wood. Do not cut into old wood as it will not regenerate.", root: "Aggressive roots. Plant at least 3m away from pipes.", water: "Highly drought tolerant once established. Do not overwater."} },
-    { nm: "Ficus benghalensis", common: "Banyan Tree", layer: "Tall Canopy (15m+)", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Train aerial roots downwards to form secondary trunks.", root: "Massive destructive roots. Plant 20m away from structures.", water: "Highly adaptable. Drought resistant."} },
-    { nm: "Ficus racemosa", common: "Cluster Fig", layer: "Canopy (12m)", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Minimal pruning. Retain lower trunk for fruit clusters.", root: "Extensive roots.", water: "Prefers riparian zones, requires higher moisture initially."} },
-    { nm: "Erythrina variegata", common: "Indian Coral Tree", layer: "Canopy (10m)", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Prune for structural integrity in first 3 years. Branches are brittle.", root: "Nitrogen fixing nodules on roots enrich soil.", water: "Drought hardy. Drops leaves in winter."} },
+      care: { soil: "Prefers well-draining, slightly acidic soil (pH 6.0-7.0). Tolerates loamy or sandy substrates.", water: "Moderate to High. Requires 15-20L per week during dry spells to maintain bloom cycle.", root: "Shallow, fibrous root network. Needs heavy top-mulching.", prune: "Prune heavily in late winter to encourage bushy spring growth." } },
     { nm: "Vetiveria zizanioides", common: "Vetiver Grass", layer: "Ground Layer", img: "https://images.unsplash.com/photo-1592634358897-40da39569727?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Cut back to 15cm above ground annually before monsoon.", root: "Massive fibrous root system up to 3m deep. Excellent for soil stabilization.", water: "Can survive extreme drought and inundation."} },
-    { nm: "Butea monosperma", common: "Flame of the Forest", layer: "Mid Canopy (5-8m)", img: "https://images.unsplash.com/photo-1464692805480-a69dfaafdb0d?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Formative pruning to establish a strong central leader.", root: "Deep taproot.", water: "Extremely drought tolerant."} },
-    { nm: "Mimusops elengi", common: "Spanish Cherry", layer: "Canopy (10-15m)", img: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Naturally forms a dense, symmetrical crown. Minimal pruning needed.", root: "Non-invasive.", water: "Requires regular watering for first 2 years."} },
+      care: { soil: "Highly adaptable. Thrives in sandy, loamy, and even heavy clay soils. Excellent for stabilizing poor subsoils.", water: "Extremely Low once established. Can survive drought and periodic waterlogging.", root: "Massive fibrous root system penetrating up to 3m deep.", prune: "Cut back to 15cm above ground annually before monsoon." } },
     { nm: "Cymbopogon citratus", common: "Lemongrass", layer: "Ground Layer", img: "https://images.unsplash.com/photo-1620025537526-77821c9b68bc?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Harvest outer leaves continuously to promote inner growth.", root: "Clumping roots.", water: "Do not let soil dry out completely."} },
-    { nm: "Hamelia patens", common: "Firebush", layer: "Shrub Layer (1-3m)", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Responds well to heavy shearing. Flowers on new growth.", root: "Shallow, adaptable.", water: "Highly drought tolerant."} },
-    { nm: "Murraya paniculata", common: "Orange Jessamine", layer: "Shrub Layer (2-4m)", img: "https://images.unsplash.com/photo-1536882240095-0379873feb4e?auto=format&fit=crop&w=400&q=80",
-      care: { prune: "Can be hedged or left as a small tree.", root: "Non-invasive.", water: "Moderate watering. Prefers well-draining soil."} }
+      care: { soil: "Requires highly porous, well-draining soil. Susceptible to root rot in heavy clay.", water: "Moderate. Keep soil consistently moist but never waterlogged.", root: "Dense clumping roots. Spread is minimal.", prune: "Harvest outer leaves continuously to promote inner shoot growth." } }
 ];
 
+// UPDATED FOREST DATABASE (Includes regional mapping for all states)
 const forestDatabase = {
     "Karnataka": [
-        { common: "Sandalwood", nm: "Santalum album", img: "https://images.unsplash.com/photo-1516245834210-c4c142787335?auto=format&fit=crop&w=400&q=80", care: {prune:"Minimal structural pruning only.", root:"Hemiparasitic roots require a host plant nearby (e.g. Acacia).", water:"Strictly well-drained soil. Cannot tolerate waterlogging."} },
-        { common: "Indian Rosewood", nm: "Dalbergia latifolia", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80", care: {prune:"Formative pruning in first 5 years to establish single leader trunk.", root:"Deep taproot. Ensure deep soil profile.", water:"Drought hardy. Do not irrigate in winter."} }
+        { common: "Sandalwood", nm: "Santalum album", img: "https://images.unsplash.com/photo-1516245834210-c4c142787335?auto=format&fit=crop&w=400&q=80", care: { soil: "Red laterite or gravelly soils. Essential pH 6.0-7.5.", water: "Strictly well-drained. Highly sensitive to waterlogging.", root: "Hemiparasitic. Requires host plant roots (e.g. Acacia) within 2 meters.", prune: "Minimal structural pruning only." } },
+        { common: "Indian Rosewood", nm: "Dalbergia latifolia", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80", care: { soil: "Deep, well-drained loams. Tolerates slight salinity.", water: "Drought hardy. Do not irrigate in winter to mimic dry season.", root: "Deep taproot anchoring system.", prune: "Formative pruning in first 5 years for single leader trunk." } }
     ],
     "Maharashtra": [
-        { common: "Teak", nm: "Tectona grandis", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80", care: {prune:"Self-pruning in dense plantations. Remove low branches early.", root:"Extensive lateral roots.", water:"Requires clear dry season for optimal timber growth."} }
+        { common: "Teak", nm: "Tectona grandis", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80", care: { soil: "Alluvial or deep black cotton soils with good drainage.", water: "High monsoon demand, requires clear dry season for timber quality.", root: "Extensive lateral roots.", prune: "Self-pruning in dense plantations. Remove low branches early." } }
     ],
     "Rajasthan": [
-        { common: "Khejri", nm: "Prosopis cineraria", img: "https://images.unsplash.com/photo-1464692805480-a69dfaafdb0d?auto=format&fit=crop&w=400&q=80", care: {prune:"Lopping of branches is common for fodder, but retain main canopy.", root:"Incredibly deep taproot reaching groundwater.", water:"Zero irrigation required once established."} }
+        { common: "Khejri", nm: "Prosopis cineraria", img: "https://images.unsplash.com/photo-1464692805480-a69dfaafdb0d?auto=format&fit=crop&w=400&q=80", care: { soil: "Alkaline, sandy, or desert regosols. pH up to 8.5.", water: "Zero irrigation required after first 6 months. Survives extreme arid conditions.", root: "Incredibly deep taproot reaching groundwater aquifers (up to 30m).", prune: "Can be lopped for fodder, but retain main canopy." } }
+    ],
+    "Kerala": [
+        { common: "Jackfruit", nm: "Artocarpus heterophyllus", img: "https://images.unsplash.com/photo-1550853024-fae8cd4be47f?auto=format&fit=crop&w=400&q=80", care: { soil: "Rich, deep lateritic soils with high organic matter.", water: "High moisture demand. Requires consistent soil humidity.", root: "Spreading lateral root system.", prune: "Remove dead wood to prevent fungal infections in humid climate." } }
+    ],
+    "Uttar Pradesh": [
+        { common: "Sal Tree", nm: "Shorea robusta", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80", care: { soil: "Well-drained sandy loams of the Gangetic plain.", water: "Moderate. Tolerates dry spells but prefers periodic deep watering.", root: "Deep taproot.", prune: "Rarely requires pruning. Slow growing." } }
     ],
     "Default": [
-        { common: "Banyan Tree", nm: "Ficus benghalensis", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80", care: {prune:"Train aerial roots downwards to form secondary trunks.", root:"Massive destructive roots. Plant 20m away from structures.", water:"Highly adaptable."} },
-        { common: "Peepal", nm: "Ficus religiosa", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80", care: {prune:"Only remove deadwood. Sacred tree, minimal interference preferred.", root:"Can crack concrete. Restrict root zone in urban areas.", water:"Drought tolerant."} }
+        { common: "Banyan Tree", nm: "Ficus benghalensis", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80", care: { soil: "Highly adaptable to any soil, including rocky substrates.", water: "Extremely adaptable. Drought and flood resistant.", root: "Massive destructive roots. Plant 20m away from structures.", prune: "Train aerial roots downwards to form secondary trunks." } },
+        { common: "Peepal", nm: "Ficus religiosa", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80", care: { soil: "Adapts to poor soils. Can grow in concrete cracks.", water: "Drought tolerant once established.", root: "Invasive. Restrict root zone in urban areas.", prune: "Only remove deadwood. Sacred tree, minimal interference preferred." } }
     ]
 };
 
+// Map similar regions to specific databases to cover all 28 states
+forestDatabase["Andhra Pradesh"] = forestDatabase["Karnataka"];
+forestDatabase["Telangana"] = forestDatabase["Maharashtra"];
+forestDatabase["Gujarat"] = forestDatabase["Rajasthan"];
+forestDatabase["Tamil Nadu"] = forestDatabase["Karnataka"];
+forestDatabase["West Bengal"] = forestDatabase["Kerala"];
+forestDatabase["Bihar"] = forestDatabase["Uttar Pradesh"];
+forestDatabase["Madhya Pradesh"] = forestDatabase["Maharashtra"];
+
 const soilDatabase = {
-  "Red laterite": { states: ["Karnataka", "Kerala", "Goa"], ph: "5.8 - 6.5", om: "0.4 - 0.8%", texture: "Sandy laterite", drainage: "Rapid", ecology: "Needs heavy mulching to retain water.", amend: [{n:"Vermicompost",v:"80 kg"}, {n:"Neem Cake",v:"15 kg"}], irrig: {base:"45 Liters", type:"High Frequency / Drip", retain:"25%"} },
+  "Red laterite": { states: ["Karnataka", "Kerala", "Goa", "Andhra Pradesh", "Tamil Nadu", "Odisha", "Jharkhand"], ph: "5.8 - 6.5", om: "0.4 - 0.8%", texture: "Sandy laterite", drainage: "Rapid", ecology: "Needs heavy mulching to retain water.", amend: [{n:"Vermicompost",v:"80 kg"}, {n:"Neem Cake",v:"15 kg"}], irrig: {base:"45 Liters", type:"High Frequency / Drip", retain:"25%"} },
   "Black cotton (Regur)": { states: ["Maharashtra", "Telangana", "Madhya Pradesh", "Gujarat"], ph: "7.2 - 8.5", om: "0.5 - 1.0%", texture: "Clayey", drainage: "Slow", ecology: "Prone to severe cracking in summer.", amend: [{n:"River Sand / Perlite",v:"150 kg"}, {n:"Farmyard Manure",v:"100 kg"}], irrig: {base:"20 Liters", type:"Low Frequency / Deep", retain:"85%"} },
+  "Alluvial": { states: ["Uttar Pradesh", "Bihar", "West Bengal", "Punjab", "Haryana", "Assam"], ph: "6.5 - 7.5", om: "1.0 - 1.5%", texture: "Loamy", drainage: "Good", ecology: "Highly fertile. Ideal for diverse canopy layers.", amend: [{n:"Leaf Mold Compost",v:"50 kg"}], irrig: {base:"30 Liters", type:"Moderate Frequency", retain:"60%"} },
   "Desert / Arid": { states: ["Rajasthan"], ph: "7.5 - 8.5", om: "<0.4%", texture: "Sandy", drainage: "Very Rapid", ecology: "Focus strictly on xerophytic plants.", amend: [{n:"Coco Peat",v:"100 kg"}, {n:"Vermicompost",v:"150 kg"}], irrig: {base:"60 Liters", type:"Drip ONLY (Heavy Mulch)", retain:"10%"} },
-  "Other": { states: ["Other"], ph: "6.5 - 7.0", om: "1.0%", texture: "Variable", drainage: "Variable", ecology: "General ecosystem guidelines apply.", amend: [{n:"General Compost",v:"100 kg"}], irrig: {base:"35 Liters", type:"Monitor Locally", retain:"50%"} }
+  "Other": { states: ["Other", "Delhi", "Chandigarh", "Uttarakhand", "Himachal Pradesh"], ph: "6.5 - 7.0", om: "1.0%", texture: "Variable", drainage: "Variable", ecology: "General ecosystem guidelines apply.", amend: [{n:"General Compost",v:"100 kg"}], irrig: {base:"35 Liters", type:"Monitor Locally", retain:"50%"} }
 };
 
 const calendarTasks = [
@@ -663,7 +734,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initAvianGuilds();
     renderInsects();
     renderCalendar();
-    triggerManualScan(); // Fetch default data in background
 });
 
 function switchTab(tabId, el) {
@@ -718,6 +788,15 @@ form.addEventListener('submit', e => {
       document.getElementById('u-name-text').innerText = name.split(' ')[0];
       
       toast('Registration Successful! Welcome to VANA.');
+      
+      // Capture City & State from Registration to Auto-populate Scan tab
+      const regCity = document.getElementById('formCityUser').value;
+      const regState = document.getElementById('formStateUser').value;
+      document.getElementById('cityInput').value = regCity;
+      document.getElementById('stateInput').value = regState;
+      
+      // Auto-trigger geocoding and scan for user's registered location
+      autoFetchCoordinatesAndScan(regCity);
       
       // Force switch to About/Genesis tab as landing page
       switchTab('about', document.getElementById('navAbout'));
@@ -803,7 +882,7 @@ function renderPlants(state) {
                 <div class="img-card-ttl">${p.common}</div>
                 <div class="img-card-sub">${p.nm}</div>
                 <div class="img-card-tag">${p.layer}</div>
-                <button class="ui-btn" onclick="openTreeModal('${p.common}', '${p.nm}', '${careStr}')">View Arboriculture</button>
+                <button class="ui-btn pri" onclick="openTreeModal('${p.common}', '${p.nm}', '${careStr}')">View Soil, Water & Care</button>
             </div>
         </div>`;
     });
@@ -825,21 +904,24 @@ function renderPlants(state) {
                 <div class="img-card-ttl" style="color:var(--g)">${f.common}</div>
                 <div class="img-card-sub">${f.nm}</div>
                 <div class="img-card-tag" style="background:var(--glt); color:var(--gdk);">Forest Timber Species</div>
-                <button class="ui-btn" style="background:var(--g); color:#fff;" onclick="openTreeModal('${f.common}', '${f.nm}', '${careStr}')">Arboriculture Guide</button>
+                <button class="ui-btn pri" onclick="openTreeModal('${f.common}', '${f.nm}', '${careStr}')">View Soil, Water & Care</button>
             </div>
         </div>`;
     });
     fContainer.innerHTML = fHtml;
 }
 
-// Tree Care Modal Logic
+// UPGRADED Tree Care Modal Logic (Now maps explicit Soil & Water)
 function openTreeModal(common, sci, careStr) {
     const care = JSON.parse(decodeURIComponent(careStr));
     document.getElementById('tcName').innerText = common;
     document.getElementById('tcSci').innerText = sci;
-    document.getElementById('tcPrune').innerText = care.prune;
-    document.getElementById('tcRoot').innerText = care.root;
-    document.getElementById('tcWater').innerText = care.water;
+    
+    document.getElementById('tcSoil').innerText = care.soil || "Adapts to local taxonomy.";
+    document.getElementById('tcWater').innerText = care.water || "Moderate watering required.";
+    document.getElementById('tcRoot').innerText = care.root || "Standard root structure.";
+    document.getElementById('tcPrune').innerText = care.prune || "Minimal pruning required.";
+    
     document.getElementById('treeModal').classList.remove('hidden');
 }
 
@@ -860,7 +942,7 @@ function renderCalendar() {
 }
 
 /* ═══════════════════════════════════════
-   PREDICTIVE SEARCH & APIS
+   PREDICTIVE SEARCH, GEOCODING & APIS
 ═══════════════════════════════════════ */
 let citySearchTimeout;
 
@@ -908,6 +990,22 @@ function selectCity(city, stateStr, lat, lon) {
     triggerManualScan();
 }
 
+// Auto fetch precise coords based on registration city string
+async function autoFetchCoordinatesAndScan(cityName) {
+    try {
+        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=en&format=json`);
+        const data = await res.json();
+        if(data.results && data.results.length > 0) {
+            document.getElementById('latInput').value = data.results[0].latitude;
+            document.getElementById('lonInput').value = data.results[0].longitude;
+        }
+    } catch(e) { console.error('Geocoding fail, using defaults.', e); }
+    
+    // Always run scan after fetching
+    triggerManualScan();
+}
+
+
 async function triggerManualScan() {
     const city = document.getElementById('cityInput').value;
     const state = document.getElementById('stateInput').value;
@@ -915,7 +1013,7 @@ async function triggerManualScan() {
     const lon = document.getElementById('lonInput').value;
     const btn = document.querySelector('.loc-update-btn');
     
-    btn.textContent = "Scanning Environmental Data...";
+    btn.textContent = "Processing Regional Taxonomy...";
     
     try {
         updateSoilProfile(state, city);
@@ -926,12 +1024,12 @@ async function triggerManualScan() {
         const data = await res.json();
         renderWeather(data, city, lat, lon);
         
-        toast('Ecosystem data loaded successfully!');
+        toast('Biodiversity Scan Complete!');
     } catch(e) {
         console.error(e);
-        toast('Weather fetch failed. Check network.', 'warn');
+        toast('Sensor fetch failed. Ensure internet connection.', 'warn');
     } finally {
-        btn.textContent = "Scan Live Ecology for Coordinates";
+        btn.textContent = "Run Biodiversity Scan";
     }
 }
 
@@ -947,7 +1045,7 @@ function renderWeather(data, city, lat, lon) {
       <div class="met"><div class="mv">${isRainy ? 'Yes' : 'No'}</div><div class="ml">Active Rain</div></div>
       <div class="met"><div class="mv" style="color:var(--pu)">Live</div><div class="ml">Status</div></div>
     `;
-    document.getElementById('alertsContainer').innerHTML = `<div class="inote">Ecological conditions stable.</div>`;
+    document.getElementById('alertsContainer').innerHTML = `<div class="inote">Ecological conditions stable. Proceed with planting protocols.</div>`;
 }
 
 function updateSoilProfile(state, city) {
