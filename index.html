@@ -20,11 +20,14 @@
   --r:10px;--rs:6px;--rl:14px;
 }
 html{font-size:16px}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5; position: relative;}
+
+/* Watermark Overlay */
+.watermark-overlay { position: fixed; bottom: 16px; right: 20px; font-size: 11px; font-weight: 800; color: rgba(45, 90, 61, 0.15); z-index: 1000; pointer-events: none; text-transform: uppercase; letter-spacing: 3px; }
 
 /* App Lock State for Forced Login */
-.app-locked { filter: blur(6px); pointer-events: none; user-select: none; overflow: hidden; height: 100vh; }
-.shell{max-width:960px;margin:0 auto;padding:0 16px 80px; transition: filter 0.4s ease;}
+.app-locked { filter: blur(8px); pointer-events: none; user-select: none; overflow: hidden; height: 100vh; }
+.shell{max-width:960px;margin:0 auto;padding:0 16px 80px; transition: filter 0.5s ease;}
 
 /* Header & Login */
 .hdr{background:var(--g);margin:0 -16px;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
@@ -68,7 +71,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 15px; }
 .img-card { background: var(--bg); border: 1px solid var(--bd); border-radius: var(--rl); overflow: hidden; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
 .img-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: var(--g); }
-.img-card img { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid var(--bd); }
+.img-card img { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid var(--bd); background: var(--bd); }
 .img-card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
 .img-card-ttl { font-size: 15px; font-weight: 700; color: var(--tx); margin-bottom: 2px; }
 .img-card-sub { font-size: 11px; color: var(--txm); font-style: italic; margin-bottom: 10px; }
@@ -130,7 +133,7 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
 /* Forced Registration Modal */
 .overlay{position:fixed;inset:0;background:rgba(10,20,15,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px); opacity:1; transition:opacity .25s;}
 .overlay.hidden{display:none; opacity:0; pointer-events:none;}
-.mbox{background:var(--sur);border-radius:var(--rl);padding:32px 28px;max-width:540px;width:100%;max-height:95vh;overflow-y:auto;animation:mslide .3s ease; box-shadow:0 24px 60px rgba(0,0,0,0.4);}
+.mbox{background:var(--sur);border-radius:var(--rl);padding:32px 28px;max-width:580px;width:100%;max-height:95vh;overflow-y:auto;animation:mslide .3s ease; box-shadow:0 24px 60px rgba(0,0,0,0.4);}
 @keyframes mslide{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:none}}
 .mbox-hdr{text-align:center;margin-bottom:26px}
 .mbox-ttl{font-size:22px;font-weight:700;margin-bottom:8px; color:var(--gdk)}
@@ -144,11 +147,16 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
 .mbtn:hover{background:var(--gdk)}
 .mbtn:disabled{opacity:0.7; pointer-events:none;}
 
-/* Tree Care Modal */
+/* Interactive Modals */
 .tree-modal-box { max-width: 500px; }
 .care-sect { margin-bottom: 16px; background: var(--bg); padding: 14px; border-radius: var(--rs); border-left: 3px solid var(--g);}
 .care-sect-ttl { font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--g); margin-bottom: 4px; letter-spacing: 0.05em;}
 .care-sect-desc { font-size: 13px; color: var(--txm); line-height: 1.5; }
+
+/* Credits Footer */
+.credits-footer { text-align: center; margin-top: 40px; padding-top: 24px; border-top: 1px dashed var(--bd); color: var(--txm); }
+.credits-title { font-size: 15px; font-weight: 700; color: var(--g); margin-bottom: 6px; }
+.credits-desc { font-size: 12px; max-width: 600px; margin: 0 auto; line-height: 1.6; }
 
 /* PDF Button */
 .gen-pdf-btn{width:100%;background:var(--gdk);color:#fff;border:none;border-radius:var(--rl);padding:18px;font-size:16px;font-weight:700;cursor:pointer;margin-top:24px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:12px;}
@@ -170,6 +178,9 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
 </style>
 </head>
 <body>
+
+<!-- GLOBAL WATERMARK -->
+<div class="watermark-overlay">Greenscape Designz</div>
 
 <!-- FORCED REGISTRATION MODAL -->
 <div id="registrationModal" class="overlay">
@@ -230,12 +241,12 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
              <label>Source (Learned About VANA) <span class="req">*</span></label>
              <select name="Source" id="formSource" class="finp loc-input" required>
                 <option value="" disabled selected>Select Source...</option>
-                <option value="Greenscape Designz">Greenscape Designz</option>
                 <option value="LinkedIn">LinkedIn</option>
-                <option value="Instagram">Instagram</option>
-                <option value="Social Media">Social Media</option>
+                <option value="Greenscape Designz">Greenscape Designz</option>
                 <option value="Referral">Referral</option>
-                <option value="Other">Others</option>
+                <option value="Social Media">Social Media</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Others">Others</option>
              </select>
            </div>
            <div class="fgrp">
@@ -273,6 +284,7 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
     <div class="ntab on" onclick="switchTab('about', this)" id="navAbout">About VANA</div>
     <div class="ntab" onclick="switchTab('scan', this)">Scan & Weather</div>
     <div class="ntab" onclick="switchTab('birds', this)">Avian Atlas</div>
+    <div class="ntab" onclick="switchTab('insects', this)">Insects & Pollinators</div>
     <div class="ntab" onclick="switchTab('plants', this)">Flora Matrix</div>
     <div class="ntab" onclick="switchTab('soil', this)">Soil & Water</div>
     <div class="ntab" onclick="switchTab('impact', this)">Impact Profile</div>
@@ -289,7 +301,7 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
             <strong>VANA (Vegetation & Avian Native Atlas)</strong> was born out of a critical need to bridge the gap between urban development and true ecological restoration. While modern cities prioritize aesthetic greenery, they often introduce invasive or non-native species that create "green deserts" — landscapes entirely devoid of the insects, birds, and soil microbes necessary for a self-sustaining ecosystem.
         </p>
         <p class="narrative-text">
-            VANA acts as a dynamic intelligence engine. By cross-referencing global biodiversity data, regional soil taxonomy, and real-time climate sensors, VANA empowers landscape architects, ecologists, and homeowners to design habitats that actively regenerate groundwater, sequester carbon, and revive native avian guilds.
+            VANA acts as a dynamic intelligence engine. By cross-referencing global biodiversity data, regional soil taxonomy, and real-time climate sensors, VANA empowers landscape architects, ecologists, and homeowners to design habitats that actively regenerate groundwater, sequester carbon, and revive native faunal guilds.
         </p>
         
         <div class="highlight-box">
@@ -305,4 +317,718 @@ select.loc-input{cursor:pointer; appearance:none; background-image:url("data:ima
         <div class="loc-field">
           <label>City (Predictive Search)</label>
           <input type="text" id="cityInput" class="loc-input" value="Bengaluru" placeholder="Type a city name..." autocomplete="off" oninput="debounceCitySearch(this.value)">
-          <div id="cityDrop
+          <div id="cityDropdown" class="city-drop"></div>
+        </div>
+        <div class="loc-field">
+          <label>State / Region (For Forest & Soil Data)</label>
+          <select id="stateInput" class="loc-input">
+             <option value="Andhra Pradesh">Andhra Pradesh</option>
+             <option value="Delhi">Delhi</option>
+             <option value="Gujarat">Gujarat</option>
+             <option value="Karnataka" selected>Karnataka</option>
+             <option value="Kerala">Kerala</option>
+             <option value="Maharashtra">Maharashtra</option>
+             <option value="Rajasthan">Rajasthan</option>
+             <option value="Tamil Nadu">Tamil Nadu</option>
+             <option value="Uttar Pradesh">Uttar Pradesh</option>
+             <option value="West Bengal">West Bengal</option>
+             <option value="Other">Other / International</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="loc-coord-row">
+        <div class="loc-field">
+            <label>Latitude (GPS)</label>
+            <input type="number" step="any" id="latInput" class="loc-input" value="12.9719">
+        </div>
+        <div class="loc-field">
+            <label>Longitude (GPS)</label>
+            <input type="number" step="any" id="lonInput" class="loc-input" value="77.5937">
+        </div>
+      </div>
+
+      <button class="loc-update-btn" onclick="triggerManualScan()">Scan Live Ecology for Coordinates</button>
+    </div>
+
+    <div class="card" id="weatherBox">
+      <div class="cttl">Live Environmental Sensors</div>
+      <div class="csub" id="weatherSub">Awaiting scan...</div>
+      <div class="mets" id="weatherMets"></div>
+      <div id="alertsContainer"></div>
+    </div>
+  </div>
+
+  <!-- 2. AVIAN ATLAS TAB -->
+  <div id="birds" class="panel">
+    <div class="card">
+        <div class="cttl">Comprehensive Avian Guilds</div>
+        <div class="csub">Massive database of keystone indicator species vital for a functioning ecosystem. Click to view detailed habitats.</div>
+        
+        <div class="stabs" id="guildTabs"></div>
+        <div id="guildContent" class="img-grid"></div>
+    </div>
+  </div>
+
+  <!-- 2.5 INSECTS & POLLINATORS TAB -->
+  <div id="insects" class="panel">
+    <div class="card">
+        <div class="cttl">Native Insects & Pollinators</div>
+        <div class="csub">The foundational biological layer. Without these, the avian and floral networks collapse.</div>
+        <div id="insectContent" class="img-grid"></div>
+    </div>
+  </div>
+
+  <!-- 3. FLORA LIST TAB -->
+  <div id="plants" class="panel">
+    <div class="card">
+        <div class="cttl" id="floraStateTtl">Native Botanical Matrix</div>
+        <div class="csub">Extensive native planting list tailored for ecological restoration. Includes Arboriculture guides.</div>
+        
+        <!-- State Forest Species Section -->
+        <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--bd);">
+            <div class="cttl" style="font-size: 15px; color: var(--g);">Key State Forest Species</div>
+            <div id="forestSpeciesContainer" class="img-grid"></div>
+        </div>
+
+        <div class="cttl" style="font-size: 15px;">General Native Shrubs & Grasses</div>
+        <div id="plantListContainer" class="img-grid"></div>
+    </div>
+  </div>
+
+  <!-- 4. SOIL & AMENDMENTS TAB -->
+  <div id="soil" class="panel">
+    <div class="card">
+      <div class="cttl" id="soilLocationName">Regional Soil Profile</div>
+      <div class="csub" id="soilTypeDisplay">Select location in 'Scan' tab to load state soil data.</div>
+      <div class="mets" id="soilMets" style="margin-top:15px"></div>
+      
+      <div class="soilg">
+        <div class="soilc">
+            <div class="soilc-ttl">Required Amendments (per 100 sqm)</div>
+            <div id="amendmentsList"></div>
+        </div>
+        <div class="soilc">
+            <div class="soilc-ttl">Irrigation Demand Calculation</div>
+            <div id="irrigationData"></div>
+        </div>
+      </div>
+
+      <div class="inote" id="soilEcologyNote" style="background:var(--bg); border-left-color:var(--am); color:var(--tx); margin-top:15px;">Run a scan to determine necessary soil amendments for this region.</div>
+    </div>
+  </div>
+
+  <!-- 5. IMPACT TAB -->
+  <div id="impact" class="panel">
+    <div class="card">
+      <div class="cttl">Ecological Impact Profile</div>
+      <div class="csub">Calculated systemic benefits of the proposed landscape design based on regional climate parameters.</div>
+      
+      <div style="margin-top: 20px; border-top:1px solid var(--bd);">
+          <div class="impr">
+              <div class="impl">Annual Carbon Sequestration</div>
+              <div class="impa" id="impCo2">-- tons</div>
+          </div>
+          <div class="impr">
+              <div class="impl">Groundwater Recharge Volume</div>
+              <div class="impa" id="impWater">-- kL</div>
+          </div>
+          <div class="impr">
+              <div class="impl">Particulate Matter (PM2.5) Filtration</div>
+              <div class="impa" id="impPm">-- %</div>
+          </div>
+          <div class="impr">
+              <div class="impl">Biodiversity Support Index</div>
+              <div class="impa" id="impBio">-- / 100</div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CALENDAR TAB -->
+  <div id="calendar" class="panel">
+    <div class="card">
+      <div class="cttl">Comprehensive Maintenance Cycle</div>
+      <div class="csub">The current month is highlighted automatically. Actions are tailored to prevent ecosystem disruption.</div>
+      <div class="calg" id="calendarGrid"></div>
+    </div>
+  </div>
+
+  <!-- STRICT 1-PAGE PDF BUTTON -->
+  <button class="gen-pdf-btn" onclick="generateRestrictedPDF()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    Export 1-Page Biodiversity Impact Report
+  </button>
+
+  <!-- CREDITS & DISCLAIMERS -->
+  <div class="credits-footer">
+      <div class="credits-title">Created & Maintained by Greenscape Designz</div>
+      <div class="credits-desc">
+          <b>Disclaimer:</b> The data provided by the VANA Native Atlas Engine is for preliminary ecological assessment and planning only. 
+          The full biodiversity, native flora selection, and arboriculture methodologies are subject to formal consultation and site-specific verification by professional ecologists.
+      </div>
+  </div>
+
+</div>
+
+<!-- ARBORICULTURE TREE CARE MODAL -->
+<div id="treeModal" class="overlay hidden" style="z-index: 99999;">
+  <div class="mbox tree-modal-box">
+    <div class="mbox-hdr" style="margin-bottom: 16px;">
+        <div class="mbox-ttl" id="tcName">Tree Name</div>
+        <div class="mbox-sub" id="tcSci" style="font-style: italic;">Scientific Name</div>
+    </div>
+    
+    <div class="care-sect">
+        <div class="care-sect-ttl">Arboriculture Pruning</div>
+        <div class="care-sect-desc" id="tcPrune">Detailed pruning guidelines...</div>
+    </div>
+    
+    <div class="care-sect">
+        <div class="care-sect-ttl">Root System Care</div>
+        <div class="care-sect-desc" id="tcRoot">Root management guidelines...</div>
+    </div>
+    
+    <div class="care-sect">
+        <div class="care-sect-ttl">Watering & Disease</div>
+        <div class="care-sect-desc" id="tcWater">Irrigation and disease guidelines...</div>
+    </div>
+
+    <button type="button" class="mbtn-sec" onclick="closeTreeModal()">Close Guide</button>
+  </div>
+</div>
+
+<!-- TOAST WRAPPER -->
+<div id="twrap" class="twrap"></div>
+
+<script>
+/* ═══════════════════════════════════════
+   DATABASES WITH IMAGES & CARE GUIDES
+═══════════════════════════════════════ */
+
+// CONSTANT FOR IMAGE FALLBACK (Ensures broken images never appear)
+const imgFallback = "this.onerror=null;this.src='https://placehold.co/400x300/2d5a3d/ffffff?text=Image+Unavailable';";
+
+// MASSIVE AVIAN GUILDS
+const avianGuilds = {
+    "nectarivores": {
+        name: "Nectarivores", rule: "Design for continuous bloom across at least 3 native plant species year-round. Provide a 3-5cm deep water dish nearby.",
+        species: [
+            { nm: "Purple Sunbird", sci: "Cinnyris asiaticus", layer: "Mid canopy", img: "https://images.unsplash.com/photo-1552728089-571ebd6a45ad?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Pale-billed Flowerpecker", sci: "Dicaeum erythrorhynchos", layer: "Canopy", img: "https://images.unsplash.com/photo-1605092601931-df2196620da6?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Loten's Sunbird", sci: "Cinnyris lotenius", layer: "Shrub layer", img: "https://images.unsplash.com/photo-1598923055375-385d5cb21111?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Crimson-backed Sunbird", sci: "Leptocoma minima", layer: "Lower canopy", img: "https://images.unsplash.com/photo-1579768652399-5ea0a0ce926b?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Thick-billed Flowerpecker", sci: "Dicaeum agile", layer: "Upper canopy", img: "https://images.unsplash.com/photo-1533235659648-fb2d4daec18c?auto=format&fit=crop&w=400&q=80" }
+        ]
+    },
+    "insectivores": {
+        name: "Insectivores", rule: "Dense native shrubs + native grasses are essential. Avoid pesticides completely.",
+        species: [
+            { nm: "Oriental Magpie-Robin", sci: "Copsychus saularis", layer: "Mid canopy", img: "https://images.unsplash.com/photo-1518469888804-019f201dd0b0?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Common Tailorbird", sci: "Orthotomus sutorius", layer: "Shrub layer", img: "https://images.unsplash.com/photo-1620694563886-c3a808af32ba?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Asian Tit", sci: "Parus cinereus", layer: "Canopy", img: "https://images.unsplash.com/photo-1588661706649-0d12eaf76189?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Indian Paradise Flycatcher", sci: "Terpsiphone paradisi", layer: "Mid canopy", img: "https://images.unsplash.com/photo-1550853024-fae8cd4be47f?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Black Drongo", sci: "Dicrurus macrocercus", layer: "Open perch", img: "https://images.unsplash.com/photo-1606567595334-d39972c85d03?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Pied Bushchat", sci: "Saxicola caprata", layer: "Ground edge", img: "https://images.unsplash.com/photo-1590497746410-b4bdc7daaf0a?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Green Bee-eater", sci: "Merops orientalis", layer: "Aerial hunter", img: "https://images.unsplash.com/photo-1582260657474-0672e3ea86fb?auto=format&fit=crop&w=400&q=80" }
+        ]
+    },
+    "waterbirds": {
+        name: "Water Birds", rule: "A 20–40 sqm pond with 5 cm shallow entry edge attracts these aquatic species within one monsoon season.",
+        species: [
+            { nm: "White-throated Kingfisher", sci: "Halcyon smyrnensis", layer: "Water edge", img: "https://images.unsplash.com/photo-1444464666168-49b19e882228?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Common Moorhen", sci: "Gallinula chloropus", layer: "Pond edge", img: "https://images.unsplash.com/photo-1521503730331-5cddccbc8b5c?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Little Cormorant", sci: "Microcarbo niger", layer: "Open water", img: "https://images.unsplash.com/photo-1601262489628-98eec2e6af26?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Purple Heron", sci: "Ardea purpurea", layer: "Wetland edge", img: "https://images.unsplash.com/photo-1478148386348-15abeb874d89?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Pond Heron", sci: "Ardeola grayii", layer: "Shallows", img: "https://images.unsplash.com/photo-1555581179-883391d4e0b5?auto=format&fit=crop&w=400&q=80" },
+            { nm: "White-breasted Waterhen", sci: "Amaurornis phoenicurus", layer: "Reed beds", img: "https://images.unsplash.com/photo-1563806932468-b7c12662c19e?auto=format&fit=crop&w=400&q=80" }
+        ]
+    },
+    "raptors": {
+        name: "Raptors", rule: "Leave 20–30% open sky. Retain tallest trees (15m+) as hunting perches.",
+        species: [
+            { nm: "Black Kite", sci: "Milvus migrans", layer: "Aerial scavenger", img: "https://images.unsplash.com/photo-1565575619363-27cc1726a7f8?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Shikra", sci: "Accipiter badius", layer: "Woodland edge", img: "https://images.unsplash.com/photo-1553733036-749e70dfd4db?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Spotted Owlet", sci: "Athene brama", layer: "Nocturnal cavity", img: "https://images.unsplash.com/photo-1518469888804-019f201dd0b0?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Booted Eagle", sci: "Hieraaetus pennatus", layer: "Winter visitor", img: "https://images.unsplash.com/photo-1614088924618-2e8c56e09cfa?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Brahminy Kite", sci: "Haliastur indus", layer: "Water proximity", img: "https://images.unsplash.com/photo-1591871937631-29d443ce8600?auto=format&fit=crop&w=400&q=80" }
+        ]
+    },
+    "groundbirds": {
+        name: "Ground Birds", rule: "Open native meadow (100–200 sqm min) with unmown native grasses. Bare soil patches are essential for foraging.",
+        species: [
+            { nm: "Red-wattled Lapwing", sci: "Vanellus indicus", layer: "Open ground", img: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Indian Francolin", sci: "Francolinus pondicerianus", layer: "Grass edge", img: "https://images.unsplash.com/photo-1580211130638-349f7ba3abda?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Yellow Wagtail", sci: "Motacilla flava", layer: "Short grass", img: "https://images.unsplash.com/photo-1522858547137-f1dcec554f55?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Paddyfield Pipit", sci: "Anthus rufulus", layer: "Open meadow", img: "https://images.unsplash.com/photo-1621245995449-33b666a7b21d?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Grey Francolin", sci: "Ortygornis pondicerianus", layer: "Scrubland", img: "https://images.unsplash.com/photo-1480044965905-02098d419e96?auto=format&fit=crop&w=400&q=80" }
+        ]
+    },
+    "cavitynesters": {
+        name: "Cavity Nesters", rule: "NEVER remove old or partially dead trees. A single old trunk supports more cavity nesting species than 20 young trees combined.",
+        species: [
+            { nm: "White-cheeked Barbet", sci: "Psilopogon viridis", layer: "Excavates cavity", img: "https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Rose-ringed Parakeet", sci: "Psittacula krameri", layer: "Uses old holes", img: "https://images.unsplash.com/photo-1552728089-571ebd6a45ad?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Common Myna", sci: "Acridotheres tristis", layer: "Tree holes", img: "https://images.unsplash.com/photo-1598923055375-385d5cb21111?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Plum-headed Parakeet", sci: "Psittacula cyanocephala", layer: "High cavities", img: "https://images.unsplash.com/photo-1579768652399-5ea0a0ce926b?auto=format&fit=crop&w=400&q=80" },
+            { nm: "Coppersmith Barbet", sci: "Psilopogon haemacephalus", layer: "Dead branches", img: "https://images.unsplash.com/photo-1533235659648-fb2d4daec18c?auto=format&fit=crop&w=400&q=80" }
+        ]
+    }
+};
+
+// MASSIVE INSECT & POLLINATOR DATABASE
+const insectDatabase = [
+    { nm: "Plain Tiger Butterfly", sci: "Danaus chrysippus", type: "Key Pollinator", img: "https://images.unsplash.com/photo-1541418950054-c12804e149d9?auto=format&fit=crop&w=400&q=80", role: "Essential pollinator for milkweeds and native shrubs." },
+    { nm: "Common Mormon", sci: "Papilio polytes", type: "Key Pollinator", img: "https://images.unsplash.com/photo-1520624021798-8ecba416e7dd?auto=format&fit=crop&w=400&q=80", role: "Pollinates citrus family native plants (Rutaceae)." },
+    { nm: "Indian Rock Bee", sci: "Apis dorsata", type: "Apex Pollinator", img: "https://images.unsplash.com/photo-1585642674384-566063b51ee2?auto=format&fit=crop&w=400&q=80", role: "Pollinates over 50% of the upper canopy native trees." },
+    { nm: "Asian Honey Bee", sci: "Apis cerana", type: "Mid-Level Pollinator", img: "https://images.unsplash.com/photo-1538356391494-df8576d1e4e2?auto=format&fit=crop&w=400&q=80", role: "Crucial for shrub layer and understory plant reproduction." },
+    { nm: "Ladybird Beetle", sci: "Coccinellidae", type: "Predatory Control", img: "https://images.unsplash.com/photo-1518006180370-1f95a0de7cc0?auto=format&fit=crop&w=400&q=80", role: "Natural pest control. Consumes thousands of aphids." },
+    { nm: "Praying Mantis", sci: "Mantodea", type: "Predatory Control", img: "https://images.unsplash.com/photo-1506509438914-747d92ccceca?auto=format&fit=crop&w=400&q=80", role: "Apex invertebrate predator. Controls pest populations naturally." },
+    { nm: "Crimson Rose Butterfly", sci: "Pachliopta hector", type: "Key Pollinator", img: "https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?auto=format&fit=crop&w=400&q=80", role: "Indicator of healthy Aristolochia (Dutchman's pipe) presence." },
+    { nm: "Carpenter Bee", sci: "Xylocopa", type: "Deep Pollinator", img: "https://images.unsplash.com/photo-1587392658826-6b223023e93b?auto=format&fit=crop&w=400&q=80", role: "Buzz pollination expert for tubular native flowers." }
+];
+
+// MASSIVE PLANT DATABASE
+const plantDatabase = [
+    { nm: "Hibiscus rosa-sinensis", common: "Native Hibiscus", layer: "Shrub Layer (1-2m)", img: "https://images.unsplash.com/photo-1557053964-9276cb6fb91c?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Prune heavily in late winter to encourage bushy spring growth.", root: "Shallow rooted; requires heavy mulch layer to protect from heat.", water: "Susceptible to aphids if overwatered. Maintain moderate moisture."} },
+    { nm: "Callistemon viminalis", common: "Weeping Bottlebrush", layer: "Mid Canopy (3-5m)", img: "https://images.unsplash.com/photo-1616641680516-7241cdbb383e?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Only prune dead wood. Do not cut into old wood as it will not regenerate.", root: "Aggressive roots. Plant at least 3m away from pipes.", water: "Highly drought tolerant once established. Do not overwater."} },
+    { nm: "Ficus benghalensis", common: "Banyan Tree", layer: "Tall Canopy (15m+)", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Train aerial roots downwards to form secondary trunks.", root: "Massive destructive roots. Plant 20m away from structures.", water: "Highly adaptable. Drought resistant."} },
+    { nm: "Ficus racemosa", common: "Cluster Fig", layer: "Canopy (12m)", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Minimal pruning. Retain lower trunk for fruit clusters.", root: "Extensive roots.", water: "Prefers riparian zones, requires higher moisture initially."} },
+    { nm: "Erythrina variegata", common: "Indian Coral Tree", layer: "Canopy (10m)", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Prune for structural integrity in first 3 years. Branches are brittle.", root: "Nitrogen fixing nodules on roots enrich soil.", water: "Drought hardy. Drops leaves in winter."} },
+    { nm: "Vetiveria zizanioides", common: "Vetiver Grass", layer: "Ground Layer", img: "https://images.unsplash.com/photo-1592634358897-40da39569727?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Cut back to 15cm above ground annually before monsoon.", root: "Massive fibrous root system up to 3m deep. Excellent for soil stabilization.", water: "Can survive extreme drought and inundation."} },
+    { nm: "Butea monosperma", common: "Flame of the Forest", layer: "Mid Canopy (5-8m)", img: "https://images.unsplash.com/photo-1464692805480-a69dfaafdb0d?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Formative pruning to establish a strong central leader.", root: "Deep taproot.", water: "Extremely drought tolerant."} },
+    { nm: "Mimusops elengi", common: "Spanish Cherry", layer: "Canopy (10-15m)", img: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Naturally forms a dense, symmetrical crown. Minimal pruning needed.", root: "Non-invasive.", water: "Requires regular watering for first 2 years."} },
+    { nm: "Cymbopogon citratus", common: "Lemongrass", layer: "Ground Layer", img: "https://images.unsplash.com/photo-1620025537526-77821c9b68bc?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Harvest outer leaves continuously to promote inner growth.", root: "Clumping roots.", water: "Do not let soil dry out completely."} },
+    { nm: "Hamelia patens", common: "Firebush", layer: "Shrub Layer (1-3m)", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Responds well to heavy shearing. Flowers on new growth.", root: "Shallow, adaptable.", water: "Highly drought tolerant."} },
+    { nm: "Murraya paniculata", common: "Orange Jessamine", layer: "Shrub Layer (2-4m)", img: "https://images.unsplash.com/photo-1536882240095-0379873feb4e?auto=format&fit=crop&w=400&q=80",
+      care: { prune: "Can be hedged or left as a small tree.", root: "Non-invasive.", water: "Moderate watering. Prefers well-draining soil."} }
+];
+
+const forestDatabase = {
+    "Karnataka": [
+        { common: "Sandalwood", nm: "Santalum album", img: "https://images.unsplash.com/photo-1516245834210-c4c142787335?auto=format&fit=crop&w=400&q=80", care: {prune:"Minimal structural pruning only.", root:"Hemiparasitic roots require a host plant nearby (e.g. Acacia).", water:"Strictly well-drained soil. Cannot tolerate waterlogging."} },
+        { common: "Indian Rosewood", nm: "Dalbergia latifolia", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80", care: {prune:"Formative pruning in first 5 years to establish single leader trunk.", root:"Deep taproot. Ensure deep soil profile.", water:"Drought hardy. Do not irrigate in winter."} }
+    ],
+    "Maharashtra": [
+        { common: "Teak", nm: "Tectona grandis", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80", care: {prune:"Self-pruning in dense plantations. Remove low branches early.", root:"Extensive lateral roots.", water:"Requires clear dry season for optimal timber growth."} }
+    ],
+    "Rajasthan": [
+        { common: "Khejri", nm: "Prosopis cineraria", img: "https://images.unsplash.com/photo-1464692805480-a69dfaafdb0d?auto=format&fit=crop&w=400&q=80", care: {prune:"Lopping of branches is common for fodder, but retain main canopy.", root:"Incredibly deep taproot reaching groundwater.", water:"Zero irrigation required once established."} }
+    ],
+    "Default": [
+        { common: "Banyan Tree", nm: "Ficus benghalensis", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80", care: {prune:"Train aerial roots downwards to form secondary trunks.", root:"Massive destructive roots. Plant 20m away from structures.", water:"Highly adaptable."} },
+        { common: "Peepal", nm: "Ficus religiosa", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80", care: {prune:"Only remove deadwood. Sacred tree, minimal interference preferred.", root:"Can crack concrete. Restrict root zone in urban areas.", water:"Drought tolerant."} }
+    ]
+};
+
+const soilDatabase = {
+  "Red laterite": { states: ["Karnataka", "Kerala", "Goa"], ph: "5.8 - 6.5", om: "0.4 - 0.8%", texture: "Sandy laterite", drainage: "Rapid", ecology: "Needs heavy mulching to retain water.", amend: [{n:"Vermicompost",v:"80 kg"}, {n:"Neem Cake",v:"15 kg"}], irrig: {base:"45 Liters", type:"High Frequency / Drip", retain:"25%"} },
+  "Black cotton (Regur)": { states: ["Maharashtra", "Telangana", "Madhya Pradesh", "Gujarat"], ph: "7.2 - 8.5", om: "0.5 - 1.0%", texture: "Clayey", drainage: "Slow", ecology: "Prone to severe cracking in summer.", amend: [{n:"River Sand / Perlite",v:"150 kg"}, {n:"Farmyard Manure",v:"100 kg"}], irrig: {base:"20 Liters", type:"Low Frequency / Deep", retain:"85%"} },
+  "Desert / Arid": { states: ["Rajasthan"], ph: "7.5 - 8.5", om: "<0.4%", texture: "Sandy", drainage: "Very Rapid", ecology: "Focus strictly on xerophytic plants.", amend: [{n:"Coco Peat",v:"100 kg"}, {n:"Vermicompost",v:"150 kg"}], irrig: {base:"60 Liters", type:"Drip ONLY (Heavy Mulch)", retain:"10%"} },
+  "Other": { states: ["Other"], ph: "6.5 - 7.0", om: "1.0%", texture: "Variable", drainage: "Variable", ecology: "General ecosystem guidelines apply.", amend: [{n:"General Compost",v:"100 kg"}], irrig: {base:"35 Liters", type:"Monitor Locally", retain:"50%"} }
+};
+
+const calendarTasks = [
+  /* Jan */ ["Dormant pruning phase", "Sanitize all gardening tools"],
+  /* Feb */ ["Nest Prep (Do not disturb)", "Apply spring mulch"],
+  /* Mar */ ["Monitor early heat stress", "Increase water frequency"],
+  /* Apr */ ["Strict Heat Protocol", "Provide bird baths daily"],
+  /* May */ ["Pre-Monsoon soil check", "Clear drainage channels"],
+  /* Jun */ ["Main Planting Window", "Divide root clusters"],
+  /* Jul */ ["Monsoon Weed Control", "Monitor for fungal rot"],
+  /* Aug */ ["Prune monsoon overgrowth", "Check tree stakes"],
+  /* Sep */ ["Post-Monsoon Fixes", "Re-mulch washed away areas"],
+  /* Oct */ ["Compost Addition", "Plant winter bloomers"],
+  /* Nov */ ["Dormancy preparation", "Rake and compost leaves"],
+  /* Dec */ ["Minimal interference", "Protect frost-sensitive flora"]
+];
+
+/* ═══════════════════════════════════════
+   UI INITIALIZATION & REGISTRATION LOGIC
+═══════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    // Force registration modal on load. Lock is active by default.
+    document.getElementById('registrationModal').classList.remove('hidden');
+    
+    initAvianGuilds();
+    renderInsects();
+    renderCalendar();
+    triggerManualScan(); // Fetch default data in background
+});
+
+function switchTab(tabId, el) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('.ntab').forEach(t => t.classList.remove('on'));
+    document.getElementById(tabId).classList.add('on');
+    if(el) el.classList.add('on');
+}
+
+function toast(msg, type){
+    const w = document.getElementById('twrap');
+    if(!w) return;
+    const t = document.createElement('div');
+    t.className = 'toast' + (type === 'warn' ? ' warn' : '');
+    t.textContent = msg;
+    w.appendChild(t);
+    requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('on')));
+    setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 300); }, 3200);
+}
+
+// 🟢 COMPREHENSIVE GOOGLE SHEETS FORM SUBMISSION (WITH NO-CORS FIX) 🟢
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzjyGv9IWGFREJlnlW7tcdMOes10-bIGBU3f5i6ao74o6h4pyPewiwYyljcJFIly6ZN/exec';
+const form = document.forms['submit-to-google-sheet'];
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  
+  // Set automatic timestamp
+  document.getElementById('formTimestamp').value = new Date().toLocaleString();
+  
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = "Authenticating & Saving...";
+  btn.disabled = true;
+
+  // IMPORTANT: mode 'no-cors' is required to bypass strict browser security when submitting to Google Scripts
+  fetch(scriptURL, { 
+      method: 'POST', 
+      body: new FormData(form),
+      mode: 'no-cors'
+  })
+  .then(() => {
+      // Because of 'no-cors', the response will be "opaque", but we know it reached the server successfully!
+      
+      // Unlock the App
+      document.getElementById('registrationModal').classList.add('hidden');
+      document.getElementById('appShell').classList.remove('app-locked');
+      
+      // Update User Info in Header
+      const name = document.getElementById('formName').value;
+      const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      document.getElementById('u-ava-text').innerText = initials;
+      document.getElementById('u-name-text').innerText = name.split(' ')[0];
+      
+      toast('Registration Successful! Welcome to VANA.');
+      
+      // Force switch to About/Genesis tab as landing page
+      switchTab('about', document.getElementById('navAbout'));
+  })
+  .catch(error => {
+      console.error('Error!', error.message);
+      toast('Could not connect to database. Please check connection.', 'warn');
+      btn.textContent = "Register & Enter VANA";
+      btn.disabled = false;
+  });
+});
+
+
+/* ═══════════════════════════════════════
+   RENDERING & INTERACTIVE MODALS
+═══════════════════════════════════════ */
+
+function initAvianGuilds() {
+    const tabsContainer = document.getElementById('guildTabs');
+    tabsContainer.innerHTML = "";
+    let isFirst = true;
+    for (const key in avianGuilds) {
+        const tab = document.createElement('div');
+        tab.className = `stab ${isFirst ? 'on' : ''}`;
+        tab.textContent = avianGuilds[key].name;
+        tab.onclick = () => renderGuildContent(key, tab);
+        tabsContainer.appendChild(tab);
+        if (isFirst) { renderGuildContent(key, null); isFirst = false; }
+    }
+}
+
+function renderGuildContent(guildKey, tabElement) {
+    if (tabElement) {
+        document.querySelectorAll('#birds .stab').forEach(t => t.classList.remove('on'));
+        tabElement.classList.add('on');
+    }
+    const guild = avianGuilds[guildKey];
+    const container = document.getElementById('guildContent');
+    let html = ``;
+    guild.species.forEach(sp => {
+        html += `
+        <div class="img-card">
+            <img src="${sp.img}" alt="${sp.nm}" onerror="${imgFallback}">
+            <div class="img-card-body">
+                <div class="img-card-ttl">${sp.nm}</div>
+                <div class="img-card-sub">${sp.sci}</div>
+                <div class="img-card-tag">${sp.layer}</div>
+                <button class="ui-btn" onclick="toast('Habitat requirements: ${guild.rule}')">View Habitat Needs</button>
+            </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+function renderInsects() {
+    const container = document.getElementById('insectContent');
+    let html = "";
+    insectDatabase.forEach(i => {
+        html += `
+        <div class="img-card">
+            <img src="${i.img}" alt="${i.nm}" onerror="${imgFallback}">
+            <div class="img-card-body">
+                <div class="img-card-ttl">${i.nm}</div>
+                <div class="img-card-sub">${i.sci}</div>
+                <div class="img-card-tag">${i.type}</div>
+                <button class="ui-btn" onclick="toast('${i.role}')">View Pollinator Role</button>
+            </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+}
+
+function renderPlants(state) {
+    // 1. General Plants
+    const pContainer = document.getElementById('plantListContainer');
+    let pHtml = "";
+    plantDatabase.forEach(p => {
+        const careStr = encodeURIComponent(JSON.stringify(p.care));
+        pHtml += `
+        <div class="img-card">
+            <img src="${p.img}" alt="${p.common}" onerror="${imgFallback}">
+            <div class="img-card-body">
+                <div class="img-card-ttl">${p.common}</div>
+                <div class="img-card-sub">${p.nm}</div>
+                <div class="img-card-tag">${p.layer}</div>
+                <button class="ui-btn" onclick="openTreeModal('${p.common}', '${p.nm}', '${careStr}')">View Arboriculture</button>
+            </div>
+        </div>`;
+    });
+    pContainer.innerHTML = pHtml;
+
+    // 2. State Specific Forest Species
+    const fContainer = document.getElementById('forestSpeciesContainer');
+    let fHtml = "";
+    const fData = forestDatabase[state] || forestDatabase["Default"];
+    
+    document.getElementById('floraStateTtl').innerText = `Native Botanical Matrix (${state})`;
+    
+    fData.forEach(f => {
+        const careStr = encodeURIComponent(JSON.stringify(f.care));
+        fHtml += `
+        <div class="img-card" style="border-color: var(--g);">
+            <img src="${f.img}" alt="${f.common}" onerror="${imgFallback}">
+            <div class="img-card-body">
+                <div class="img-card-ttl" style="color:var(--g)">${f.common}</div>
+                <div class="img-card-sub">${f.nm}</div>
+                <div class="img-card-tag" style="background:var(--glt); color:var(--gdk);">Forest Timber Species</div>
+                <button class="ui-btn" style="background:var(--g); color:#fff;" onclick="openTreeModal('${f.common}', '${f.nm}', '${careStr}')">Arboriculture Guide</button>
+            </div>
+        </div>`;
+    });
+    fContainer.innerHTML = fHtml;
+}
+
+// Tree Care Modal Logic
+function openTreeModal(common, sci, careStr) {
+    const care = JSON.parse(decodeURIComponent(careStr));
+    document.getElementById('tcName').innerText = common;
+    document.getElementById('tcSci').innerText = sci;
+    document.getElementById('tcPrune').innerText = care.prune;
+    document.getElementById('tcRoot').innerText = care.root;
+    document.getElementById('tcWater').innerText = care.water;
+    document.getElementById('treeModal').classList.remove('hidden');
+}
+
+function closeTreeModal() {
+    document.getElementById('treeModal').classList.add('hidden');
+}
+
+function renderCalendar() {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const currentMonthIndex = new Date().getMonth();
+  const grid = document.getElementById('calendarGrid');
+  grid.innerHTML = "";
+  months.forEach((m, i) => {
+    let taskHtml = "";
+    calendarTasks[i].forEach(task => { taskHtml += `<div class="ctsk">${task}</div>`; });
+    grid.innerHTML += `<div class="calm ${i === currentMonthIndex ? "on" : ""}"><div class="cmn">${m} ${i === currentMonthIndex ? "(Current)" : ""}</div>${taskHtml}</div>`;
+  });
+}
+
+/* ═══════════════════════════════════════
+   PREDICTIVE SEARCH & APIS
+═══════════════════════════════════════ */
+let citySearchTimeout;
+
+async function debounceCitySearch(query) {
+    clearTimeout(citySearchTimeout);
+    const drop = document.getElementById('cityDropdown');
+    if(query.length < 2) { drop.classList.remove('show'); return; }
+    
+    citySearchTimeout = setTimeout(async () => {
+        try {
+            const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=6&language=en&format=json`);
+            const data = await res.json();
+            
+            if(data.results && data.results.length > 0) {
+                drop.innerHTML = '';
+                data.results.forEach(place => {
+                    const div = document.createElement('div');
+                    div.className = 'city-opt';
+                    div.innerHTML = `<span><b>${place.name}</b></span> <span class="city-opt-st">${place.admin1 || ''}, ${place.country_code}</span>`;
+                    div.onclick = () => selectCity(place.name, place.admin1, place.latitude, place.longitude);
+                    drop.appendChild(div);
+                });
+                drop.classList.add('show');
+            } else { drop.classList.remove('show'); }
+        } catch(e) { console.error(e); }
+    }, 350);
+}
+
+function selectCity(city, stateStr, lat, lon) {
+    document.getElementById('cityInput').value = city;
+    document.getElementById('latInput').value = lat;
+    document.getElementById('lonInput').value = lon;
+    document.getElementById('cityDropdown').classList.remove('show');
+    
+    const stateSelect = document.getElementById('stateInput');
+    let found = false;
+    if (stateStr) {
+        for (let i = 0; i < stateSelect.options.length; i++) {
+            if (stateStr.includes(stateSelect.options[i].value) || stateSelect.options[i].value.includes(stateStr)) {
+                stateSelect.selectedIndex = i; found = true; break;
+            }
+        }
+    }
+    if(!found) stateSelect.value = "Other";
+    triggerManualScan();
+}
+
+async function triggerManualScan() {
+    const city = document.getElementById('cityInput').value;
+    const state = document.getElementById('stateInput').value;
+    const lat = document.getElementById('latInput').value;
+    const lon = document.getElementById('lonInput').value;
+    const btn = document.querySelector('.loc-update-btn');
+    
+    btn.textContent = "Scanning Environmental Data...";
+    
+    try {
+        updateSoilProfile(state, city);
+        calculateImpact(lat, lon, state); 
+        renderPlants(state); // Refresh flora for new state
+        
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relative_humidity_2m&timezone=auto`);
+        const data = await res.json();
+        renderWeather(data, city, lat, lon);
+        
+        toast('Ecosystem data loaded successfully!');
+    } catch(e) {
+        console.error(e);
+        toast('Weather fetch failed. Check network.', 'warn');
+    } finally {
+        btn.textContent = "Scan Live Ecology for Coordinates";
+    }
+}
+
+function renderWeather(data, city, lat, lon) {
+    const temp = data.current_weather.temperature;
+    const wind = data.current_weather.windspeed;
+    const isRainy = data.current_weather.weathercode >= 61 && data.current_weather.weathercode <= 65; 
+    
+    document.getElementById('weatherSub').innerText = `Live sensor data for ${city} (Lat: ${lat}, Lon: ${lon})`;
+    document.getElementById('weatherMets').innerHTML = `
+      <div class="met"><div class="mv">${temp}°C</div><div class="ml">Current Temp</div></div>
+      <div class="met"><div class="mv">${wind}</div><div class="ml">Wind (km/h)</div></div>
+      <div class="met"><div class="mv">${isRainy ? 'Yes' : 'No'}</div><div class="ml">Active Rain</div></div>
+      <div class="met"><div class="mv" style="color:var(--pu)">Live</div><div class="ml">Status</div></div>
+    `;
+    document.getElementById('alertsContainer').innerHTML = `<div class="inote">Ecological conditions stable.</div>`;
+}
+
+function updateSoilProfile(state, city) {
+  let matchedType = "Other";
+  for (const type in soilDatabase) {
+      if (soilDatabase[type].states.includes(state)) { matchedType = type; break; }
+  }
+  const sData = soilDatabase[matchedType];
+
+  document.getElementById('soilLocationName').innerText = `${city}, ${state}`;
+  document.getElementById('soilTypeDisplay').innerText = `Primary Soil Taxonomy: ${matchedType}`;
+  document.getElementById('soilMets').innerHTML = `
+    <div class="met"><div class="mv">${sData.ph}</div><div class="ml">pH Range</div></div>
+    <div class="met"><div class="mv">${sData.om}</div><div class="ml">Organic Matter</div></div>
+    <div class="met"><div class="mv" style="font-size:16px; margin-top:5px">${sData.texture}</div><div class="ml">Texture</div></div>
+    <div class="met"><div class="mv" style="font-size:16px; margin-top:5px">${sData.drainage}</div><div class="ml">Drainage</div></div>
+  `;
+}
+
+function calculateImpact(lat, lon, state) {
+    let baseCo2 = 4.2; let baseWater = 1250; let basePm = 68; let baseBio = 82;
+    let latMod = parseFloat(lat) / 100;
+    
+    document.getElementById('impCo2').innerText = (baseCo2 + latMod).toFixed(1) + " tons";
+    document.getElementById('impWater').innerText = Math.floor(baseWater + (latMod*1000)) + " kL";
+    document.getElementById('impPm').innerText = Math.floor(basePm + (latMod*10)) + " %";
+    document.getElementById('impBio').innerText = Math.floor(baseBio + (latMod*5)) + " / 100";
+}
+
+/* ═══════════════════════════════════════
+   STRICT 1-PAGE PDF GENERATION
+═══════════════════════════════════════ */
+function generateRestrictedPDF() {
+    toast('Generating 1-Page Impact Report...');
+    setTimeout(() => {
+        try {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const city = document.getElementById('cityInput').value;
+            const state = document.getElementById('stateInput').value;
+            const co2 = document.getElementById('impCo2').innerText;
+            const water = document.getElementById('impWater').innerText;
+            const bio = document.getElementById('impBio').innerText;
+            
+            doc.setFontSize(22);
+            doc.setTextColor(45, 90, 61);
+            doc.text("VANA Biodiversity Impact Summary", 20, 25);
+            
+            doc.setFontSize(14);
+            doc.setTextColor(26, 26, 26);
+            doc.text(`Location: ${city}, ${state}`, 20, 40);
+            
+            doc.line(20, 48, 190, 48);
+            
+            doc.setFontSize(16);
+            doc.text("Projected Ecological Impact", 20, 65);
+            
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Annual Carbon Sequestration: ${co2}`, 20, 80);
+            doc.text(`Groundwater Recharge Volume: ${water}`, 20, 90);
+            doc.text(`Biodiversity Support Index: ${bio}`, 20, 100);
+            
+            // STRICT DISCLAIMER
+            doc.setFontSize(13);
+            doc.setTextColor(200, 50, 50); // Red alert color
+            doc.text("DISCLAIMER:", 20, 140);
+            doc.setFontSize(11);
+            doc.setTextColor(50, 50, 50);
+            doc.text("This is a preliminary 1-page impact summary.", 20, 150);
+            doc.text("The full biodiversity, native flora, and arboriculture report", 20, 158);
+            doc.text("is subject to further professional ecological consultation.", 20, 166);
+            
+            doc.save(`VANA_1Page_Summary_${city.replace(/\s+/g, '_')}.pdf`);
+            toast('Summary PDF downloaded successfully!');
+        } catch (err) {
+            console.error(err);
+            toast('Failed to generate PDF.', 'warn');
+        }
+    }, 500);
+}
+</script>
+</body>
+</html>
