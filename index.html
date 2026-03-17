@@ -23,18 +23,22 @@ html{font-size:16px}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5}
 .shell{max-width:960px;margin:0 auto;padding:0 16px 80px}
 
-/* Header */
-.hdr{background:var(--g);margin:0 -16px;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
+/* Header & Login */
+.hdr{background:var(--g);margin:0 -16px;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
 .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
 .logo-leaf{width:30px;height:30px;background:rgba(255,255,255,0.16);border-radius:50% 50% 50% 8px;display:flex;align-items:center;justify-content:center}
 .logo-leaf svg{width:16px;height:16px}
 .logo-name{font-size:17px;font-weight:700;color:#fff;letter-spacing:.06em;display:block}
-.logo-sub{font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:.12em;text-transform:uppercase}
+.logo-sub{font-size:9px;color:rgba(255,255,255,0.8);letter-spacing:.12em;text-transform:uppercase}
+.user-chip{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.15);padding:6px 12px;border-radius:20px;cursor:pointer;transition:background .2s; border:1px solid rgba(255,255,255,0.1);}
+.user-chip:hover{background:rgba(0,0,0,0.25)}
+.u-ava{width:24px;height:24px;background:#fff;color:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.u-name{font-size:12px;color:#fff;font-weight:600}
 
 /* Nav */
 .nav{display:flex;background:var(--sur);border-bottom:1px solid var(--bd);margin:0 -16px;padding:0 6px;overflow-x:auto;gap:2px;position:sticky;top:56px;z-index:199;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.ntab{display:flex;flex-direction:column;align-items:center;padding:12px 14px 10px;font-size:11px;font-weight:600;color:var(--txm);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .18s;white-space:nowrap;min-width:66px;user-select:none}
+.ntab{display:flex;flex-direction:column;align-items:center;padding:14px 14px 12px;font-size:11px;font-weight:600;color:var(--txm);cursor:pointer;border-bottom:3px solid transparent;transition:all .18s;white-space:nowrap;min-width:70px;user-select:none}
 .ntab:hover{color:var(--g);background:var(--glt)}
 .ntab.on{color:var(--g);border-bottom-color:var(--g);font-weight:700}
 
@@ -42,38 +46,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .panel{display:none;padding:18px 0 10px;animation:fi .2s ease}
 .panel.on{display:block}
 @keyframes fi{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
-.card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:18px 20px;margin-bottom:14px}
-.cttl{font-size:15px;font-weight:700;margin-bottom:4px}
-.csub{font-size:12px;color:var(--txm)}
+.card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:20px;margin-bottom:16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
+.cttl{font-size:16px;font-weight:700;margin-bottom:4px; color:var(--tx)}
+.csub{font-size:12px;color:var(--txm); margin-bottom:12px;}
 
 /* Metrics grids */
 .mets{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:13px}
 .met{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;transition:border-color .18s}
 .met:hover{border-color:var(--g);background:var(--glt)}
 .mv{font-size:22px;font-weight:700;color:var(--g)}
-.ml{font-size:11px;color:var(--txm);margin-top:4px}
+.ml{font-size:11px;color:var(--txm);margin-top:4px; font-weight:500;}
 
-/* Alerts & Notes */
-.inote{border-left:4px solid var(--g);background:var(--glt);border-radius:0 var(--rs) var(--rs) 0;padding:12px 16px;font-size:13px;color:#1e3f2b;line-height:1.6;margin-top:10px}
-.wnote{border-left:4px solid var(--tr);background:var(--trlt);border-radius:0 var(--rs) var(--rs) 0;padding:12px 16px;font-size:13px;color:#7a3010;line-height:1.6;margin-top:10px}
+/* High Contrast Alerts & Notes */
+.inote{border-left:4px solid #059669;background:#d1fae5;border-radius:0 var(--rs) var(--rs) 0;padding:14px 16px;font-size:13px;color:#064e3b;line-height:1.6;margin-top:12px; font-weight:500;}
+.wnote{border-left:4px solid #dc2626;background:#fee2e2;border-radius:0 var(--rs) var(--rs) 0;padding:14px 16px;font-size:13px;color:#7f1d1d;line-height:1.6;margin-top:12px; font-weight:500;}
 
-/* Inputs */
-.loc-edit-wrap{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:16px;margin-bottom:14px}
+/* Inputs & Dropdowns */
+.loc-edit-wrap{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:16px;margin-bottom:16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
 .loc-field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.loc-field{display:flex;flex-direction:column;gap:6px}
+.loc-coord-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px; border-top: 1px dashed var(--bd); padding-top:12px;}
+.loc-field{display:flex;flex-direction:column;gap:6px;position:relative;}
 .loc-field label{font-size:10px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.06em}
 .loc-input{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:10px 12px;font-size:14px;color:var(--tx);width:100%;transition:border-color .18s;font-family:inherit}
 .loc-input:focus{outline:none;border-color:var(--g);background:var(--sur)}
-.loc-update-btn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--rs);padding:12px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s}
-.loc-update-btn:hover{background:var(--gdk)}
+select.loc-input{cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;}
+.loc-update-btn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--rs);padding:14px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s; box-shadow: 0 4px 12px rgba(45,90,61,0.2);}
+.loc-update-btn:hover{background:var(--gdk); transform:translateY(-1px);}
 
-/* Sub-tabs for Guilds */
+/* Predictive Dropdown */
+.city-drop{position:absolute;top:100%;left:0;right:0;background:var(--sur);border:1px solid var(--bd);border-radius:var(--rs);max-height:220px;overflow-y:auto;z-index:100;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.12); margin-top:4px;}
+.city-drop.show{display:block}
+.city-opt{padding:10px 12px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd); transition:background .15s;}
+.city-opt:hover{background:var(--glt)}
+.city-opt-st{font-size:10px;color:var(--txm)}
+
+/* Avian & Guilds */
 .stabs{display:flex;gap:6px;margin:15px 0;flex-wrap:wrap;border-bottom:1px solid var(--bd);padding-bottom:10px;}
 .stab{padding:6px 14px;font-size:12px;font-weight:600;border-radius:20px;cursor:pointer;border:1px solid var(--bd);color:var(--txm);background:var(--sur);transition:all .18s}
 .stab.on{background:var(--g);color:#fff;border-color:var(--g)}
 .stab:hover:not(.on){background:var(--glt);border-color:var(--g);color:var(--g)}
-
-/* Species Grid */
 .spg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}
 .spc{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:16px 10px;cursor:pointer;transition:all .18s;text-align:center;display:flex;flex-direction:column;align-items:center;}
 .spc:hover{border-color:var(--pu);background:var(--pult);transform:translateY(-2px)}
@@ -90,38 +101,84 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 .plsc{font-size:11px;color:var(--txm);font-style:italic;margin-top:2px}
 .plp{font-size:12px;color:var(--txm)}
 
+/* Soil grids */
+.soilg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px}
+.soilc{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:16px;}
+.soilc-ttl{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--tx); border-bottom:1px solid var(--bd); padding-bottom:6px;}
+.brow{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--bd);font-size:12px;color:var(--txm)}
+.brow:last-child{border-bottom:none}
+.bval{font-weight:700;color:var(--tx)}
+.btrk{width:100%;height:6px;background:#e8e6e0;border-radius:3px;overflow:hidden;margin-top:8px;}
+.bfil{height:6px;border-radius:3px;background:var(--bl);}
+
+/* Impact Tab */
+.impr{display:flex;align-items:center;padding:14px 10px;border-bottom:1px solid var(--bd);cursor:pointer;transition:all .15s}
+.impr:last-child{border-bottom:none}
+.impr:hover{background:var(--glt);border-radius:8px;border-bottom-color:transparent}
+.impl{font-size:14px;font-weight:600;flex:1}
+.impa{font-size:16px;font-weight:700;color:var(--g);min-width:100px;text-align:right}
+
 /* Calendar */
-.calg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}
+.calg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}
 .calm{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:14px;transition:all .18s}
 .calm.on{border-color:var(--g);border-width:2px;background:var(--glt);box-shadow:0 4px 12px rgba(45,90,61,0.15)}
-.cmn{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--tx)}
-.ctsk{font-size:11px;color:var(--txm);padding-left:8px;border-left:3px solid var(--g);line-height:1.4}
+.cmn{font-size:14px;font-weight:700;margin-bottom:8px;color:var(--tx); border-bottom:1px solid var(--bd); padding-bottom:6px;}
+.ctsk{font-size:11px;color:var(--txm);padding-left:8px;border-left:3px solid var(--g);line-height:1.4; margin-bottom:6px;}
+
+/* Modal & Login Form */
+.overlay{position:fixed;inset:0;background:rgba(10,20,15,0.72);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px); opacity:1; transition:opacity .25s;}
+.overlay.hidden{display:none; opacity:0; pointer-events:none;}
+.mbox{background:var(--sur);border-radius:var(--rl);padding:28px 24px;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;animation:mslide .25s ease; box-shadow:0 12px 40px rgba(0,0,0,0.2);}
+@keyframes mslide{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+.mbox-hdr{text-align:center;margin-bottom:22px}
+.mbox-ttl{font-size:20px;font-weight:700;margin-bottom:6px; color:var(--tx)}
+.mbox-sub{font-size:13px;color:var(--txm);line-height:1.5}
+.fgrp{margin-bottom:16px}
+.fgrp label{display:block;font-size:11px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.fgrp label .req{color:var(--tr)}
+.finp{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;font-size:14px;color:var(--tx);font-family:inherit;transition:border-color .18s}
+.finp:focus{outline:none;border-color:var(--g);background:var(--sur)}
+.mbtn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--r);padding:14px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .2s}
+.mbtn:hover{background:var(--gdk)}
+.mbtn:disabled{opacity:0.7; pointer-events:none;}
+.mbtn-sec{width:100%;background:transparent;color:var(--txm);border:none;border-radius:var(--r);padding:12px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;transition:all .18s}
+.mbtn-sec:hover{background:var(--bg);color:var(--tx)}
+
+/* PDF Button */
+.gen-pdf-btn{width:100%;background:var(--gdk);color:#fff;border:none;border-radius:var(--rl);padding:16px;font-size:15px;font-weight:700;cursor:pointer;margin-top:20px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.gen-pdf-btn:hover{background:#142d1f;transform:translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.2);}
 
 /* Toast */
 .twrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
-.toast{background:var(--gdk);color:#fff;border-radius:20px;padding:10px 20px;font-size:13px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.toast{background:var(--gdk);color:#fff;border-radius:20px;padding:12px 24px;font-size:13px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;box-shadow:0 4px 12px rgba(0,0,0,0.2); text-align:center;}
 .toast.on{opacity:1;transform:none}
-.toast.warn{background:#8a3010}
+.toast.warn{background:#991b1b}
 
 @media(max-width:700px){
+  .loc-field-row, .loc-coord-row{grid-template-columns:1fr;}
   .mets{grid-template-columns:repeat(2,1fr)}
   .spg{grid-template-columns:repeat(2,1fr)}
   .calg{grid-template-columns:repeat(2,1fr)}
-  .plr{grid-template-columns:1fr; gap:4px; padding:12px;}
+  .soilg{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <div class="shell">
 
-  <!-- Header -->
+  <!-- Header & Login -->
   <div class="hdr">
     <div class="logo">
       <div class="logo-leaf"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
       <div>
         <span class="logo-name">VANA</span>
-        <span class="logo-sub">Dynamic Native Atlas</span>
+        <span class="logo-sub">Biodiversity Atlas</span>
       </div>
+    </div>
+    <!-- Login Trigger -->
+    <div class="user-chip" onclick="openLoginModal()" id="userChipBtn">
+      <div class="u-ava" id="u-ava-text">?</div>
+      <div class="u-name" id="u-name-text">Sign In / Join</div>
     </div>
   </div>
 
@@ -129,8 +186,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   <div class="nav">
     <div class="ntab on" onclick="switchTab('scan', this)">Scan & Weather</div>
     <div class="ntab" onclick="switchTab('birds', this)">Avian Atlas</div>
-    <div class="ntab" onclick="switchTab('plants', this)">Flora List</div>
-    <div class="ntab" onclick="switchTab('soil', this)">Soil DB</div>
+    <div class="ntab" onclick="switchTab('plants', this)">Flora Matrix</div>
+    <div class="ntab" onclick="switchTab('soil', this)">Soil & Water</div>
+    <div class="ntab" onclick="switchTab('impact', this)">Impact Profile</div>
     <div class="ntab" onclick="switchTab('calendar', this)">Calendar</div>
   </div>
 
@@ -139,19 +197,45 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
     <div class="loc-edit-wrap">
       <div class="loc-field-row">
         <div class="loc-field">
-          <label>City (For Weather API)</label>
-          <input type="text" id="cityInput" class="loc-input" value="Bengaluru">
+          <label>City (Predictive Search)</label>
+          <input type="text" id="cityInput" class="loc-input" value="Bengaluru" placeholder="Type a city name..." autocomplete="off" oninput="debounceCitySearch(this.value)">
+          <div id="cityDropdown" class="city-drop"></div>
         </div>
         <div class="loc-field">
-          <label>State (For Soil Profile)</label>
-          <input type="text" id="stateInput" class="loc-input" value="Karnataka">
+          <label>State / Region (For Soil Profile)</label>
+          <select id="stateInput" class="loc-input">
+             <option value="Andhra Pradesh">Andhra Pradesh</option>
+             <option value="Delhi">Delhi</option>
+             <option value="Gujarat">Gujarat</option>
+             <option value="Karnataka" selected>Karnataka</option>
+             <option value="Kerala">Kerala</option>
+             <option value="Maharashtra">Maharashtra</option>
+             <option value="Rajasthan">Rajasthan</option>
+             <option value="Tamil Nadu">Tamil Nadu</option>
+             <option value="Uttar Pradesh">Uttar Pradesh</option>
+             <option value="West Bengal">West Bengal</option>
+             <option value="Other">Other / International</option>
+          </select>
         </div>
       </div>
-      <button class="loc-update-btn" onclick="updateLocation()">Scan Live Ecological Data</button>
+      
+      <!-- Lat/Long Inputs -->
+      <div class="loc-coord-row">
+        <div class="loc-field">
+            <label>Latitude (GPS)</label>
+            <input type="number" step="any" id="latInput" class="loc-input" value="12.9719">
+        </div>
+        <div class="loc-field">
+            <label>Longitude (GPS)</label>
+            <input type="number" step="any" id="lonInput" class="loc-input" value="77.5937">
+        </div>
+      </div>
+
+      <button class="loc-update-btn" onclick="triggerManualScan()">Scan Live Ecology for Coordinates</button>
     </div>
 
     <div class="card" id="weatherBox">
-      <div class="cttl">Live Ecological Conditions</div>
+      <div class="cttl">Live Environmental Sensors</div>
       <div class="csub" id="weatherSub">Awaiting scan...</div>
       <div class="mets" id="weatherMets"></div>
       <div id="alertsContainer"></div>
@@ -161,24 +245,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
   <!-- 2. AVIAN ATLAS TAB -->
   <div id="birds" class="panel">
     <div class="card">
-        <div class="cttl">Dynamic Avian Guilds</div>
-        <div class="csub">The single most important indicator of a healthy ecosystem are these specialized guilds.</div>
+        <div class="cttl">Comprehensive Avian Guilds</div>
+        <div class="csub">A massive database of keystone indicator species vital for a functioning ecosystem.</div>
         
-        <div class="stabs" id="guildTabs">
-            <!-- Tabs injected via JS -->
-        </div>
-
-        <div id="guildContent">
-            <!-- Guild rules and species injected via JS -->
-        </div>
+        <div class="stabs" id="guildTabs"></div>
+        <div id="guildContent"></div>
     </div>
   </div>
 
   <!-- 3. FLORA LIST TAB -->
   <div id="plants" class="panel">
     <div class="card">
-        <div class="cttl">Native Planting Matrix</div>
-        <div class="csub">Core species tailored to local soil conditions.</div>
+        <div class="cttl">Native Botanical Matrix</div>
+        <div class="csub">Extensive native planting list tailored for ecological restoration.</div>
         
         <div style="margin-top: 15px; border-bottom: 2px solid var(--bd); padding-bottom: 8px; display: grid; grid-template-columns: 2fr 1.5fr 1fr; gap: 10px;">
             <div style="font-size:10px; font-weight:700; color:var(--txm); text-transform:uppercase;">Species</div>
@@ -186,31 +265,108 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
             <div style="font-size:10px; font-weight:700; color:var(--txm); text-transform:uppercase;">Attracts</div>
         </div>
 
-        <div id="plantListContainer">
-            <!-- Plants injected via JS -->
-        </div>
+        <div id="plantListContainer"></div>
     </div>
   </div>
 
-  <!-- 4. SOIL TAB -->
+  <!-- 4. SOIL & AMENDMENTS TAB -->
   <div id="soil" class="panel">
     <div class="card">
       <div class="cttl" id="soilLocationName">Regional Soil Profile</div>
       <div class="csub" id="soilTypeDisplay">Select location in 'Scan' tab to load state soil data.</div>
       <div class="mets" id="soilMets" style="margin-top:15px"></div>
-      <div class="inote" id="soilEcologyNote">Run a scan to determine necessary soil amendments for this region.</div>
+      
+      <div class="soilg">
+        <div class="soilc">
+            <div class="soilc-ttl">Required Amendments (per 100 sqm)</div>
+            <div id="amendmentsList"></div>
+        </div>
+        <div class="soilc">
+            <div class="soilc-ttl">Irrigation Demand Calculation</div>
+            <div id="irrigationData"></div>
+        </div>
+      </div>
+
+      <div class="inote" id="soilEcologyNote" style="background:var(--bg); border-left-color:var(--am); color:var(--tx); margin-top:15px;">Run a scan to determine necessary soil amendments for this region.</div>
     </div>
   </div>
 
-  <!-- 5. CALENDAR TAB -->
+  <!-- 5. IMPACT TAB -->
+  <div id="impact" class="panel">
+    <div class="card">
+      <div class="cttl">Ecological Impact Profile</div>
+      <div class="csub">Calculated systemic benefits of the proposed landscape design based on regional climate parameters.</div>
+      
+      <div style="margin-top: 15px; border-top:1px solid var(--bd);">
+          <div class="impr">
+              <div class="impl">Annual Carbon Sequestration</div>
+              <div class="impa" id="impCo2">-- tons</div>
+          </div>
+          <div class="impr">
+              <div class="impl">Groundwater Recharge Volume</div>
+              <div class="impa" id="impWater">-- kL</div>
+          </div>
+          <div class="impr">
+              <div class="impl">Particulate Matter (PM2.5) Filtration</div>
+              <div class="impa" id="impPm">-- %</div>
+          </div>
+          <div class="impr">
+              <div class="impl">Biodiversity Support Index</div>
+              <div class="impa" id="impBio">-- / 100</div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CALENDAR TAB -->
   <div id="calendar" class="panel">
     <div class="card">
-      <div class="cttl">Annual Maintenance Cycle</div>
-      <div class="csub">The current month is highlighted automatically based on today's date.</div>
+      <div class="cttl">Comprehensive Maintenance Cycle</div>
+      <div class="csub">The current month is highlighted automatically. Actions are tailored to prevent ecosystem disruption.</div>
       <div class="calg" id="calendarGrid"></div>
     </div>
   </div>
 
+  <!-- PDF Button -->
+  <button class="gen-pdf-btn" onclick="generatePDF()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    Export Full Ecological PDF Report
+  </button>
+
+</div>
+
+<!-- DATA COLLECTION / LOGIN MODAL (Connected to Google Sheets) -->
+<div id="loginModal" class="overlay hidden">
+  <div class="mbox">
+    <div class="mbox-hdr">
+       <div class="mbox-ttl">Join the VANA Network</div>
+       <div class="mbox-sub">Save your ecological scans, contribute to the global database, and unlock advanced reports.</div>
+    </div>
+    
+    <!-- STANDARD GOOGLE SHEETS HTML FORM -->
+    <form name="submit-to-google-sheet" id="gsheetForm">
+       <div class="fgrp">
+         <label>Full Name <span class="req">*</span></label>
+         <input type="text" name="name" id="formName" class="finp" placeholder="e.g. Jane Doe" required>
+       </div>
+       <div class="fgrp">
+         <label>Email Address <span class="req">*</span></label>
+         <input type="email" name="email" id="formEmail" class="finp" placeholder="jane@example.com" required>
+       </div>
+       <div class="fgrp">
+         <label>Landscape Role / Profession</label>
+         <select name="role" id="formRole" class="finp loc-input">
+            <option value="Landscape Architect">Landscape Architect</option>
+            <option value="Ecologist">Ecologist</option>
+            <option value="Homeowner">Homeowner / Enthusiast</option>
+            <option value="Student">Student / Researcher</option>
+            <option value="Other">Other</option>
+         </select>
+       </div>
+       <button type="submit" class="mbtn" id="submitBtn">Connect & Save Profile</button>
+       <button type="button" class="mbtn-sec" onclick="closeLoginModal()">Cancel</button>
+    </form>
+  </div>
 </div>
 
 <!-- TOAST WRAPPER -->
@@ -218,10 +374,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 
 <script>
 /* ═══════════════════════════════════════
-   DATABASES (BIRDS, PLANTS, SOIL)
+   DATABASES & STATIC FALLBACKS
 ═══════════════════════════════════════ */
 
-// 1. Comprehensive Avian Guilds Database
 const avianGuilds = {
     "nectarivores": {
         name: "Nectarivores",
@@ -229,7 +384,9 @@ const avianGuilds = {
         species: [
             { nm: "Purple Sunbird", sci: "Cinnyris asiaticus", layer: "Mid canopy", ico: "🐦" },
             { nm: "Pale-billed Flowerpecker", sci: "Dicaeum erythrorhynchos", layer: "Canopy", ico: "🌿" },
-            { nm: "Loten's Sunbird", sci: "Cinnyris lotenius", layer: "Shrub layer", ico: "🌺" }
+            { nm: "Loten's Sunbird", sci: "Cinnyris lotenius", layer: "Shrub layer", ico: "🌺" },
+            { nm: "Crimson-backed Sunbird", sci: "Leptocoma minima", layer: "Lower canopy", ico: "🌷" },
+            { nm: "Thick-billed Flowerpecker", sci: "Dicaeum agile", layer: "Upper canopy", ico: "🌳" }
         ]
     },
     "insectivores": {
@@ -240,7 +397,9 @@ const avianGuilds = {
             { nm: "Common Tailorbird", sci: "Orthotomus sutorius", layer: "Shrub layer", ico: "🍃" },
             { nm: "Asian Tit", sci: "Parus cinereus", layer: "Canopy", ico: "🌳" },
             { nm: "Indian Paradise Flycatcher", sci: "Terpsiphone paradisi", layer: "Mid canopy", ico: "🪶" },
-            { nm: "Black Drongo", sci: "Dicrurus macrocercus", layer: "Open perch", ico: "🦅" }
+            { nm: "Black Drongo", sci: "Dicrurus macrocercus", layer: "Open perch", ico: "🦅" },
+            { nm: "Pied Bushchat", sci: "Saxicola caprata", layer: "Ground edge", ico: "🌾" },
+            { nm: "Green Bee-eater", sci: "Merops orientalis", layer: "Aerial hunter", ico: "🐝" }
         ]
     },
     "waterbirds": {
@@ -250,7 +409,9 @@ const avianGuilds = {
             { nm: "White-throated Kingfisher", sci: "Halcyon smyrnensis", layer: "Water edge", ico: "🐟" },
             { nm: "Common Moorhen", sci: "Gallinula chloropus", layer: "Pond edge", ico: "🦆" },
             { nm: "Little Cormorant", sci: "Microcarbo niger", layer: "Open water", ico: "🌊" },
-            { nm: "Purple Heron", sci: "Ardea purpurea", layer: "Wetland edge", ico: "🦩" }
+            { nm: "Purple Heron", sci: "Ardea purpurea", layer: "Wetland edge", ico: "🦩" },
+            { nm: "Pond Heron", sci: "Ardeola grayii", layer: "Shallows", ico: "🐸" },
+            { nm: "White-breasted Waterhen", sci: "Amaurornis phoenicurus", layer: "Reed beds", ico: "🌿" }
         ]
     },
     "raptors": {
@@ -260,7 +421,8 @@ const avianGuilds = {
             { nm: "Black Kite", sci: "Milvus migrans", layer: "Aerial scavenger", ico: "🦅" },
             { nm: "Shikra", sci: "Accipiter badius", layer: "Woodland edge", ico: "🌲" },
             { nm: "Spotted Owlet", sci: "Athene brama", layer: "Nocturnal cavity", ico: "🦉" },
-            { nm: "Booted Eagle", sci: "Hieraaetus pennatus", layer: "Winter visitor", ico: "❄️" }
+            { nm: "Booted Eagle", sci: "Hieraaetus pennatus", layer: "Winter visitor", ico: "❄️" },
+            { nm: "Brahminy Kite", sci: "Haliastur indus", layer: "Water proximity", ico: "🐟" }
         ]
     },
     "groundbirds": {
@@ -270,7 +432,8 @@ const avianGuilds = {
             { nm: "Red-wattled Lapwing", sci: "Vanellus indicus", layer: "Open ground", ico: "🪺" },
             { nm: "Indian Francolin", sci: "Francolinus pondicerianus", layer: "Grass edge", ico: "🌾" },
             { nm: "Yellow Wagtail", sci: "Motacilla flava", layer: "Short grass", ico: "🌼" },
-            { nm: "Paddyfield Pipit", sci: "Anthus rufulus", layer: "Open meadow", ico: "🌱" }
+            { nm: "Paddyfield Pipit", sci: "Anthus rufulus", layer: "Open meadow", ico: "🌱" },
+            { nm: "Grey Francolin", sci: "Ortygornis pondicerianus", layer: "Scrubland", ico: "🍂" }
         ]
     },
     "cavitynesters": {
@@ -279,40 +442,89 @@ const avianGuilds = {
         species: [
             { nm: "White-cheeked Barbet", sci: "Psilopogon viridis", layer: "Excavates cavity", ico: "🪵" },
             { nm: "Rose-ringed Parakeet", sci: "Psittacula krameri", layer: "Uses old holes", ico: "🦜" },
-            { nm: "Common Myna", sci: "Acridotheres tristis", layer: "Tree holes", ico: "🌳" }
+            { nm: "Common Myna", sci: "Acridotheres tristis", layer: "Tree holes", ico: "🌳" },
+            { nm: "Plum-headed Parakeet", sci: "Psittacula cyanocephala", layer: "High cavities", ico: "🌸" },
+            { nm: "Coppersmith Barbet", sci: "Psilopogon haemacephalus", layer: "Dead branches", ico: "🪓" }
         ]
     }
 };
 
-// 2. Native Plant Database
 const plantDatabase = [
     { nm: "Hibiscus rosa-sinensis", common: "Native Hibiscus", layer: "Shrub Layer (1-2m)", attracts: "Nectarivores" },
     { nm: "Callistemon viminalis", common: "Weeping Bottlebrush", layer: "Mid Canopy (3-5m)", attracts: "Nectarivores" },
     { nm: "Ficus benghalensis", common: "Banyan Tree", layer: "Tall Canopy (15m+)", attracts: "Frugivores / Cavity Nesters" },
+    { nm: "Ficus racemosa", common: "Cluster Fig", layer: "Canopy (12m)", attracts: "Frugivores" },
     { nm: "Erythrina variegata", common: "Indian Coral Tree", layer: "Canopy (10m)", attracts: "Insectivores / Nectarivores" },
     { nm: "Vetiveria zizanioides", common: "Vetiver Grass", layer: "Ground Layer", attracts: "Ground Birds / Soil Prep" },
-    { nm: "Butea monosperma", common: "Flame of the Forest", layer: "Mid Canopy (5-8m)", attracts: "Nectarivores" }
+    { nm: "Butea monosperma", common: "Flame of the Forest", layer: "Mid Canopy (5-8m)", attracts: "Nectarivores" },
+    { nm: "Mimusops elengi", common: "Spanish Cherry", layer: "Canopy (10-15m)", attracts: "Frugivores" },
+    { nm: "Cymbopogon citratus", common: "Lemongrass", layer: "Ground Layer", attracts: "Insect control / Soil bound" },
+    { nm: "Hamelia patens", common: "Firebush", layer: "Shrub Layer (1-3m)", attracts: "Nectarivores" },
+    { nm: "Murraya paniculata", common: "Orange Jessamine", layer: "Shrub Layer (2-4m)", attracts: "Pollinators" }
 ];
 
-// 3. Indian State Soil Database
 const soilDatabase = {
-  "Red laterite": { states: ["Karnataka", "Kerala", "Goa"], ph: "5.8 - 6.5", om: "0.4 - 0.8%", texture: "Sandy laterite", drainage: "Rapid", ecology: "Needs heavy mulching to retain water. Supports diverse native shrub layers." },
-  "Black cotton (Regur)": { states: ["Maharashtra", "Telangana", "Madhya Pradesh", "Gujarat"], ph: "7.2 - 8.5", om: "0.5 - 1.0%", texture: "Clayey", drainage: "Slow", ecology: "Prone to cracking in summer. Requires organic amendments for aeration." },
-  "Red & yellow": { states: ["Tamil Nadu", "Andhra Pradesh", "Odisha", "Jharkhand"], ph: "5.5 - 6.5", om: "0.5 - 1.0%", texture: "Sandy loam", drainage: "Moderate", ecology: "Good for deep-rooted native trees. Responds well to compost." },
-  "Alluvial": { states: ["Uttar Pradesh", "Bihar", "West Bengal", "Punjab", "Delhi", "Assam"], ph: "6.5 - 7.5", om: "1.0 - 1.5%", texture: "Loamy", drainage: "Good", ecology: "Highly fertile. Excellent for dense riparian zone planting." },
-  "Desert / Arid": { states: ["Rajasthan"], ph: "7.5 - 8.5", om: "<0.4%", texture: "Sandy", drainage: "Very Rapid", ecology: "Focus on xerophytic plants. Soil requires constant moisture retention strategies." },
-  "Mountain / Forest": { states: ["Himachal Pradesh", "Uttarakhand", "Sikkim", "Meghalaya"], ph: "5.0 - 6.0", om: "2.0 - 3.0%", texture: "Silty loam", drainage: "Good", ecology: "High organic content. Protect from erosion during heavy monsoons." },
-  "Coastal / Sandy": { states: ["Puducherry"], ph: "6.5 - 8.0", om: "0.5%", texture: "Sandy", drainage: "Very Rapid", ecology: "High salinity tolerance required for plants. Water drains instantly." }
+  "Red laterite": { 
+      states: ["Karnataka", "Kerala", "Goa"], ph: "5.8 - 6.5", om: "0.4 - 0.8%", texture: "Sandy laterite", drainage: "Rapid", 
+      ecology: "Needs heavy mulching to retain water. Extremely poor nutrient retention requires continuous compost dressing.",
+      amend: [{n:"Vermicompost",v:"80 kg"}, {n:"Neem Cake",v:"15 kg"}, {n:"Dolomite Lime",v:"5 kg"}],
+      irrig: {base:"45 Liters", type:"High Frequency / Drip", retain:"25%"}
+  },
+  "Black cotton (Regur)": { 
+      states: ["Maharashtra", "Telangana", "Madhya Pradesh", "Gujarat"], ph: "7.2 - 8.5", om: "0.5 - 1.0%", texture: "Clayey", drainage: "Slow", 
+      ecology: "Prone to severe cracking in summer. Requires heavy organic amendments for aeration and root penetration.",
+      amend: [{n:"River Sand / Perlite",v:"150 kg"}, {n:"Farmyard Manure",v:"100 kg"}, {n:"Gypsum",v:"20 kg"}],
+      irrig: {base:"20 Liters", type:"Low Frequency / Deep", retain:"85%"}
+  },
+  "Red & yellow": { 
+      states: ["Tamil Nadu", "Andhra Pradesh", "Odisha", "Jharkhand", "Chhattisgarh"], ph: "5.5 - 6.5", om: "0.5 - 1.0%", texture: "Sandy loam", drainage: "Moderate", 
+      ecology: "Excellent for deep-rooted native trees. Responds very well to basic farmyard manure.",
+      amend: [{n:"Farmyard Manure",v:"120 kg"}, {n:"Bone Meal",v:"10 kg"}, {n:"Coco Peat",v:"30 kg"}],
+      irrig: {base:"30 Liters", type:"Moderate Frequency", retain:"50%"}
+  },
+  "Alluvial": { 
+      states: ["Uttar Pradesh", "Bihar", "West Bengal", "Punjab", "Delhi", "Assam"], ph: "6.5 - 7.5", om: "1.0 - 1.5%", texture: "Loamy", drainage: "Good", 
+      ecology: "Highly fertile. Excellent for dense riparian zone planting. Monitor for waterlogging during peak monsoon.",
+      amend: [{n:"Vermicompost",v:"40 kg"}, {n:"Neem Cake",v:"5 kg"}],
+      irrig: {base:"25 Liters", type:"Standard Surface", retain:"65%"}
+  },
+  "Desert / Arid": { 
+      states: ["Rajasthan"], ph: "7.5 - 8.5", om: "<0.4%", texture: "Sandy", drainage: "Very Rapid", 
+      ecology: "Focus strictly on xerophytic (drought-resistant) plants. Soil requires constant moisture retention strategies.",
+      amend: [{n:"Coco Peat",v:"100 kg"}, {n:"Vermicompost",v:"150 kg"}, {n:"Biochar",v:"20 kg"}],
+      irrig: {base:"60 Liters", type:"Drip ONLY (Heavy Mulch)", retain:"10%"}
+  },
+  "Other": {
+      states: ["Other"], ph: "6.5 - 7.0", om: "1.0%", texture: "Variable", drainage: "Variable",
+      ecology: "General ecosystem guidelines apply. Prioritize local compost.",
+      amend: [{n:"General Compost",v:"100 kg"}],
+      irrig: {base:"35 Liters", type:"Monitor Locally", retain:"50%"}
+  }
 };
 
+const calendarTasks = [
+  /* Jan */ ["Dormant pruning phase", "Sanitize all gardening tools", "Avoid heavy watering"],
+  /* Feb */ ["Nest Prep (Do not disturb)", "Apply thin layer of spring mulch", "Plant summer saplings"],
+  /* Mar */ ["Monitor early heat stress", "Increase water frequency", "Do not disturb tree cavities"],
+  /* Apr */ ["Strict Heat Protocol", "Water deeply at roots only", "Provide bird baths daily"],
+  /* May */ ["Pre-Monsoon soil check", "Clear drainage channels", "Stake young vulnerable trees"],
+  /* Jun */ ["Main Planting Window", "Divide overgrown root clusters", "Halt artificial irrigation"],
+  /* Jul */ ["Monsoon Weed Control", "Monitor for fungal rot", "Avoid soil compaction"],
+  /* Aug */ ["Prune monsoon overgrowth", "Check tree stakes", "Harvest rainwater"],
+  /* Sep */ ["Post-Monsoon Fixes", "Re-mulch washed away areas", "Begin winter prep"],
+  /* Oct */ ["Compost Addition", "Plant winter bloomers", "Reduce watering schedule"],
+  /* Nov */ ["Dormancy preparation", "Rake and compost dead leaves", "Clean bird feeders"],
+  /* Dec */ ["Minimal interference", "Deep, infrequent root watering", "Protect frost-sensitive flora"]
+];
+
 /* ═══════════════════════════════════════
-   CORE LOGIC & UI RENDERING
+   UI RENDERING & UTILS
 ═══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
     initAvianGuilds();
     renderPlants();
     renderCalendar();
-    updateLocation(); // Run initial weather/soil scan
+    triggerManualScan(); // Fetch default location on load
 });
 
 function switchTab(tabId, el) {
@@ -333,55 +545,310 @@ function toast(msg, type){
     setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 300); }, 3200);
 }
 
-/* ── Avian Atlas Logic ── */
+document.addEventListener('click', (e) => {
+    if(!e.target.closest('.loc-field')) {
+        const drop = document.getElementById('cityDropdown');
+        if(drop) drop.classList.remove('show');
+    }
+});
+
 function initAvianGuilds() {
     const tabsContainer = document.getElementById('guildTabs');
     tabsContainer.innerHTML = "";
-    
     let isFirst = true;
     for (const key in avianGuilds) {
-        const guild = avianGuilds[key];
         const tab = document.createElement('div');
         tab.className = `stab ${isFirst ? 'on' : ''}`;
-        tab.textContent = guild.name;
+        tab.textContent = avianGuilds[key].name;
         tab.onclick = () => renderGuildContent(key, tab);
         tabsContainer.appendChild(tab);
-        
         if (isFirst) { renderGuildContent(key, null); isFirst = false; }
     }
 }
 
 function renderGuildContent(guildKey, tabElement) {
     if (tabElement) {
-        document.querySelectorAll('.stab').forEach(t => t.classList.remove('on'));
+        document.querySelectorAll('#birds .stab').forEach(t => t.classList.remove('on'));
         tabElement.classList.add('on');
     }
-
     const guild = avianGuilds[guildKey];
     const container = document.getElementById('guildContent');
-    
     let html = `<div class="inote" style="margin-bottom:15px"><b>Critical Rule:</b> ${guild.rule}</div><div class="spg">`;
-    
     guild.species.forEach(sp => {
-        html += `
-        <div class="spc">
-            <span class="sico">${sp.ico}</span>
-            <div class="snm">${sp.nm}</div>
-            <div class="ssci">${sp.sci}</div>
-            <div class="slyr">${sp.layer}</div>
-        </div>`;
+        html += `<div class="spc"><span class="sico">${sp.ico}</span><div class="snm">${sp.nm}</div><div class="ssci">${sp.sci}</div><div class="slyr">${sp.layer}</div></div>`;
     });
-    
     html += `</div>`;
     container.innerHTML = html;
 }
 
-/* ── Flora List Logic ── */
 function renderPlants() {
     const container = document.getElementById('plantListContainer');
     let html = "";
     plantDatabase.forEach(p => {
-        html += `
-        <div class="plr">
-            <div>
+        html += `<div class="plr"><div><div class="pln">${p.common}</div><div class="plsc">${p.nm}</div></div><div class="plp">${p.layer}</div><div class="plp" style="color:var(--g); font-weight:600;">${p.attracts}</div></div>`;
+    });
+    container.innerHTML = html;
+}
+
+function renderCalendar() {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const currentMonthIndex = new Date().getMonth();
+  const grid = document.getElementById('calendarGrid');
+  grid.innerHTML = "";
+  months.forEach((m, i) => {
+    let taskHtml = "";
+    calendarTasks[i].forEach(task => { taskHtml += `<div class="ctsk">${task}</div>`; });
+    grid.innerHTML += `<div class="calm ${i === currentMonthIndex ? "on" : ""}"><div class="cmn">${m} ${i === currentMonthIndex ? "(Current)" : ""}</div>${taskHtml}</div>`;
+  });
+}
+
+/* ═══════════════════════════════════════
+   PREDICTIVE SEARCH & LIVE APIS
+═══════════════════════════════════════ */
+let citySearchTimeout;
+
+async function debounceCitySearch(query) {
+    clearTimeout(citySearchTimeout);
+    const drop = document.getElementById('cityDropdown');
+    if(query.length < 2) { drop.classList.remove('show'); return; }
+    
+    citySearchTimeout = setTimeout(async () => {
+        try {
+            const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=6&language=en&format=json`);
+            const data = await res.json();
             
+            if(data.results && data.results.length > 0) {
+                drop.innerHTML = '';
+                data.results.forEach(place => {
+                    const div = document.createElement('div');
+                    div.className = 'city-opt';
+                    div.innerHTML = `<span><b>${place.name}</b></span> <span class="city-opt-st">${place.admin1 || ''}, ${place.country_code}</span>`;
+                    div.onclick = () => selectCity(place.name, place.admin1, place.latitude, place.longitude);
+                    drop.appendChild(div);
+                });
+                drop.classList.add('show');
+            } else { drop.classList.remove('show'); }
+        } catch(e) { console.error(e); }
+    }, 350);
+}
+
+function selectCity(city, stateStr, lat, lon) {
+    document.getElementById('cityInput').value = city;
+    document.getElementById('latInput').value = lat;
+    document.getElementById('lonInput').value = lon;
+    document.getElementById('cityDropdown').classList.remove('show');
+    
+    const stateSelect = document.getElementById('stateInput');
+    let found = false;
+    if (stateStr) {
+        for (let i = 0; i < stateSelect.options.length; i++) {
+            if (stateStr.includes(stateSelect.options[i].value) || stateSelect.options[i].value.includes(stateStr)) {
+                stateSelect.selectedIndex = i; found = true; break;
+            }
+        }
+    }
+    if(!found) stateSelect.value = "Other";
+    triggerManualScan();
+}
+
+async function triggerManualScan() {
+    const city = document.getElementById('cityInput').value;
+    const state = document.getElementById('stateInput').value;
+    const lat = document.getElementById('latInput').value;
+    const lon = document.getElementById('lonInput').value;
+    const btn = document.querySelector('.loc-update-btn');
+    
+    btn.textContent = "Scanning Environmental Data...";
+    
+    try {
+        updateSoilProfile(state, city);
+        calculateImpact(lat, lon, state); 
+        
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relative_humidity_2m&timezone=auto`);
+        const data = await res.json();
+        renderWeather(data, city, lat, lon);
+        
+        toast('Ecosystem data loaded successfully!');
+    } catch(e) {
+        console.error(e);
+        toast('Weather fetch failed. Check network.', 'warn');
+    } finally {
+        btn.textContent = "Scan Live Ecology for Coordinates";
+    }
+}
+
+function renderWeather(data, city, lat, lon) {
+    const temp = data.current_weather.temperature;
+    const wind = data.current_weather.windspeed;
+    const isRainy = data.current_weather.weathercode >= 61 && data.current_weather.weathercode <= 65; 
+    
+    document.getElementById('weatherSub').innerText = `Live sensor data for ${city} (Lat: ${lat}, Lon: ${lon})`;
+    document.getElementById('weatherMets').innerHTML = `
+      <div class="met"><div class="mv">${temp}°C</div><div class="ml">Current Temp</div></div>
+      <div class="met"><div class="mv">${wind}</div><div class="ml">Wind (km/h)</div></div>
+      <div class="met"><div class="mv">${isRainy ? 'Yes' : 'No'}</div><div class="ml">Active Rain</div></div>
+      <div class="met"><div class="mv" style="color:var(--pu)">Live</div><div class="ml">Status</div></div>
+    `;
+
+    let alertsHTML = "";
+    const currentMonth = new Date().getMonth();
+    
+    if (currentMonth >= 1 && currentMonth <= 4) {
+      alertsHTML += `<div class="wnote"><b>BREEDING SEASON ACTIVE:</b> Avoid heavy pruning, soil disturbance near shrubs, or loud mechanical activity near nesting zones.</div>`;
+    }
+    if (temp > 35) {
+      alertsHTML += `<div class="wnote"><b>HEAT STRESS ALERT:</b> Maintain heavy mulch layer. Water only in early morning or late evening to prevent rapid evaporation and root stress.</div>`;
+    }
+    if (isRainy) {
+      alertsHTML += `<div class="inote"><b>MONSOON WINDOW:</b> Optimal time for planting native saplings and dividing root clusters. Soil moisture is ideal for root establishment.</div>`;
+    }
+    if (wind > 30) {
+      alertsHTML += `<div class="wnote"><b>WIND ADVISORY:</b> Stake young saplings. Suspend any foliar spraying to prevent drift into non-target ecological zones.</div>`;
+    }
+
+    if(alertsHTML === "") alertsHTML = `<div class="inote">Ecological conditions are highly stable. Proceed with standard landscape maintenance.</div>`;
+    document.getElementById('alertsContainer').innerHTML = alertsHTML;
+}
+
+function updateSoilProfile(state, city) {
+  let matchedType = "Other";
+  for (const type in soilDatabase) {
+      if (soilDatabase[type].states.includes(state)) { matchedType = type; break; }
+  }
+  const sData = soilDatabase[matchedType];
+
+  document.getElementById('soilLocationName').innerText = `${city}, ${state}`;
+  document.getElementById('soilTypeDisplay').innerText = `Primary Soil Taxonomy: ${matchedType}`;
+  document.getElementById('soilMets').innerHTML = `
+    <div class="met"><div class="mv">${sData.ph}</div><div class="ml">pH Range</div></div>
+    <div class="met"><div class="mv">${sData.om}</div><div class="ml">Organic Matter</div></div>
+    <div class="met"><div class="mv" style="font-size:16px; margin-top:5px">${sData.texture}</div><div class="ml">Texture</div></div>
+    <div class="met"><div class="mv" style="font-size:16px; margin-top:5px">${sData.drainage}</div><div class="ml">Drainage</div></div>
+  `;
+  document.getElementById('soilEcologyNote').innerHTML = `<b>Geological trait:</b> ${sData.ecology}`;
+  
+  let amendHtml = "";
+  sData.amend.forEach(a => { amendHtml += `<div class="brow"><div class="bname">${a.n}</div><div class="bval">${a.v}</div></div>`; });
+  document.getElementById('amendmentsList').innerHTML = amendHtml;
+  
+  document.getElementById('irrigationData').innerHTML = `
+      <div class="brow"><div class="bname">Base Weekly Demand</div><div class="bval" style="color:var(--bl)">${sData.irrig.base} / sqm</div></div>
+      <div class="brow"><div class="bname">Delivery Method</div><div class="bval">${sData.irrig.type}</div></div>
+      <div style="margin-top:10px;">
+          <div style="font-size:10px; color:var(--txm); margin-bottom:4px; font-weight:700;">NATURAL RETENTION CAPACITY (${sData.irrig.retain})</div>
+          <div class="btrk"><div class="bfil" style="width:${sData.irrig.retain}"></div></div>
+      </div>
+  `;
+}
+
+function calculateImpact(lat, lon, state) {
+    let baseCo2 = 4.2; let baseWater = 1250; let basePm = 68; let baseBio = 82;
+    let latMod = parseFloat(lat) / 100;
+    
+    document.getElementById('impCo2').innerText = (baseCo2 + latMod).toFixed(1) + " tons";
+    document.getElementById('impWater').innerText = Math.floor(baseWater + (latMod*1000)) + " kL";
+    document.getElementById('impPm').innerText = Math.floor(basePm + (latMod*10)) + " %";
+    document.getElementById('impBio').innerText = Math.floor(baseBio + (latMod*5)) + " / 100";
+}
+
+/* ═══════════════════════════════════════
+   GOOGLE SHEETS DATA COLLECTION LOGIC
+═══════════════════════════════════════ */
+
+// 🟢 PASTE YOUR ORIGINAL GOOGLE APPS SCRIPT URL HERE 🟢
+const scriptURL = 'YOUR_ORIGINAL_GOOGLE_SCRIPT_URL_HERE';
+
+const form = document.forms['submit-to-google-sheet'];
+
+function openLoginModal() {
+    document.getElementById('loginModal').classList.remove('hidden');
+}
+
+function closeLoginModal() {
+    document.getElementById('loginModal').classList.add('hidden');
+}
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = "Saving Profile Data...";
+  btn.disabled = true;
+
+  // Standard fetch wrapper for Google Apps Script Form Submission
+  fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+    .then(response => {
+      toast('Profile saved! Connected to VANA Network.');
+      
+      // Update UI with entered name
+      const name = document.getElementById('formName').value;
+      const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      document.getElementById('u-ava-text').innerText = initials;
+      document.getElementById('u-name-text').innerText = name.split(' ')[0];
+      
+      closeLoginModal();
+      form.reset();
+      
+      btn.textContent = "Connect & Save Profile";
+      btn.disabled = false;
+    })
+    .catch(error => {
+      console.error('Error!', error.message);
+      toast('Could not connect to Google Sheets DB.', 'warn');
+      btn.textContent = "Connect & Save Profile";
+      btn.disabled = false;
+    });
+});
+
+/* ═══════════════════════════════════════
+   PDF GENERATION
+═══════════════════════════════════════ */
+function generatePDF() {
+    toast('Generating Ecological Report PDF...');
+    setTimeout(() => {
+        try {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const city = document.getElementById('cityInput').value;
+            const state = document.getElementById('stateInput').value;
+            const lat = document.getElementById('latInput').value;
+            const lon = document.getElementById('lonInput').value;
+            const soilName = document.getElementById('soilTypeDisplay').innerText;
+            const co2 = document.getElementById('impCo2').innerText;
+            
+            doc.setFontSize(22);
+            doc.setTextColor(45, 90, 61);
+            doc.text("VANA Global Biodiversity Atlas", 20, 25);
+            
+            doc.setFontSize(14);
+            doc.setTextColor(26, 26, 26);
+            doc.text(`Ecological Report for: ${city}, ${state}`, 20, 40);
+            
+            doc.setFontSize(11);
+            doc.setTextColor(107, 107, 107);
+            doc.text(`Coordinates: ${lat}, ${lon}`, 20, 48);
+            
+            doc.line(20, 55, 190, 55);
+            
+            doc.setFontSize(14);
+            doc.setTextColor(26, 26, 26);
+            doc.text("Current Environmental Profile", 20, 70);
+            
+            doc.setFontSize(11);
+            doc.text(soilName, 20, 80);
+            
+            const weatherText = document.getElementById('weatherMets').innerText.replace(/\n/g, ' - ');
+            doc.text(`Live Weather: ${weatherText}`, 20, 90);
+            doc.text(`Projected Carbon Sequestration: ${co2}`, 20, 100);
+            
+            doc.save(`VANA_Ecology_Report_${city.replace(/\s+/g, '_')}.pdf`);
+            toast('PDF downloaded successfully!');
+        } catch (err) {
+            console.error(err);
+            toast('Failed to generate PDF.', 'warn');
+        }
+    }, 500);
+}
+</script>
+</body>
+</html>
