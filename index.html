@@ -1181,27 +1181,58 @@ const IMPD=[
 ═══════════════════════════════════════ */
 function renderSp(){
   const g=document.getElementById('spgrid');if(!g)return;
-  g.innerHTML=SP.map(s=>`<div class="spc" id="sc-${s.id}" onclick="togSp('${s.id}')"><span class="sico">${s.i}</span><div class="snm">${s.n}</div><div class="ssci">${s.sc}</div><span class="pill ${s.sc2}">${s.st}</span></div>`).join('');
-  document.getElementById('spwrap').innerHTML=SP.map(s=>`
-    <div class="dtl" id="sd-${s.id}">
-      <button class="cbx" onclick="togSp('${s.id}')">Close ✕</button>
-      <div class="dth"><div class="dtico" style="background:${s.bg}">${s.i}</div>
-        <div><div class="dtnm">${s.n}</div><div class="dtsci">${s.sc}</div><div class="dtdesc">${s.de}</div></div>
-      </div>
-      <div class="ag">
-        <div class="at"><div class="al">Length</div><div class="av">${s.len}</div></div>
-        <div class="at"><div class="al">Habitat layer</div><div class="av">${s.ly}</div></div>
-        <div class="at"><div class="al">Nesting</div><div class="av">${s.ne}</div></div>
-        <div class="at"><div class="al">Breeding season</div><div class="av">${s.br}</div></div>
-        <div class="at"><div class="al">Feeding style</div><div class="av">${s.fe}</div></div>
-        <div class="at"><div class="al">Frequency</div><div class="av">${s.fr}</div></div>
-      </div>
-      <div class="slb">Key nectar plants</div>
-      <div class="chips">${s.pl.map(p=>`<span class="pill pp" style="cursor:pointer" onclick="xToPlant('${p}')">${p}</span>`).join('')}</div>
-      <div class="slb">Design tips for your farmhouse</div>
-      ${s.ti.map(t=>`<div class="trow"><div class="tdot"></div>${t}</div>`).join('')}
-    </div>`;}).join('');
+  /* Use data-id to avoid quote nesting issues */
+  g.innerHTML=SP.map(s=>[
+    '<div class="spc" id="sc-',s.id,'" data-spid="',s.id,'">',
+    '<span class="sico">',s.i,'</span>',
+    '<div class="snm">',s.n,'</div>',
+    '<div class="ssci">',s.sc,'</div>',
+    '<span class="pill ',s.sc2,'">',s.st,'</span></div>'
+  ].join('')).join('');
+  /* Attach click via event delegation */
+  g.onclick=function(e){
+    const card=e.target.closest('[data-spid]');
+    if(card) togSp(card.dataset.spid);
+  };
+  document.getElementById('spwrap').innerHTML=SP.map(s=>{
+    const plantChips=s.pl.map(p=>[
+      '<span class="pill pp" style="cursor:pointer" data-plant="',p,'">',p,'</span>'
+    ].join('')).join('');
+    const tipRows=s.ti.map(t=>
+      '<div class="trow"><div class="tdot"></div>'+t+'</div>'
+    ).join('');
+    return [
+      '<div class="dtl" id="sd-',s.id,'">',
+      '<button class="cbx" data-closeid="',s.id,'">Close ✕</button>',
+      '<div class="dth"><div class="dtico" style="background:',s.bg,'">',s.i,'</div>',
+      '<div><div class="dtnm">',s.n,'</div>',
+      '<div class="dtsci">',s.sc,'</div>',
+      '<div class="dtdesc">',s.de,'</div></div></div>',
+      '<div class="ag">',
+      '<div class="at"><div class="al">Length</div><div class="av">',s.len,'</div></div>',
+      '<div class="at"><div class="al">Habitat layer</div><div class="av">',s.ly,'</div></div>',
+      '<div class="at"><div class="al">Nesting</div><div class="av">',s.ne,'</div></div>',
+      '<div class="at"><div class="al">Breeding season</div><div class="av">',s.br,'</div></div>',
+      '<div class="at"><div class="al">Feeding style</div><div class="av">',s.fe,'</div></div>',
+      '<div class="at"><div class="al">Frequency</div><div class="av">',s.fr,'</div></div>',
+      '</div>',
+      '<div class="slb">Key nectar plants</div>',
+      '<div class="chips">',plantChips,'</div>',
+      '<div class="slb">Design tips for your farmhouse</div>',
+      tipRows,
+      '</div>'
+    ].join('');
+  }).join('');
+  /* Event delegation for close and plant chips */
+  const wrap=document.getElementById('spwrap');
+  if(wrap) wrap.onclick=function(e){
+    const cb=e.target.closest('[data-closeid]');
+    if(cb){togSp(cb.dataset.closeid);return;}
+    const pc=e.target.closest('[data-plant]');
+    if(pc) xToPlant(pc.dataset.plant);
+  };
 }
+
 
 function renderPl(cid){
   const el=document.getElementById(cid);if(!el)return;
@@ -2349,3 +2380,41 @@ function renderSoil(state) {
     </div>`;
 }
 
+
+document.addEventListener('DOMContentLoaded',()=>{
+  renderSp();
+  renderPl('npl');renderPl('mpl');
+  renderMCal();renderNCal();renderImp();
+  initBirdVisualTabs();
+  renderInsects();
+
+  // Boot: render soil for default location + fetch live weather
+  renderSoil(LOC.state);
+  fetchWeather(LOC.lat, LOC.lng);
+
+  // Highlight current month in maintenance calendar
+  const curMonth = new Date().getMonth();
+  setTimeout(()=>{
+    const months = document.querySelectorAll('#mcal .calm');
+    if(months[curMonth]) months[curMonth].style.outline = '2px solid var(--g)';
+  }, 300);
+
+  // Render forest species for default location
+  renderForestSpecies(LOC.state);
+
+  // Set About logo
+  const awrap = document.getElementById('about-logo-wrap');
+  if(awrap && typeof LOGO_DATA !== 'undefined'){
+    const img = document.createElement('img');
+    img.src = LOGO_DATA; img.alt = 'Greenscape Designz';
+    img.style.cssText = 'height:56px;width:auto;object-fit:contain';
+    awrap.appendChild(img);
+  }
+
+  // Show intro splash on every load
+  // (intro-overlay is visible by default, startJourney() triggers reg modal)
+});
+
+</script>
+</body>
+</html>
