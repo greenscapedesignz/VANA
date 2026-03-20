@@ -20,1113 +20,257 @@
   --r:10px;--rs:6px;--rl:14px;
 }
 html{font-size:16px}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5; position: relative;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;line-height:1.5}
+.shell{max-width:960px;margin:0 auto;padding:0 16px 80px}
 
-/* Watermark Overlay */
-.watermark-overlay { position: fixed; bottom: 16px; right: 20px; font-size: 11px; font-weight: 800; color: rgba(45, 90, 61, 0.15); z-index: 1000; pointer-events: none; text-transform: uppercase; letter-spacing: 3px; }
-
-/* App Lock State for Forced Login */
-.app-locked { filter: blur(8px); pointer-events: none; user-select: none; overflow: hidden; height: 100vh; }
-.shell{max-width:960px;margin:0 auto;padding:0 16px 80px; transition: filter 0.5s ease;}
-
-/* Header & Login */
-.hdr{background:var(--g);margin:0 -16px;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+/* ── Header ── */
+.hdr{background:var(--g);margin:0 -16px;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200}
 .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
 .logo-leaf{width:30px;height:30px;background:rgba(255,255,255,0.16);border-radius:50% 50% 50% 8px;display:flex;align-items:center;justify-content:center}
 .logo-leaf svg{width:16px;height:16px}
 .logo-name{font-size:17px;font-weight:700;color:#fff;letter-spacing:.06em;display:block}
-.logo-sub{font-size:9px;color:rgba(255,255,255,0.8);letter-spacing:.12em;text-transform:uppercase}
-.user-chip{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.15);padding:6px 12px;border-radius:20px; border:1px solid rgba(255,255,255,0.1);}
-.u-ava{width:24px;height:24px;background:#fff;color:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
-.u-name{font-size:12px;color:#fff;font-weight:600}
+.logo-sub{font-size:9px;color:rgba(255,255,255,0.6);letter-spacing:.12em;text-transform:uppercase}
+.loc-chip{background:rgba(255,255,255,0.13);border:1px solid rgba(255,255,255,0.22);border-radius:20px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,0.88);display:flex;align-items:center;gap:6px;cursor:pointer;transition:background .2s;max-width:200px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.loc-chip:hover{background:rgba(255,255,255,0.22)}
+.lpulse{width:7px;height:7px;background:#7fda9a;border-radius:50%;flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.4)}}
 
-/* Nav */
+/* ── Nav ── */
 .nav{display:flex;background:var(--sur);border-bottom:1px solid var(--bd);margin:0 -16px;padding:0 6px;overflow-x:auto;gap:2px;position:sticky;top:56px;z-index:199;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}
-.ntab{display:flex;flex-direction:column;align-items:center;padding:14px 14px 12px;font-size:11px;font-weight:600;color:var(--txm);cursor:pointer;border-bottom:3px solid transparent;transition:all .18s;white-space:nowrap;min-width:70px;user-select:none}
+.ntab{display:flex;flex-direction:column;align-items:center;padding:9px 14px 7px;font-size:10px;font-weight:500;color:var(--txm);cursor:pointer;border-bottom:2.5px solid transparent;transition:all .18s;white-space:nowrap;min-width:66px;user-select:none}
+.ntab .ico{font-size:14px;margin-bottom:2px}
 .ntab:hover{color:var(--g);background:var(--glt)}
 .ntab.on{color:var(--g);border-bottom-color:var(--g);font-weight:700}
 
-/* Panels & Cards */
+/* ── Panels ── */
 .panel{display:none;padding:18px 0 10px;animation:fi .2s ease}
 .panel.on{display:block}
 @keyframes fi{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
-.card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:24px;margin-bottom:16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
-.cttl{font-size:18px;font-weight:700;margin-bottom:6px; color:var(--tx)}
-.csub{font-size:13px;color:var(--txm); margin-bottom:16px; line-height: 1.5;}
 
-/* Metrics grids */
-.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:13px}
-.met{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:14px 10px;text-align:center;cursor:pointer;transition:border-color .18s}
-.met:hover{border-color:var(--g);background:var(--glt)}
-.mv{font-size:22px;font-weight:700;color:var(--g)}
-.ml{font-size:11px;color:var(--txm);margin-top:4px; font-weight:500;}
+/* ── Common ── */
+.card{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:15px 17px;margin-bottom:11px}
+.cttl{font-size:14px;font-weight:700;margin-bottom:3px}
+.csub{font-size:12px;color:var(--txm)}
+.slbl{font-size:10px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.mets{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:13px}
+.met{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:11px;text-align:center;cursor:pointer;transition:border-color .18s}
+.met:hover{border-color:var(--g)}
+.mv{font-size:21px;font-weight:700;color:var(--g)}
+.ml{font-size:10px;color:var(--txm);margin-top:2px}
+.pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.pg{background:var(--glt);color:#1a4a2a}.pt{background:var(--trlt);color:#7a3010}
+.pa{background:var(--amlt);color:#6b4400}.pb{background:var(--bllt);color:#1a4a72}
+.pp{background:var(--pult);color:#4a2880}.pk{background:#fff8e1;color:#6b4c00}
+.pbk{background:var(--bklt);color:#3a2010}
+.inote{border-left:3px solid var(--g);background:var(--glt);border-radius:0 var(--rs) var(--rs) 0;padding:9px 13px;font-size:12px;color:#1e3f2b;line-height:1.6;margin-top:9px}
+.wnote{border-left:3px solid var(--am);background:var(--amlt);border-radius:0 var(--rs) var(--rs) 0;padding:9px 13px;font-size:12px;color:#5a3a00;line-height:1.6;margin-top:9px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.slb{font-size:11px;font-weight:700;color:var(--txm);margin:11px 0 5px}
 
-/* Genesis Narrative text */
-.narrative-text { font-size: 15px; line-height: 1.8; color: #333; margin-bottom: 16px; }
-.narrative-text strong { color: var(--g); }
-.highlight-box { background: var(--glt); border-left: 4px solid var(--g); padding: 16px; border-radius: 0 8px 8px 0; font-style: italic; color: var(--gdk); font-size: 14px; line-height: 1.6;}
-
-/* Image Grids & Interactive Cards */
-.img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 15px; }
-.img-card { background: var(--bg); border: 1px solid var(--bd); border-radius: var(--rl); overflow: hidden; display: flex; flex-direction: column; transition: transform .2s, box-shadow .2s; }
-.img-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); border-color: var(--g); }
-.img-card img { width: 100%; height: 160px; object-fit: cover; border-bottom: 1px solid var(--bd); background: var(--bd); }
-.img-card-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
-.img-card-ttl { font-size: 15px; font-weight: 700; color: var(--tx); margin-bottom: 2px; }
-.img-card-sub { font-size: 11px; color: var(--txm); font-style: italic; margin-bottom: 10px; }
-.img-card-tag { font-size: 10px; background: var(--bd); padding: 4px 8px; border-radius: 12px; color: var(--txm); display: inline-block; margin-bottom: 12px; align-self: flex-start; }
-.ui-btn { margin-top: auto; width: 100%; background: transparent; border: 1px solid var(--g); color: var(--g); border-radius: var(--rs); padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all .2s; text-align: center; }
-.ui-btn:hover { background: var(--g); color: #fff; }
-.ui-btn.pri { background: var(--g); color: #fff; border-color: var(--g); }
-.ui-btn.pri:hover { background: var(--gdk); }
-
-/* Alerts & Notes */
-.inote{border-left:4px solid #059669;background:#d1fae5;border-radius:0 var(--rs) var(--rs) 0;padding:14px 16px;font-size:13px;color:#064e3b;line-height:1.6;margin-top:12px; font-weight:500;}
-.wnote{border-left:4px solid #dc2626;background:#fee2e2;border-radius:0 var(--rs) var(--rs) 0;padding:14px 16px;font-size:13px;color:#7f1d1d;line-height:1.6;margin-top:12px; font-weight:500;}
-
-/* Inputs & Dropdowns */
-.loc-edit-wrap{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:20px;margin-bottom:16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
-.loc-field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-.loc-coord-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px; border-top: 1px dashed var(--bd); padding-top:16px;}
-.loc-field{display:flex;flex-direction:column;gap:6px;position:relative;}
-.loc-field label{font-size:11px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.06em}
-.loc-input{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;font-size:14px;color:var(--tx);width:100%;transition:border-color .18s;font-family:inherit}
+/* ── Location search (Scan panel) ── */
+.loc-edit-wrap{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:14px 16px;margin-bottom:11px}
+.loc-edit-ttl{font-size:12px;font-weight:700;color:var(--tx);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.loc-edit-ttl span{width:7px;height:7px;background:var(--g);border-radius:50%;display:inline-block}
+.loc-field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.loc-field{display:flex;flex-direction:column;gap:4px}
+.loc-field label{font-size:10px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.06em}
+.loc-input{background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:8px 10px;font-size:13px;color:var(--tx);width:100%;transition:border-color .18s;font-family:inherit}
 .loc-input:focus{outline:none;border-color:var(--g);background:var(--sur)}
-select.loc-input{cursor:pointer; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;}
-.loc-update-btn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--rs);padding:16px;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s; box-shadow: 0 4px 12px rgba(45,90,61,0.2);}
-.loc-update-btn:hover{background:var(--gdk); transform:translateY(-1px);}
+.loc-coord-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.loc-update-btn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--rs);padding:9px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s}
+.loc-update-btn:hover{background:var(--gdk)}
+.loc-current{background:var(--glt);border-radius:var(--rs);padding:8px 10px;font-size:11px;color:var(--g);display:flex;align-items:center;gap:7px;margin-bottom:10px;font-weight:500}
 
-/* Predictive Dropdown */
-.city-drop{position:absolute;top:100%;left:0;right:0;background:var(--sur);border:1px solid var(--bd);border-radius:var(--rs);max-height:220px;overflow-y:auto;z-index:100;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.12); margin-top:4px;}
-.city-drop.show{display:block}
-.city-opt{padding:12px 14px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd); transition:background .15s;}
-.city-opt:hover{background:var(--glt)}
-.city-opt-st{font-size:11px;color:var(--txm)}
+/* ── Scan panel other ── */
+.ctxg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px}
+.cbtn{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:11px 7px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;color:var(--txm);transition:all .18s}
+.cbtn .ci{font-size:17px;display:block;margin-bottom:3px}
+.cbtn:hover,.cbtn.sel{background:var(--glt);border-color:var(--g);color:var(--g)}
+.srow{display:flex;align-items:center;gap:10px;padding:9px 0}
+.srow label{font-size:12px;color:var(--txm);white-space:nowrap}
+.srow input{flex:1;accent-color:var(--g)}
+.sval{font-size:13px;font-weight:700;color:var(--g);min-width:76px;text-align:right}
+.sbtn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--r);padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px;transition:background .2s;position:relative;overflow:hidden}
+.sbtn:hover{background:var(--gdk)}.sbtn:active{transform:scale(.99)}
+.sbtn.loading{pointer-events:none;opacity:.85}
+.sbtn.loading::after{content:'';position:absolute;left:0;top:0;height:100%;width:60%;background:rgba(255,255,255,.15);animation:shim 1s infinite}
+@keyframes shim{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+.apig{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.apit{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--txm)}
+.apid{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 
-/* Guild Tabs */
-.stabs{display:flex;gap:8px;margin:15px 0;flex-wrap:wrap;border-bottom:1px solid var(--bd);padding-bottom:12px;}
-.stab{padding:8px 16px;font-size:13px;font-weight:600;border-radius:20px;cursor:pointer;border:1px solid var(--bd);color:var(--txm);background:var(--sur);transition:all .18s}
-.stab.on{background:var(--g);color:#fff;border-color:var(--g)}
-.stab:hover:not(.on){background:var(--glt);border-color:var(--g);color:var(--g)}
+/* ── Bird guilds ── */
+.grow{display:flex;align-items:center;gap:9px;padding:10px 0;cursor:pointer;transition:all .15s;border-bottom:1px solid var(--bd)}
+.grow:last-child{border-bottom:none}
+.grow:hover{background:var(--glt);margin:0 -17px;padding:10px 17px;border-radius:6px;border-bottom-color:transparent}
+.gdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.gnm{font-size:13px;font-weight:600;flex:1}
+.gbw{flex:2;height:5px;background:#eee;border-radius:3px}
+.gb{height:5px;border-radius:3px}
+.gct{font-size:11px;color:var(--txm);min-width:34px;text-align:right}
+.garr{font-size:12px;color:var(--txh);margin-left:4px}
 
-/* Soil grids */
-.soilg{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}
-.soilc{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:20px;}
-.soilc-ttl{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--tx); border-bottom:1px solid var(--bd); padding-bottom:8px;}
-.brow{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--bd);font-size:13px;color:var(--txm)}
-.brow:last-child{border-bottom:none}
-.bval{font-weight:700;color:var(--tx)}
+/* ── Species cards + drawers ── */
+.spg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.spc{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:12px 10px;cursor:pointer;transition:all .18s;text-align:center}
+.spc:hover{border-color:var(--pu);background:var(--pult)}
+.spc.on{border-color:var(--pu);background:var(--pult);border-width:2px}
+.sico{font-size:22px;margin-bottom:7px;display:block}
+.snm{font-size:11px;font-weight:700;margin-bottom:2px}
+.ssci{font-size:9px;color:var(--txm);font-style:italic;margin-bottom:5px}
+.dtl{background:var(--sur);border:1px solid var(--bdm);border-radius:var(--rl);padding:17px;margin-bottom:12px;display:none;animation:fi .2s ease}
+.dtl.on{display:block}
+.dth{display:flex;gap:12px;margin-bottom:13px;align-items:flex-start}
+.dtico{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.dtnm{font-size:15px;font-weight:700}
+.dtsci{font-size:11px;color:var(--txm);font-style:italic;margin-bottom:5px}
+.dtdesc{font-size:12px;color:var(--txm);line-height:1.65}
+.ag{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:12px 0}
+.at{background:var(--bg);border-radius:var(--rs);padding:8px 10px}
+.al{font-size:10px;color:var(--txm);margin-bottom:2px}
+.av{font-size:12px;font-weight:700}
+.trow{display:flex;gap:7px;padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--txm);line-height:1.55}
+.trow:last-child{border-bottom:none}
+.tdot{width:6px;height:6px;border-radius:50%;background:var(--pu);margin-top:4px;flex-shrink:0}
+.cbx{float:right;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--txm);cursor:pointer;transition:background .15s}
+.cbx:hover{background:var(--bd);color:var(--tx)}
 
-/* Impact Tab */
-.impr{display:flex;align-items:center;padding:16px 12px;border-bottom:1px solid var(--bd);cursor:pointer;transition:all .15s}
+/* ── Plant table ── */
+.plh{display:grid;grid-template-columns:2.4fr 1.2fr 1.2fr 1fr;gap:7px;padding-bottom:6px;border-bottom:1px solid var(--bdm)}
+.plhc{font-size:9px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.07em}
+.plr{display:grid;grid-template-columns:2.4fr 1.2fr 1.2fr 1fr;gap:7px;padding:9px 0;border-bottom:1px solid var(--bd);align-items:center;cursor:pointer;transition:all .15s}
+.plr:last-child{border-bottom:none}
+.plr:hover{background:var(--glt);margin:0 -17px;padding:9px 17px;border-radius:6px;border-bottom-color:transparent}
+.plr.on{background:var(--glt)}
+.pln{font-size:13px;font-weight:700}
+.plsc{font-size:10px;color:var(--txm);font-style:italic;margin-top:1px}
+.pld{display:none;background:var(--sur);border:1px solid var(--bdm);border-radius:var(--rl);padding:16px;margin:-2px 0 10px;animation:fi .2s ease}
+.pld.on{display:block}
+.pdg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.pda{background:var(--bg);border-radius:var(--rs);padding:9px 11px}
+.pdal{font-size:10px;color:var(--txm);margin-bottom:2px}
+.pdav{font-size:12px;font-weight:700}
+.pdn{font-size:12px;color:var(--txm);line-height:1.65;padding:10px;background:var(--bg);border-radius:var(--rs);border-left:3px solid var(--g)}
+
+/* ── Zone cards ── */
+.zc{background:var(--bg);border-radius:var(--r);padding:12px 14px;margin-bottom:7px;cursor:pointer;transition:all .18s;border:1px solid transparent}
+.zc:hover,.zc.on{border-color:var(--g);background:var(--glt)}
+.zttl{font-size:13px;font-weight:700;margin-bottom:3px}
+.zbod{font-size:12px;color:var(--txm);line-height:1.6;margin-bottom:7px}
+.zexp{display:none;font-size:12px;color:#1e3f2b;line-height:1.65;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)}
+.zc.on .zexp{display:block}
+
+/* ── Calendar ── */
+.calg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.calm{background:var(--sur);border:1px solid var(--bd);border-radius:var(--r);padding:10px;cursor:pointer;transition:all .18s}
+.calm:hover{border-color:var(--g);background:var(--glt)}
+.calm.on{border-color:var(--g);border-width:2px;background:var(--glt)}
+.cmn{font-size:11px;font-weight:700;margin-bottom:6px}
+.ctsk{font-size:10px;color:var(--txm);padding:2px 0 2px 6px;border-left:2px solid;margin-bottom:3px;line-height:1.35}
+.cmbar{height:4px;border-radius:2px;background:var(--pu);margin-bottom:4px}
+.cmb{font-size:9px;color:var(--txm);line-height:1.4}
+
+/* ── Soil ── */
+.soilg{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
+.soilc{background:var(--bg);border-radius:var(--r);padding:12px 13px;cursor:pointer;border:1px solid transparent;transition:all .18s}
+.soilc:hover{border-color:var(--am);background:var(--amlt)}
+.soilp{font-size:11px;color:var(--txm);margin-bottom:2px}
+.soilv{font-size:15px;font-weight:700}
+.soiln{font-size:10px;color:var(--tr);margin-top:2px}
+.brow{display:flex;align-items:center;gap:9px;margin-bottom:8px;cursor:pointer;border-radius:var(--rs);padding:3px 6px;transition:background .15s}
+.brow:hover{background:var(--glt)}
+.blbl{font-size:11px;color:var(--txm);width:98px;flex-shrink:0}
+.btrk{flex:1;height:6px;background:#e8e6e0;border-radius:3px;overflow:hidden}
+.bfil{height:6px;border-radius:3px}
+.bval{font-size:11px;font-weight:700;min-width:62px;text-align:right}
+
+/* ── Impact ── */
+.impr{display:flex;align-items:center;padding:9px 0;border-bottom:1px solid var(--bd);cursor:pointer;transition:all .15s}
 .impr:last-child{border-bottom:none}
-.impr:hover{background:var(--glt);border-radius:8px;border-bottom-color:transparent}
-.impl{font-size:15px;font-weight:600;flex:1}
-.impa{font-size:18px;font-weight:700;color:var(--g);min-width:100px;text-align:right}
+.impr:hover{background:var(--glt);margin:0 -17px;padding:9px 17px;border-radius:6px;border-bottom-color:transparent}
+.impr.on{background:var(--glt)}
+.impl{font-size:13px;flex:1}
+.impb{font-size:11px;color:var(--txm)}
+.impa2{font-size:11px;color:var(--txh);padding:0 8px}
+.impa{font-size:13px;font-weight:700;color:var(--g);min-width:100px;text-align:right}
+.impd{display:none;font-size:12px;color:var(--txm);line-height:1.65;padding:9px 12px;background:var(--bg);border-radius:var(--rs);margin:5px 0 9px;border-left:3px solid var(--g);animation:fi .2s ease}
+.impd.on{display:block}
+.cq{background:var(--glt);border:1px solid var(--g);border-radius:var(--rl);padding:15px 17px;margin-top:11px}
+.cqt{font-size:12px;font-weight:700;color:var(--g);margin-bottom:5px}
+.cqb{font-size:13px;color:var(--g);line-height:1.65;font-style:italic}
 
-/* Calendar */
-.calg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
-.calm{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:18px;transition:all .18s}
-.calm.on{border-color:var(--g);border-width:2px;background:var(--glt);box-shadow:0 4px 12px rgba(45,90,61,0.15)}
-.cmn{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--tx); border-bottom:1px solid var(--bd); padding-bottom:8px;}
-.ctsk{font-size:12px;color:var(--txm);padding-left:10px;border-left:3px solid var(--g);line-height:1.5; margin-bottom:8px;}
+/* ── PDF generate button ── */
+.gen-pdf-btn{width:100%;background:var(--gdk);color:#fff;border:none;border-radius:var(--rl);padding:16px;font-size:14px;font-weight:700;cursor:pointer;margin-top:14px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:.02em}
+.gen-pdf-btn:hover{background:#142d1f;transform:translateY(-1px)}
+.gen-pdf-btn:active{transform:translateY(0)}
+.gen-pdf-btn .pdf-icon{font-size:18px}
+.pdf-note{font-size:11px;color:var(--txm);text-align:center;margin-top:8px;line-height:1.5}
+.pdf-note strong{color:var(--g)}
 
-/* Forced Registration Modal */
-.overlay{position:fixed;inset:0;background:rgba(10,20,15,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(8px); opacity:1; transition:opacity .25s;}
-.overlay.hidden{display:none; opacity:0; pointer-events:none;}
-.mbox{background:var(--sur);border-radius:var(--rl);padding:32px 28px;max-width:580px;width:100%;max-height:95vh;overflow-y:auto;animation:mslide .3s ease; box-shadow:0 24px 60px rgba(0,0,0,0.4);}
-@keyframes mslide{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:none}}
-.mbox-hdr{text-align:center;margin-bottom:26px}
-.mbox-ttl{font-size:22px;font-weight:700;margin-bottom:8px; color:var(--gdk)}
-.mbox-sub{font-size:13px;color:var(--txm);line-height:1.6}
-.fgrp{margin-bottom:0}
-.fgrp label{display:block;font-size:11px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+/* ── Sub-tabs ── */
+.stabs{display:flex;gap:4px;margin-bottom:13px;flex-wrap:wrap}
+.stab{padding:5px 13px;font-size:11px;font-weight:600;border-radius:20px;cursor:pointer;border:1px solid var(--bd);color:var(--txm);background:transparent;transition:all .18s}
+.stab.on{background:var(--pu);color:#fff;border-color:var(--pu)}
+.stab:hover:not(.on){background:var(--pult);border-color:var(--pu);color:var(--pu)}
+.subp{display:none;animation:fi .2s ease}
+.subp.on{display:block}
+
+/* ═══════════════════════════════
+   MODAL SYSTEM
+═══════════════════════════════ */
+.overlay{position:fixed;inset:0;background:rgba(10,20,15,0.72);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px)}
+.overlay.hidden{display:none}
+.mbox{background:var(--sur);border-radius:var(--rl);padding:28px 24px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;animation:mslide .25s ease}
+@keyframes mslide{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+.mbox-hdr{text-align:center;margin-bottom:22px}
+.mbox-icon{width:52px;height:52px;background:var(--g);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.mbox-icon svg{width:26px;height:26px}
+.mbox-ttl{font-size:18px;font-weight:700;margin-bottom:4px}
+.mbox-sub{font-size:12px;color:var(--txm);line-height:1.5}
+.fgrp{margin-bottom:12px}
+.fgrp label{display:block;font-size:10px;font-weight:700;color:var(--txm);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
 .fgrp label .req{color:var(--tr)}
-.finp{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;font-size:14px;color:var(--tx);font-family:inherit;transition:border-color .18s}
-.finp:focus{outline:none;border-color:var(--g);background:var(--sur); box-shadow: 0 0 0 3px var(--glt);}
-.mbtn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--rs);padding:16px;font-size:15px;font-weight:700;cursor:pointer;margin-top:10px;transition:background .2s}
+.finp{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:10px 12px;font-size:13px;color:var(--tx);font-family:inherit;transition:border-color .18s}
+.finp:focus{outline:none;border-color:var(--g);background:var(--sur)}
+.finp.err{border-color:var(--tr);background:#fff8f6}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fsel{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:10px 12px;font-size:13px;color:var(--tx);font-family:inherit;cursor:pointer;transition:border-color .18s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6b6b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+.fsel:focus{outline:none;border-color:var(--g)}
+.mbtn{width:100%;background:var(--g);color:#fff;border:none;border-radius:var(--r);padding:13px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .2s}
 .mbtn:hover{background:var(--gdk)}
-.mbtn:disabled{opacity:0.7; pointer-events:none;}
+.mbtn-sec{width:100%;background:transparent;color:var(--txm);border:1px solid var(--bd);border-radius:var(--r);padding:10px;font-size:13px;cursor:pointer;margin-top:8px;transition:all .18s}
+.mbtn-sec:hover{background:var(--bg);color:var(--tx)}
+.merr{font-size:11px;color:var(--tr);margin-top:4px;display:none}
+.merr.show{display:block}
+.mbox-divider{border:none;border-top:1px solid var(--bd);margin:16px 0}
+.mbox-foot{font-size:11px;color:var(--txh);text-align:center;margin-top:12px;line-height:1.5}
+.success-check{font-size:32px;text-align:center;margin-bottom:8px}
 
-/* Interactive Modals */
-.tree-modal-box { max-width: 540px; }
-.care-sect { margin-bottom: 16px; background: var(--bg); padding: 14px; border-radius: var(--rs); border-left: 3px solid var(--g);}
-.care-sect.pri { border-left-color: var(--am); background: var(--amlt); }
-.care-sect-ttl { font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--g); margin-bottom: 4px; letter-spacing: 0.05em;}
-.care-sect.pri .care-sect-ttl { color: #9c6500; }
-.care-sect-desc { font-size: 13px; color: var(--txm); line-height: 1.5; }
-.care-sect.pri .care-sect-desc { color: #5a3a00; font-weight: 500;}
+/* ── Location search in modal ── */
+.city-suggestion{position:relative}
+.city-suggestion input{width:100%;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:10px 12px;font-size:13px;color:var(--tx);font-family:inherit;transition:border-color .18s}
+.city-suggestion input:focus{outline:none;border-color:var(--g);background:var(--sur)}
+.city-drop{position:absolute;top:100%;left:0;right:0;background:var(--sur);border:1px solid var(--bd);border-radius:var(--rs);max-height:180px;overflow-y:auto;z-index:100;display:none;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+.city-drop.show{display:block}
+.city-opt{padding:9px 12px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.city-opt:hover{background:var(--glt)}
+.city-opt-st{font-size:10px;color:var(--txm)}
 
-/* Credits Footer */
-.credits-footer { text-align: center; margin-top: 40px; padding-top: 24px; border-bottom: 1px dashed var(--bd); padding-bottom: 40px; color: var(--txm); }
-.credits-title { font-size: 15px; font-weight: 700; color: var(--g); margin-bottom: 6px; }
-.credits-desc { font-size: 12px; max-width: 600px; margin: 0 auto; line-height: 1.6; }
-
-/* PDF Button */
-.gen-pdf-btn{width:100%;background:var(--gdk);color:#fff;border:none;border-radius:var(--rl);padding:18px;font-size:16px;font-weight:700;cursor:pointer;margin-top:24px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:12px;}
-.gen-pdf-btn:hover{background:#142d1f;transform:translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25);}
-
-/* Toast */
-.twrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.toast{background:var(--gdk);color:#fff;border-radius:24px;padding:14px 28px;font-size:14px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,0.25); text-align:center;}
+/* ── Toast ── */
+.twrap{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{background:var(--gdk);color:#fff;border-radius:20px;padding:9px 18px;font-size:12px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
 .toast.on{opacity:1;transform:none}
-.toast.warn{background:#991b1b}
-
-@media(max-width:700px){
-  .loc-field-row, .loc-coord-row{grid-template-columns:1fr; margin-bottom: 16px;}
-  .fgrp{margin-bottom:16px;}
-  .mets{grid-template-columns:repeat(2,1fr)}
-  .calg{grid-template-columns:repeat(2,1fr)}
-  .soilg{grid-template-columns:1fr}
-}
-</style>
-</head>
-<body>
-
-<!-- GLOBAL WATERMARK -->
-<div class="watermark-overlay">Greenscape Designz</div>
-
-<!-- FORCED REGISTRATION MODAL -->
-<div id="registrationModal" class="overlay">
-  <div class="mbox">
-    <div class="mbox-hdr">
-       <div class="logo-leaf" style="margin: 0 auto 16px auto; background: var(--g); width: 48px; height: 48px; border-radius: 50% 50% 50% 12px;"><svg fill="#fff" viewBox="0 0 24 24" style="width:24px; height:24px;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
-       <div class="mbox-ttl">VANA Registration</div>
-       <div class="mbox-sub">You must register to enter the global biodiversity database and access ecological scans.</div>
-    </div>
-    
-    <!-- Connects to Google Sheets -->
-    <form name="submit-to-google-sheet" id="gsheetForm">
-       <!-- Hidden Timestamp -->
-       <input type="hidden" name="Timestamp" id="formTimestamp">
-
-       <div class="loc-field-row" style="margin-bottom: 12px;">
-           <div class="fgrp">
-             <label>Full Name <span class="req">*</span></label>
-             <input type="text" name="Name" id="formName" class="finp" placeholder="e.g. Jane Doe" required>
-           </div>
-           <div class="fgrp">
-             <label>Email Address <span class="req">*</span></label>
-             <input type="email" name="Email" id="formEmail" class="finp" placeholder="jane@example.com" required>
-           </div>
-       </div>
-
-       <div class="loc-field-row" style="margin-bottom: 12px;">
-           <div class="fgrp">
-             <label>Phone Number <span class="req">*</span></label>
-             <input type="tel" name="Phone" id="formPhone" class="finp" placeholder="+91 98765 43210" required>
-           </div>
-           <div class="fgrp">
-             <label>Studio / Company</label>
-             <input type="text" name="Studio" id="formStudio" class="finp" placeholder="e.g. Greenscape Designz">
-           </div>
-       </div>
-
-       <div class="loc-field-row" style="margin-bottom: 12px;">
-           <div class="fgrp">
-             <label>State / Union Territory <span class="req">*</span></label>
-             <select name="State" id="formStateUser" class="finp loc-input" required>
-                <option value="" disabled selected>Select State...</option>
-                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                <option value="Assam">Assam</option>
-                <option value="Bihar">Bihar</option>
-                <option value="Chandigarh">Chandigarh</option>
-                <option value="Chhattisgarh">Chhattisgarh</option>
-                <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Goa">Goa</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Haryana">Haryana</option>
-                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                <option value="Jharkhand">Jharkhand</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Kerala">Kerala</option>
-                <option value="Ladakh">Ladakh</option>
-                <option value="Lakshadweep">Lakshadweep</option>
-                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Manipur">Manipur</option>
-                <option value="Meghalaya">Meghalaya</option>
-                <option value="Mizoram">Mizoram</option>
-                <option value="Nagaland">Nagaland</option>
-                <option value="Odisha">Odisha</option>
-                <option value="Puducherry">Puducherry</option>
-                <option value="Punjab">Punjab</option>
-                <option value="Rajasthan">Rajasthan</option>
-                <option value="Sikkim">Sikkim</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Telangana">Telangana</option>
-                <option value="Tripura">Tripura</option>
-                <option value="Uttar Pradesh">Uttar Pradesh</option>
-                <option value="Uttarakhand">Uttarakhand</option>
-                <option value="West Bengal">West Bengal</option>
-             </select>
-           </div>
-           <div class="fgrp">
-             <label>City / Major District <span class="req">*</span></label>
-             <input type="text" name="City" id="formCityUser" class="finp" placeholder="e.g. Bengaluru" required>
-           </div>
-       </div>
-
-       <div class="loc-field-row" style="margin-bottom: 12px;">
-           <div class="fgrp">
-             <label>Role / Profession <span class="req">*</span></label>
-             <select name="Role" id="formRole" class="finp loc-input" required>
-                <option value="" disabled selected>Select Role...</option>
-                <option value="Landscape Architect">Landscape Architect</option>
-                <option value="Ecologist">Ecologist</option>
-                <option value="Homeowner">Homeowner / Enthusiast</option>
-                <option value="Student">Student / Researcher</option>
-                <option value="Other">Other</option>
-             </select>
-           </div>
-           <div class="fgrp">
-             <label>Source (Learned About VANA) <span class="req">*</span></label>
-             <select name="Source" id="formSource" class="finp loc-input" required>
-                <option value="" disabled selected>Select Source...</option>
-                <option value="LinkedIn">LinkedIn</option>
-                <option value="Greenscape Designz">Greenscape Designz</option>
-                <option value="Referral">Referral</option>
-                <option value="Social Media">Social Media</option>
-                <option value="Instagram">Instagram</option>
-                <option value="Others">Others</option>
-             </select>
-           </div>
-       </div>
-
-       <button type="submit" class="mbtn" id="submitBtn">Register & Enter VANA</button>
-    </form>
-  </div>
-</div>
-
-<!-- MAIN APP INTERFACE (Locked until registration) -->
-<div id="appShell" class="shell app-locked">
-
-  <!-- Header -->
-  <div class="hdr">
-    <div class="logo">
-      <div class="logo-leaf"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg></div>
-      <div>
-        <span class="logo-name">VANA</span>
-        <span class="logo-sub">Biodiversity Atlas</span>
-      </div>
-    </div>
-    <!-- Profile Chip -->
-    <div class="user-chip">
-      <div class="u-ava" id="u-ava-text">?</div>
-      <div class="u-name" id="u-name-text">Locked</div>
-    </div>
-  </div>
-
-  <!-- Navigation -->
-  <div class="nav">
-    <div class="ntab on" onclick="switchTab('about', this)" id="navAbout">About VANA</div>
-    <div class="ntab" onclick="switchTab('scan', this)">Scan & Weather</div>
-    <div class="ntab" onclick="switchTab('birds', this)">Avian Atlas</div>
-    <div class="ntab" onclick="switchTab('insects', this)">Insects & Pollinators</div>
-    <div class="ntab" onclick="switchTab('plants', this)">Flora Matrix</div>
-    <div class="ntab" onclick="switchTab('soil', this)">Soil & Water</div>
-    <div class="ntab" onclick="switchTab('impact', this)">Impact Profile</div>
-    <div class="ntab" onclick="switchTab('calendar', this)">Calendar</div>
-  </div>
-
-  <!-- 0. GENESIS / ABOUT TAB -->
-  <div id="about" class="panel on">
-    <div class="card">
-        <div class="cttl" style="font-size: 24px; margin-bottom: 8px;">The Genesis of VANA</div>
-        <div class="csub" style="color: var(--g); font-weight: 600;">A 1-Minute Introduction</div>
-        
-        <p class="narrative-text">
-            <strong>VANA (Vegetation & Avian Native Atlas)</strong> was born out of a critical need to bridge the gap between urban development and true ecological restoration. While modern cities prioritize aesthetic greenery, they often introduce invasive or non-native species that create "green deserts" — landscapes entirely devoid of the insects, birds, and soil microbes necessary for a self-sustaining ecosystem.
-        </p>
-        <p class="narrative-text">
-            VANA acts as a dynamic intelligence engine. By cross-referencing global biodiversity data, regional soil taxonomy, and real-time climate sensors, VANA empowers landscape architects, ecologists, and homeowners to design habitats that actively regenerate groundwater, sequester carbon, and revive native faunal guilds.
-        </p>
-        
-        <div class="highlight-box">
-            "It’s no longer enough to just plant trees; we must rebuild the biological web. VANA is the blueprint for that restoration."
-        </div>
-    </div>
-  </div>
-
-  <!-- 1. SCAN & WEATHER TAB -->
-  <div id="scan" class="panel">
-    <div class="loc-edit-wrap">
-      <div class="loc-field-row">
-        <div class="loc-field">
-          <label>City / District (Predictive Search)</label>
-          <input type="text" id="cityInput" class="loc-input" value="Bengaluru" placeholder="Type district or city..." autocomplete="off" oninput="debounceCitySearch(this.value)">
-          <div id="cityDropdown" class="city-drop"></div>
-        </div>
-        <div class="loc-field">
-          <label>State / Union Territory</label>
-          <select id="stateInput" class="loc-input">
-                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                <option value="Assam">Assam</option>
-                <option value="Bihar">Bihar</option>
-                <option value="Chandigarh">Chandigarh</option>
-                <option value="Chhattisgarh">Chhattisgarh</option>
-                <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Goa">Goa</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Haryana">Haryana</option>
-                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                <option value="Jharkhand">Jharkhand</option>
-                <option value="Karnataka" selected>Karnataka</option>
-                <option value="Kerala">Kerala</option>
-                <option value="Ladakh">Ladakh</option>
-                <option value="Lakshadweep">Lakshadweep</option>
-                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Manipur">Manipur</option>
-                <option value="Meghalaya">Meghalaya</option>
-                <option value="Mizoram">Mizoram</option>
-                <option value="Nagaland">Nagaland</option>
-                <option value="Odisha">Odisha</option>
-                <option value="Puducherry">Puducherry</option>
-                <option value="Punjab">Punjab</option>
-                <option value="Rajasthan">Rajasthan</option>
-                <option value="Sikkim">Sikkim</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Telangana">Telangana</option>
-                <option value="Tripura">Tripura</option>
-                <option value="Uttar Pradesh">Uttar Pradesh</option>
-                <option value="Uttarakhand">Uttarakhand</option>
-                <option value="West Bengal">West Bengal</option>
-                <option value="Other">Other / International</option>
-          </select>
-        </div>
-      </div>
-      
-      <div class="loc-coord-row">
-        <div class="loc-field">
-            <label>Latitude (GPS)</label>
-            <input type="number" step="any" id="latInput" class="loc-input" value="12.9719">
-        </div>
-        <div class="loc-field">
-            <label>Longitude (GPS)</label>
-            <input type="number" step="any" id="lonInput" class="loc-input" value="77.5937">
-        </div>
-      </div>
-
-      <button class="loc-update-btn" onclick="triggerManualScan()">Run Biodiversity Scan</button>
-    </div>
-
-    <div class="card" id="weatherBox">
-      <div class="cttl">Live Environmental Sensors</div>
-      <div class="csub" id="weatherSub">Awaiting scan...</div>
-      <div class="mets" id="weatherMets"></div>
-      <div id="alertsContainer"></div>
-    </div>
-  </div>
-
-  <!-- 2. AVIAN ATLAS TAB -->
-  <div id="birds" class="panel">
-    <div class="card">
-        <div class="cttl">Comprehensive Avian Guilds</div>
-        <div class="csub">Massive database of keystone indicator species vital for a functioning ecosystem. Click to view detailed habitats.</div>
-        
-        <div class="stabs" id="guildTabs"></div>
-        <div id="guildContent" class="img-grid"></div>
-    </div>
-  </div>
-
-  <!-- 2.5 INSECTS & POLLINATORS TAB -->
-  <div id="insects" class="panel">
-    <div class="card">
-        <div class="cttl">Native Insects & Pollinators</div>
-        <div class="csub">The foundational biological layer. Without these, the avian and floral networks collapse.</div>
-        <div id="insectContent" class="img-grid"></div>
-    </div>
-  </div>
-
-  <!-- 3. FLORA LIST TAB -->
-  <div id="plants" class="panel">
-    <div class="card">
-        <div class="cttl" id="floraStateTtl">Native Botanical Matrix</div>
-        <div class="csub">Extensive native planting list tailored for ecological restoration. Includes Soil & Water demands.</div>
-        
-        <!-- State Forest Species Section -->
-        <div style="margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--bd);">
-            <div class="cttl" style="font-size: 15px; color: var(--g);">Key Regional Forest Species</div>
-            <div id="forestSpeciesContainer" class="img-grid"></div>
-        </div>
-
-        <div class="cttl" style="font-size: 15px;">General Native Shrubs & Grasses</div>
-        <div id="plantListContainer" class="img-grid"></div>
-    </div>
-  </div>
-
-  <!-- 4. SOIL & AMENDMENTS TAB -->
-  <div id="soil" class="panel">
-    <div class="card">
-      <div class="cttl" id="soilLocationName">Regional Soil Profile</div>
-      <div class="csub" id="soilTypeDisplay">Select location in 'Scan' tab to load state soil data.</div>
-      <div class="mets" id="soilMets" style="margin-top:15px"></div>
-      
-      <div class="soilg">
-        <div class="soilc">
-            <div class="soilc-ttl">Required Amendments (per 100 sqm)</div>
-            <div id="amendmentsList"></div>
-        </div>
-        <div class="soilc">
-            <div class="soilc-ttl">Irrigation Demand Calculation</div>
-            <div id="irrigationData"></div>
-        </div>
-      </div>
-
-      <div class="inote" id="soilEcologyNote" style="background:var(--bg); border-left-color:var(--am); color:var(--tx); margin-top:15px;">Run a scan to determine necessary soil amendments for this region.</div>
-    </div>
-  </div>
-
-  <!-- 5. IMPACT TAB -->
-  <div id="impact" class="panel">
-    <div class="card">
-      <div class="cttl">Ecological Impact Profile</div>
-      <div class="csub">Calculated systemic benefits of the proposed landscape design based on regional climate parameters.</div>
-      
-      <div style="margin-top: 20px; border-top:1px solid var(--bd);">
-          <div class="impr">
-              <div class="impl">Annual Carbon Sequestration</div>
-              <div class="impa" id="impCo2">-- tons</div>
-          </div>
-          <div class="impr">
-              <div class="impl">Groundwater Recharge Volume</div>
-              <div class="impa" id="impWater">-- kL</div>
-          </div>
-          <div class="impr">
-              <div class="impl">Particulate Matter (PM2.5) Filtration</div>
-              <div class="impa" id="impPm">-- %</div>
-          </div>
-          <div class="impr">
-              <div class="impl">Biodiversity Support Index</div>
-              <div class="impa" id="impBio">-- / 100</div>
-          </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 6. CALENDAR TAB -->
-  <div id="calendar" class="panel">
-    <div class="card">
-      <div class="cttl">Comprehensive Maintenance Cycle</div>
-      <div class="csub">The current month is highlighted automatically. Actions are tailored to prevent ecosystem disruption.</div>
-      <div class="calg" id="calendarGrid"></div>
-    </div>
-  </div>
-
-  <!-- STRICT 1-PAGE PDF BUTTON -->
-  <button class="gen-pdf-btn" onclick="generateRestrictedPDF()">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-    Export 1-Page Biodiversity Impact Report
-  </button>
-
-  <!-- CREDITS & DISCLAIMERS -->
-  <div class="credits-footer">
-      <div class="credits-title">Created & Maintained by Greenscape Designz</div>
-      <div class="credits-desc">
-          <b>Disclaimer:</b> The data provided by the VANA Native Atlas Engine is for preliminary ecological assessment and planning only. 
-          The full biodiversity, native flora selection, and arboriculture methodologies are subject to formal consultation and site-specific verification by professional ecologists.
-      </div>
-  </div>
-
-</div>
-
-<!-- COMPREHENSIVE PLANT CARE MODAL (Soil, Water, Arboriculture) -->
-<div id="treeModal" class="overlay hidden" style="z-index: 99999;">
-  <div class="mbox tree-modal-box">
-    <div class="mbox-hdr" style="margin-bottom: 16px;">
-        <div class="mbox-ttl" id="tcName">Tree Name</div>
-        <div class="mbox-sub" id="tcSci" style="font-style: italic;">Scientific Name</div>
-    </div>
-    
-    <!-- New Soil & Water Sections -->
-    <div class="care-sect pri">
-        <div class="care-sect-ttl">Soil Taxonomy Compatibility</div>
-        <div class="care-sect-desc" id="tcSoil">Specific soil requirements...</div>
-    </div>
-
-    <div class="care-sect pri" style="background:#e0f2fe; border-left-color:#0284c7;">
-        <div class="care-sect-ttl" style="color:#0369a1;">Hydrological Demand</div>
-        <div class="care-sect-desc" id="tcWater" style="color:#0c4a6e; font-weight:500;">Watering frequency and volume requirements...</div>
-    </div>
-
-    <div class="care-sect">
-        <div class="care-sect-ttl">Growth & Root Habit</div>
-        <div class="care-sect-desc" id="tcRoot">Root management guidelines...</div>
-    </div>
-
-    <div class="care-sect">
-        <div class="care-sect-ttl">Arboriculture & Pruning</div>
-        <div class="care-sect-desc" id="tcPrune">Detailed pruning guidelines...</div>
-    </div>
-
-    <button type="button" class="mbtn-sec" style="width:100%;background:transparent;border:1px solid var(--bd);padding:12px;border-radius:var(--rs);cursor:pointer;font-weight:700;color:var(--tx);" onclick="closeTreeModal()">Close Care Profile</button>
-  </div>
-</div>
-
-<!-- TOAST WRAPPER -->
-<div id="twrap" class="twrap"></div>
-
-<script>
-/* ═══════════════════════════════════════
-   DATABASES WITH IMAGES & CARE GUIDES
-═══════════════════════════════════════ */
-
-// CONSTANT FOR IMAGE FALLBACK
-const imgFallback = "this.onerror=null;this.src='https://placehold.co/400x300/2d5a3d/ffffff?text=Image+Unavailable';";
-
-// AVIAN GUILDS
-const avianGuilds = {
-    "nectarivores": {
-        name: "Nectarivores", rule: "Design for continuous bloom across at least 3 native plant species year-round. Provide a 3-5cm deep water dish nearby.",
-        species: [
-            { nm: "Purple Sunbird", sci: "Cinnyris asiaticus", layer: "Mid canopy", img: "https://images.unsplash.com/photo-1552728089-571ebd6a45ad?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Pale-billed Flowerpecker", sci: "Dicaeum erythrorhynchos", layer: "Canopy", img: "https://images.unsplash.com/photo-1605092601931-df2196620da6?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Loten's Sunbird", sci: "Cinnyris lotenius", layer: "Shrub layer", img: "https://images.unsplash.com/photo-1598923055375-385d5cb21111?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Crimson-backed Sunbird", sci: "Leptocoma minima", layer: "Lower canopy", img: "https://images.unsplash.com/photo-1579768652399-5ea0a0ce926b?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Thick-billed Flowerpecker", sci: "Dicaeum agile", layer: "Upper canopy", img: "https://images.unsplash.com/photo-1533235659648-fb2d4daec18c?auto=format&fit=crop&w=400&q=80" }
-        ]
-    },
-    "insectivores": {
-        name: "Insectivores", rule: "Dense native shrubs + native grasses are essential. Avoid pesticides completely.",
-        species: [
-            { nm: "Oriental Magpie-Robin", sci: "Copsychus saularis", layer: "Mid canopy", img: "https://images.unsplash.com/photo-1518469888804-019f201dd0b0?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Common Tailorbird", sci: "Orthotomus sutorius", layer: "Shrub layer", img: "https://images.unsplash.com/photo-1620694563886-c3a808af32ba?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Asian Tit", sci: "Parus cinereus", layer: "Canopy", img: "https://images.unsplash.com/photo-1588661706649-0d12eaf76189?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Indian Paradise Flycatcher", sci: "Terpsiphone paradisi", layer: "Mid canopy", img: "https://images.unsplash.com/photo-1550853024-fae8cd4be47f?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Black Drongo", sci: "Dicrurus macrocercus", layer: "Open perch", img: "https://images.unsplash.com/photo-1606567595334-d39972c85d03?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Pied Bushchat", sci: "Saxicola caprata", layer: "Ground edge", img: "https://images.unsplash.com/photo-1590497746410-b4bdc7daaf0a?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Green Bee-eater", sci: "Merops orientalis", layer: "Aerial hunter", img: "https://images.unsplash.com/photo-1582260657474-0672e3ea86fb?auto=format&fit=crop&w=400&q=80" }
-        ]
-    },
-    "waterbirds": {
-        name: "Water Birds", rule: "A 20–40 sqm pond with 5 cm shallow entry edge attracts these aquatic species within one monsoon season.",
-        species: [
-            { nm: "White-throated Kingfisher", sci: "Halcyon smyrnensis", layer: "Water edge", img: "https://images.unsplash.com/photo-1444464666168-49b19e882228?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Common Moorhen", sci: "Gallinula chloropus", layer: "Pond edge", img: "https://images.unsplash.com/photo-1521503730331-5cddccbc8b5c?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Little Cormorant", sci: "Microcarbo niger", layer: "Open water", img: "https://images.unsplash.com/photo-1601262489628-98eec2e6af26?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Purple Heron", sci: "Ardea purpurea", layer: "Wetland edge", img: "https://images.unsplash.com/photo-1478148386348-15abeb874d89?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Pond Heron", sci: "Ardeola grayii", layer: "Shallows", img: "https://images.unsplash.com/photo-1555581179-883391d4e0b5?auto=format&fit=crop&w=400&q=80" },
-            { nm: "White-breasted Waterhen", sci: "Amaurornis phoenicurus", layer: "Reed beds", img: "https://images.unsplash.com/photo-1563806932468-b7c12662c19e?auto=format&fit=crop&w=400&q=80" }
-        ]
-    },
-    "raptors": {
-        name: "Raptors", rule: "Leave 20–30% open sky. Retain tallest trees (15m+) as hunting perches.",
-        species: [
-            { nm: "Black Kite", sci: "Milvus migrans", layer: "Aerial scavenger", img: "https://images.unsplash.com/photo-1565575619363-27cc1726a7f8?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Shikra", sci: "Accipiter badius", layer: "Woodland edge", img: "https://images.unsplash.com/photo-1553733036-749e70dfd4db?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Spotted Owlet", sci: "Athene brama", layer: "Nocturnal cavity", img: "https://images.unsplash.com/photo-1518469888804-019f201dd0b0?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Booted Eagle", sci: "Hieraaetus pennatus", layer: "Winter visitor", img: "https://images.unsplash.com/photo-1614088924618-2e8c56e09cfa?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Brahminy Kite", sci: "Haliastur indus", layer: "Water proximity", img: "https://images.unsplash.com/photo-1591871937631-29d443ce8600?auto=format&fit=crop&w=400&q=80" }
-        ]
-    },
-    "groundbirds": {
-        name: "Ground Birds", rule: "Open native meadow (100–200 sqm min) with unmown native grasses. Bare soil patches are essential for foraging.",
-        species: [
-            { nm: "Red-wattled Lapwing", sci: "Vanellus indicus", layer: "Open ground", img: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Indian Francolin", sci: "Francolinus pondicerianus", layer: "Grass edge", img: "https://images.unsplash.com/photo-1580211130638-349f7ba3abda?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Yellow Wagtail", sci: "Motacilla flava", layer: "Short grass", img: "https://images.unsplash.com/photo-1522858547137-f1dcec554f55?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Paddyfield Pipit", sci: "Anthus rufulus", layer: "Open meadow", img: "https://images.unsplash.com/photo-1621245995449-33b666a7b21d?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Grey Francolin", sci: "Ortygornis pondicerianus", layer: "Scrubland", img: "https://images.unsplash.com/photo-1480044965905-02098d419e96?auto=format&fit=crop&w=400&q=80" }
-        ]
-    },
-    "cavitynesters": {
-        name: "Cavity Nesters", rule: "NEVER remove old or partially dead trees. A single old trunk supports more cavity nesting species than 20 young trees combined.",
-        species: [
-            { nm: "White-cheeked Barbet", sci: "Psilopogon viridis", layer: "Excavates cavity", img: "https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Rose-ringed Parakeet", sci: "Psittacula krameri", layer: "Uses old holes", img: "https://images.unsplash.com/photo-1552728089-571ebd6a45ad?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Common Myna", sci: "Acridotheres tristis", layer: "Tree holes", img: "https://images.unsplash.com/photo-1598923055375-385d5cb21111?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Plum-headed Parakeet", sci: "Psittacula cyanocephala", layer: "High cavities", img: "https://images.unsplash.com/photo-1579768652399-5ea0a0ce926b?auto=format&fit=crop&w=400&q=80" },
-            { nm: "Coppersmith Barbet", sci: "Psilopogon haemacephalus", layer: "Dead branches", img: "https://images.unsplash.com/photo-1533235659648-fb2d4daec18c?auto=format&fit=crop&w=400&q=80" }
-        ]
-    }
-};
-
-// INSECT DATABASE
-const insectDatabase = [
-    { nm: "Plain Tiger Butterfly", sci: "Danaus chrysippus", type: "Key Pollinator", img: "https://images.unsplash.com/photo-1541418950054-c12804e149d9?auto=format&fit=crop&w=400&q=80", role: "Essential pollinator for milkweeds and native shrubs." },
-    { nm: "Indian Rock Bee", sci: "Apis dorsata", type: "Apex Pollinator", img: "https://images.unsplash.com/photo-1585642674384-566063b51ee2?auto=format&fit=crop&w=400&q=80", role: "Pollinates over 50% of the upper canopy native trees." },
-    { nm: "Ladybird Beetle", sci: "Coccinellidae", type: "Predatory Control", img: "https://images.unsplash.com/photo-1518006180370-1f95a0de7cc0?auto=format&fit=crop&w=400&q=80", role: "Natural pest control. Consumes thousands of aphids." }
-];
-
-// UPDATED PLANT DATABASE (Now with explicit SOIL & WATER data)
-const plantDatabase = [
-    { nm: "Hibiscus rosa-sinensis", common: "Native Hibiscus", layer: "Shrub Layer (1-2m)", img: "https://images.unsplash.com/photo-1557053964-9276cb6fb91c?auto=format&fit=crop&w=400&q=80",
-      care: { soil: "Prefers well-draining, slightly acidic soil (pH 6.0-7.0). Tolerates loamy or sandy substrates.", water: "Moderate to High. Requires 15-20L per week during dry spells to maintain bloom cycle.", root: "Shallow, fibrous root network. Needs heavy top-mulching.", prune: "Prune heavily in late winter to encourage bushy spring growth." } },
-    { nm: "Vetiveria zizanioides", common: "Vetiver Grass", layer: "Ground Layer", img: "https://images.unsplash.com/photo-1592634358897-40da39569727?auto=format&fit=crop&w=400&q=80",
-      care: { soil: "Highly adaptable. Thrives in sandy, loamy, and even heavy clay soils. Excellent for stabilizing poor subsoils.", water: "Extremely Low once established. Can survive drought and periodic waterlogging.", root: "Massive fibrous root system penetrating up to 3m deep.", prune: "Cut back to 15cm above ground annually before monsoon." } },
-    { nm: "Cymbopogon citratus", common: "Lemongrass", layer: "Ground Layer", img: "https://images.unsplash.com/photo-1620025537526-77821c9b68bc?auto=format&fit=crop&w=400&q=80",
-      care: { soil: "Requires highly porous, well-draining soil. Susceptible to root rot in heavy clay.", water: "Moderate. Keep soil consistently moist but never waterlogged.", root: "Dense clumping roots. Spread is minimal.", prune: "Harvest outer leaves continuously to promote inner shoot growth." } }
-];
-
-// UPDATED FOREST DATABASE (Includes regional mapping for all states)
-const forestDatabase = {
-    "Karnataka": [
-        { common: "Sandalwood", nm: "Santalum album", img: "https://images.unsplash.com/photo-1516245834210-c4c142787335?auto=format&fit=crop&w=400&q=80", care: { soil: "Red laterite or gravelly soils. Essential pH 6.0-7.5.", water: "Strictly well-drained. Highly sensitive to waterlogging.", root: "Hemiparasitic. Requires host plant roots (e.g. Acacia) within 2 meters.", prune: "Minimal structural pruning only." } },
-        { common: "Indian Rosewood", nm: "Dalbergia latifolia", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80", care: { soil: "Deep, well-drained loams. Tolerates slight salinity.", water: "Drought hardy. Do not irrigate in winter to mimic dry season.", root: "Deep taproot anchoring system.", prune: "Formative pruning in first 5 years for single leader trunk." } }
-    ],
-    "Maharashtra": [
-        { common: "Teak", nm: "Tectona grandis", img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&q=80", care: { soil: "Alluvial or deep black cotton soils with good drainage.", water: "High monsoon demand, requires clear dry season for timber quality.", root: "Extensive lateral roots.", prune: "Self-pruning in dense plantations. Remove low branches early." } }
-    ],
-    "Rajasthan": [
-        { common: "Khejri", nm: "Prosopis cineraria", img: "https://images.unsplash.com/photo-1464692805480-a69dfaafdb0d?auto=format&fit=crop&w=400&q=80", care: { soil: "Alkaline, sandy, or desert regosols. pH up to 8.5.", water: "Zero irrigation required after first 6 months. Survives extreme arid conditions.", root: "Incredibly deep taproot reaching groundwater aquifers (up to 30m).", prune: "Can be lopped for fodder, but retain main canopy." } }
-    ],
-    "Kerala": [
-        { common: "Jackfruit", nm: "Artocarpus heterophyllus", img: "https://images.unsplash.com/photo-1550853024-fae8cd4be47f?auto=format&fit=crop&w=400&q=80", care: { soil: "Rich, deep lateritic soils with high organic matter.", water: "High moisture demand. Requires consistent soil humidity.", root: "Spreading lateral root system.", prune: "Remove dead wood to prevent fungal infections in humid climate." } }
-    ],
-    "Uttar Pradesh": [
-        { common: "Sal Tree", nm: "Shorea robusta", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80", care: { soil: "Well-drained sandy loams of the Gangetic plain.", water: "Moderate. Tolerates dry spells but prefers periodic deep watering.", root: "Deep taproot.", prune: "Rarely requires pruning. Slow growing." } }
-    ],
-    "Default": [
-        { common: "Banyan Tree", nm: "Ficus benghalensis", img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=400&q=80", care: { soil: "Highly adaptable to any soil, including rocky substrates.", water: "Extremely adaptable. Drought and flood resistant.", root: "Massive destructive roots. Plant 20m away from structures.", prune: "Train aerial roots downwards to form secondary trunks." } },
-        { common: "Peepal", nm: "Ficus religiosa", img: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=400&q=80", care: { soil: "Adapts to poor soils. Can grow in concrete cracks.", water: "Drought tolerant once established.", root: "Invasive. Restrict root zone in urban areas.", prune: "Only remove deadwood. Sacred tree, minimal interference preferred." } }
-    ]
-};
-
-// Map similar regions to specific databases to cover all 28 states
-forestDatabase["Andhra Pradesh"] = forestDatabase["Karnataka"];
-forestDatabase["Telangana"] = forestDatabase["Maharashtra"];
-forestDatabase["Gujarat"] = forestDatabase["Rajasthan"];
-forestDatabase["Tamil Nadu"] = forestDatabase["Karnataka"];
-forestDatabase["West Bengal"] = forestDatabase["Kerala"];
-forestDatabase["Bihar"] = forestDatabase["Uttar Pradesh"];
-forestDatabase["Madhya Pradesh"] = forestDatabase["Maharashtra"];
-
-const soilDatabase = {
-  "Red laterite": { states: ["Karnataka", "Kerala", "Goa", "Andhra Pradesh", "Tamil Nadu", "Odisha", "Jharkhand"], ph: "5.8 - 6.5", om: "0.4 - 0.8%", texture: "Sandy laterite", drainage: "Rapid", ecology: "Needs heavy mulching to retain water.", amend: [{n:"Vermicompost",v:"80 kg"}, {n:"Neem Cake",v:"15 kg"}], irrig: {base:"45 Liters", type:"High Frequency / Drip", retain:"25%"} },
-  "Black cotton (Regur)": { states: ["Maharashtra", "Telangana", "Madhya Pradesh", "Gujarat"], ph: "7.2 - 8.5", om: "0.5 - 1.0%", texture: "Clayey", drainage: "Slow", ecology: "Prone to severe cracking in summer.", amend: [{n:"River Sand / Perlite",v:"150 kg"}, {n:"Farmyard Manure",v:"100 kg"}], irrig: {base:"20 Liters", type:"Low Frequency / Deep", retain:"85%"} },
-  "Alluvial": { states: ["Uttar Pradesh", "Bihar", "West Bengal", "Punjab", "Haryana", "Assam"], ph: "6.5 - 7.5", om: "1.0 - 1.5%", texture: "Loamy", drainage: "Good", ecology: "Highly fertile. Ideal for diverse canopy layers.", amend: [{n:"Leaf Mold Compost",v:"50 kg"}], irrig: {base:"30 Liters", type:"Moderate Frequency", retain:"60%"} },
-  "Desert / Arid": { states: ["Rajasthan"], ph: "7.5 - 8.5", om: "<0.4%", texture: "Sandy", drainage: "Very Rapid", ecology: "Focus strictly on xerophytic plants.", amend: [{n:"Coco Peat",v:"100 kg"}, {n:"Vermicompost",v:"150 kg"}], irrig: {base:"60 Liters", type:"Drip ONLY (Heavy Mulch)", retain:"10%"} },
-  "Other": { states: ["Other", "Delhi", "Chandigarh", "Uttarakhand", "Himachal Pradesh"], ph: "6.5 - 7.0", om: "1.0%", texture: "Variable", drainage: "Variable", ecology: "General ecosystem guidelines apply.", amend: [{n:"General Compost",v:"100 kg"}], irrig: {base:"35 Liters", type:"Monitor Locally", retain:"50%"} }
-};
-
-const calendarTasks = [
-  /* Jan */ ["Dormant pruning phase", "Sanitize all gardening tools"],
-  /* Feb */ ["Nest Prep (Do not disturb)", "Apply spring mulch"],
-  /* Mar */ ["Monitor early heat stress", "Increase water frequency"],
-  /* Apr */ ["Strict Heat Protocol", "Provide bird baths daily"],
-  /* May */ ["Pre-Monsoon soil check", "Clear drainage channels"],
-  /* Jun */ ["Main Planting Window", "Divide root clusters"],
-  /* Jul */ ["Monsoon Weed Control", "Monitor for fungal rot"],
-  /* Aug */ ["Prune monsoon overgrowth", "Check tree stakes"],
-  /* Sep */ ["Post-Monsoon Fixes", "Re-mulch washed away areas"],
-  /* Oct */ ["Compost Addition", "Plant winter bloomers"],
-  /* Nov */ ["Dormancy preparation", "Rake and compost leaves"],
-  /* Dec */ ["Minimal interference", "Protect frost-sensitive flora"]
-];
-
-/* ═══════════════════════════════════════
-   UI INITIALIZATION & REGISTRATION LOGIC
-═══════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-    // Force registration modal on load. Lock is active by default.
-    document.getElementById('registrationModal').classList.remove('hidden');
-    
-    initAvianGuilds();
-    renderInsects();
-    renderCalendar();
-});
-
-function switchTab(tabId, el) {
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-    document.querySelectorAll('.ntab').forEach(t => t.classList.remove('on'));
-    document.getElementById(tabId).classList.add('on');
-    if(el) el.classList.add('on');
-}
-
-function toast(msg, type){
-    const w = document.getElementById('twrap');
-    if(!w) return;
-    const t = document.createElement('div');
-    t.className = 'toast' + (type === 'warn' ? ' warn' : '');
-    t.textContent = msg;
-    w.appendChild(t);
-    requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('on')));
-    setTimeout(() => { t.classList.remove('on'); setTimeout(() => t.remove(), 300); }, 3200);
-}
-
-// 🟢 COMPREHENSIVE GOOGLE SHEETS FORM SUBMISSION (WITH NO-CORS FIX) 🟢
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzjyGv9IWGFREJlnlW7tcdMOes10-bIGBU3f5i6ao74o6h4pyPewiwYyljcJFIly6ZN/exec';
-const form = document.forms['submit-to-google-sheet'];
-
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  
-  // Set automatic timestamp
-  document.getElementById('formTimestamp').value = new Date().toLocaleString();
-  
-  const btn = document.getElementById('submitBtn');
-  btn.textContent = "Authenticating & Saving...";
-  btn.disabled = true;
-
-  // IMPORTANT: mode 'no-cors' is required to bypass strict browser security when submitting to Google Scripts
-  fetch(scriptURL, { 
-      method: 'POST', 
-      body: new FormData(form),
-      mode: 'no-cors'
-  })
-  .then(() => {
-      // Because of 'no-cors', the response will be "opaque", but we know it reached the server successfully!
-      
-      // Unlock the App
-      document.getElementById('registrationModal').classList.add('hidden');
-      document.getElementById('appShell').classList.remove('app-locked');
-      
-      // Update User Info in Header
-      const name = document.getElementById('formName').value;
-      const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-      document.getElementById('u-ava-text').innerText = initials;
-      document.getElementById('u-name-text').innerText = name.split(' ')[0];
-      
-      toast('Registration Successful! Welcome to VANA.');
-      
-      // Capture City & State from Registration to Auto-populate Scan tab
-      const regCity = document.getElementById('formCityUser').value;
-      const regState = document.getElementById('formStateUser').value;
-      document.getElementById('cityInput').value = regCity;
-      document.getElementById('stateInput').value = regState;
-      
-      // Auto-trigger geocoding and scan for user's registered location
-      autoFetchCoordinatesAndScan(regCity);
-      
-      // Force switch to About/Genesis tab as landing page
-      switchTab('about', document.getElementById('navAbout'));
-  })
-  .catch(error => {
-      console.error('Error!', error.message);
-      toast('Could not connect to database. Please check connection.', 'warn');
-      btn.textContent = "Register & Enter VANA";
-      btn.disabled = false;
-  });
-});
-
-
-/* ═══════════════════════════════════════
-   RENDERING & INTERACTIVE MODALS
-═══════════════════════════════════════ */
-
-function initAvianGuilds() {
-    const tabsContainer = document.getElementById('guildTabs');
-    tabsContainer.innerHTML = "";
-    let isFirst = true;
-    for (const key in avianGuilds) {
-        const tab = document.createElement('div');
-        tab.className = `stab ${isFirst ? 'on' : ''}`;
-        tab.textContent = avianGuilds[key].name;
-        tab.onclick = () => renderGuildContent(key, tab);
-        tabsContainer.appendChild(tab);
-        if (isFirst) { renderGuildContent(key, null); isFirst = false; }
-    }
-}
-
-function renderGuildContent(guildKey, tabElement) {
-    if (tabElement) {
-        document.querySelectorAll('#birds .stab').forEach(t => t.classList.remove('on'));
-        tabElement.classList.add('on');
-    }
-    const guild = avianGuilds[guildKey];
-    const container = document.getElementById('guildContent');
-    let html = ``;
-    guild.species.forEach(sp => {
-        html += `
-        <div class="img-card">
-            <img src="${sp.img}" alt="${sp.nm}" onerror="${imgFallback}">
-            <div class="img-card-body">
-                <div class="img-card-ttl">${sp.nm}</div>
-                <div class="img-card-sub">${sp.sci}</div>
-                <div class="img-card-tag">${sp.layer}</div>
-                <button class="ui-btn" onclick="toast('Habitat requirements: ${guild.rule}')">View Habitat Needs</button>
-            </div>
-        </div>`;
-    });
-    container.innerHTML = html;
-}
-
-function renderInsects() {
-    const container = document.getElementById('insectContent');
-    let html = "";
-    insectDatabase.forEach(i => {
-        html += `
-        <div class="img-card">
-            <img src="${i.img}" alt="${i.nm}" onerror="${imgFallback}">
-            <div class="img-card-body">
-                <div class="img-card-ttl">${i.nm}</div>
-                <div class="img-card-sub">${i.sci}</div>
-                <div class="img-card-tag">${i.type}</div>
-                <button class="ui-btn" onclick="toast('${i.role}')">View Pollinator Role</button>
-            </div>
-        </div>`;
-    });
-    container.innerHTML = html;
-}
-
-function renderPlants(state) {
-    // 1. General Plants
-    const pContainer = document.getElementById('plantListContainer');
-    let pHtml = "";
-    plantDatabase.forEach(p => {
-        const careStr = encodeURIComponent(JSON.stringify(p.care));
-        pHtml += `
-        <div class="img-card">
-            <img src="${p.img}" alt="${p.common}" onerror="${imgFallback}">
-            <div class="img-card-body">
-                <div class="img-card-ttl">${p.common}</div>
-                <div class="img-card-sub">${p.nm}</div>
-                <div class="img-card-tag">${p.layer}</div>
-                <button class="ui-btn pri" onclick="openTreeModal('${p.common}', '${p.nm}', '${careStr}')">View Soil, Water & Care</button>
-            </div>
-        </div>`;
-    });
-    pContainer.innerHTML = pHtml;
-
-    // 2. State Specific Forest Species
-    const fContainer = document.getElementById('forestSpeciesContainer');
-    let fHtml = "";
-    const fData = forestDatabase[state] || forestDatabase["Default"];
-    
-    document.getElementById('floraStateTtl').innerText = `Native Botanical Matrix (${state})`;
-    
-    fData.forEach(f => {
-        const careStr = encodeURIComponent(JSON.stringify(f.care));
-        fHtml += `
-        <div class="img-card" style="border-color: var(--g);">
-            <img src="${f.img}" alt="${f.common}" onerror="${imgFallback}">
-            <div class="img-card-body">
-                <div class="img-card-ttl" style="color:var(--g)">${f.common}</div>
-                <div class="img-card-sub">${f.nm}</div>
-                <div class="img-card-tag" style="background:var(--glt); color:var(--gdk);">Forest Timber Species</div>
-                <button class="ui-btn pri" onclick="openTreeModal('${f.common}', '${f.nm}', '${careStr}')">View Soil, Water & Care</button>
-            </div>
-        </div>`;
-    });
-    fContainer.innerHTML = fHtml;
-}
-
-// UPGRADED Tree Care Modal Logic (Now maps explicit Soil & Water)
-function openTreeModal(common, sci, careStr) {
-    const care = JSON.parse(decodeURIComponent(careStr));
-    document.getElementById('tcName').innerText = common;
-    document.getElementById('tcSci').innerText = sci;
-    
-    document.getElementById('tcSoil').innerText = care.soil || "Adapts to local taxonomy.";
-    document.getElementById('tcWater').innerText = care.water || "Moderate watering required.";
-    document.getElementById('tcRoot').innerText = care.root || "Standard root structure.";
-    document.getElementById('tcPrune').innerText = care.prune || "Minimal pruning required.";
-    
-    document.getElementById('treeModal').classList.remove('hidden');
-}
-
-function closeTreeModal() {
-    document.getElementById('treeModal').classList.add('hidden');
-}
-
-function renderCalendar() {
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const currentMonthIndex = new Date().getMonth();
-  const grid = document.getElementById('calendarGrid');
-  grid.innerHTML = "";
-  months.forEach((m, i) => {
-    let taskHtml = "";
-    calendarTasks[i].forEach(task => { taskHtml += `<div class="ctsk">${task}</div>`; });
-    grid.innerHTML += `<div class="calm ${i === currentMonthIndex ? "on" : ""}"><div class="cmn">${m} ${i === currentMonthIndex ? "(Current)" : ""}</div>${taskHtml}</div>`;
-  });
-}
-
-/* ═══════════════════════════════════════
-   PREDICTIVE SEARCH, GEOCODING & APIS
-═══════════════════════════════════════ */
-let citySearchTimeout;
-
-async function debounceCitySearch(query) {
-    clearTimeout(citySearchTimeout);
-    const drop = document.getElementById('cityDropdown');
-    if(query.length < 2) { drop.classList.remove('show'); return; }
-    
-    citySearchTimeout = setTimeout(async () => {
-        try {
-            const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=6&language=en&format=json`);
-            const data = await res.json();
-            
-            if(data.results && data.results.length > 0) {
-                drop.innerHTML = '';
-                data.results.forEach(place => {
-                    const div = document.createElement('div');
-                    div.className = 'city-opt';
-                    div.innerHTML = `<span><b>${place.name}</b></span> <span class="city-opt-st">${place.admin1 || ''}, ${place.country_code}</span>`;
-                    div.onclick = () => selectCity(place.name, place.admin1, place.latitude, place.longitude);
-                    drop.appendChild(div);
-                });
-                drop.classList.add('show');
-            } else { drop.classList.remove('show'); }
-        } catch(e) { console.error(e); }
-    }, 350);
-}
-
-function selectCity(city, stateStr, lat, lon) {
-    document.getElementById('cityInput').value = city;
-    document.getElementById('latInput').value = lat;
-    document.getElementById('lonInput').value = lon;
-    document.getElementById('cityDropdown').classList.remove('show');
-    
-    const stateSelect = document.getElementById('stateInput');
-    let found = false;
-    if (stateStr) {
-        for (let i = 0; i < stateSelect.options.length; i++) {
-            if (stateStr.includes(stateSelect.options[i].value) || stateSelect.options[i].value.includes(stateStr)) {
-                stateSelect.selectedIndex = i; found = true; break;
-            }
-        }
-    }
-    if(!found) stateSelect.value = "Other";
-    triggerManualScan();
-}
-
-// Auto fetch precise coords based on registration city string
-async function autoFetchCoordinatesAndScan(cityName) {
-    try {
-        const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=en&format=json`);
-        const data = await res.json();
-        if(data.results && data.results.length > 0) {
-            document.getElementById('latInput').value = data.results[0].latitude;
-            document.getElementById('lonInput').value = data.results[0].longitude;
-        }
-    } catch(e) { console.error('Geocoding fail, using defaults.', e); }
-    
-    // Always run scan after fetching
-    triggerManualScan();
-}
-
-
-async function triggerManualScan() {
-    const city = document.getElementById('cityInput').value;
-    const state = document.getElementById('stateInput').value;
-    const lat = document.getElementById('latInput').value;
-    const lon = document.getElementById('lonInput').value;
-    const btn = document.querySelector('.loc-update-btn');
-    
-    btn.textContent = "Processing Regional Taxonomy...";
-    
-    try {
-        updateSoilProfile(state, city);
-        calculateImpact(lat, lon, state); 
-        renderPlants(state); // Refresh flora for new state
-        
-        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relative_humidity_2m&timezone=auto`);
-        const data = await res.json();
-        renderWeather(data, city, lat, lon);
-        
-        toast('Biodiversity Scan Complete!');
-    } catch(e) {
-        console.error(e);
-        toast('Sensor fetch failed. Ensure internet connection.', 'warn');
-    } finally {
-        btn.textContent = "Run Biodiversity Scan";
-    }
-}
-
-function renderWeather(data, city, lat, lon) {
-    const temp = data.current_weather.temperature;
-    const wind = data.current_weather.windspeed;
-    const isRainy = data.current_weather.weathercode >= 61 && data.current_weather.weathercode <= 65; 
-    
-    document.getElementById('weatherSub').innerText = `Live sensor data for ${city} (Lat: ${lat}, Lon: ${lon})`;
-    document.getElementById('weatherMets').innerHTML = `
-      <div class="met"><div class="mv">${temp}°C</div><div class="ml">Current Temp</div></div>
-      <div class="met"><div class="mv">${wind}</div><div class="ml">Wind (km/h)</div></div>
-      <div class="met"><div class="mv">${isRainy ? 'Yes' : 'No'}</div><div class="ml">Active Rain</div></div>
-      <div class="met"><div class="mv" style="color:var(--pu)">Live</div><div class="ml">Status</div></div>
-    `;
-    document.getElementById('alertsContainer').innerHTML = `<div class="inote">Ecological conditions stable. Proceed with planting protocols.</div>`;
-}
-
-function updateSoilProfile(state, city) {
-  let matchedType = "Other";
-  for (const type in soilDatabase) {
-      if (soilDatabase[type].states.includes(state)) { matchedType = type; break; }
-  }
-  const sData = soilDatabase[matchedType];
-
-  document.getElementById('soilLocationName').innerText = `${city}, ${state}`;
-  document.getElementById('soilTypeDisplay').innerText = `Primary Soil Taxonomy: ${matchedType}`;
-  document.getElementById('soilMets').innerHTML = `
-    <div class="met"><div class="mv">${sData.ph}</div><div class="ml">pH Range</div></div>
-    <div class="met"><div class="mv">${sData.om}</div><div class="ml">Organic Matter</div></div>
-    <div class="met"><div class="mv" style="font-size:16px; margin-top:5px">${sData.texture}</div><div class="ml">Texture</div></div>
-    <div class="met"><div class="mv" style="font-size:16px; margin-top:5px">${sData.drainage}</div><div class="ml">Drainage</div></div>
-  `;
-}
-
-function calculateImpact(lat, lon, state) {
-    let baseCo2 = 4.2; let baseWater = 1250; let basePm = 68; let baseBio = 82;
-    let latMod = parseFloat(lat) / 100;
-    
-    document.getElementById('impCo2').innerText = (baseCo2 + latMod).toFixed(1) + " tons";
-    document.getElementById('impWater').innerText = Math.floor(baseWater + (latMod*1000)) + " kL";
-    document.getElementById('impPm').innerText = Math.floor(basePm + (latMod*10)) + " %";
-    document.getElementById('impBio').innerText = Math.floor(baseBio + (latMod*5)) + " / 100";
-}
-
-/* ═══════════════════════════════════════
-   STRICT 1-PAGE PDF GENERATION
-═══════════════════════════════════════ */
-function generateRestrictedPDF() {
-    toast('Generating 1-Page Impact Report...');
-    setTimeout(() => {
-        try {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const city = document.getElementById('cityInput').value;
-            const state = document.getElementById('stateInput').value;
-            const co2 = document.getElementById('impCo2').innerText;
-            const water = document.getElementById('impWater').innerText;
-            const bio = document.getElementById('impBio').innerText;
-            
-            doc.setFontSize(22);
-            doc.setTextColor(45, 90, 61);
-            doc.text("VANA Biodiversity Impact Summary", 20, 25);
-            
-            doc.setFontSize(14);
-            doc.setTextColor(26, 26, 26);
-            doc.text(`Location: ${city}, ${state}`, 20, 40);
-            
-            doc.line(20, 48, 190, 48);
-            
-            doc.setFontSize(16);
-            doc.text("Projected Ecological Impact", 20, 65);
-            
-            doc.setFontSize(12);
-            doc.setTextColor(100, 100, 100);
-            doc.text(`Annual Carbon Sequestration: ${co2}`, 20, 80);
-            doc.text(`Groundwater Recharge Volume: ${water}`, 20, 90);
-            doc.text(`Biodiversity Support Index: ${bio}`, 20, 100);
-            
-            // STRICT DISCLAIMER
-            doc.setFontSize(13);
-            doc.setTextColor(200, 50, 50); // Red alert color
-            doc.text("DISCLAIMER:", 20, 140);
-            doc.setFontSize(11);
-            doc.setTextColor(50, 50, 50);
-            doc.text("This is a preliminary 1-page impact summary.", 20, 150);
-            doc.text("The full biodiversity, native flora, and arboriculture report", 20, 158);
-            doc.text("is subject to further professional ecological consultation.", 20, 166);
-            
-            doc.save(`VANA_1Page_Summary_${city.replace(/\s+/g, '_')}.pdf`);
-            toast('Summary PDF downloaded successfully!');
-        } catch (err) {
-            console.error(err);
-            toast('Failed to generate PDF.', 'warn');
-        }
-    }, 500);
-}
-</script>
-</body>
-</html>
+.toast.warn{background:#8a3010}
+
+/* ── Footer ── */
+.foot{text-align:center;font-size:11px;color:var(--txh);padding:20px 0 6px;border-top:1px solid var(--bd);margin-top:16px}
+
+/* ── Weather card ── */
+.wx-wrap{background:var(--sur);border:1px solid var(--bd);border-radius:var(--rl);padding:14px 16px;margin-bottom:0}
+.wx-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.wx-city{font-size:13px;font-weight:700}
+.wx-date{font-size:10px;color:var(--txm)}
+.wx-main{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.wx-icon{font-size:36px;line-height:1}
+.wx-temp{font-si
